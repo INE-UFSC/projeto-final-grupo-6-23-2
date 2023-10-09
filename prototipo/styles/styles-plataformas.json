@@ -1,0 +1,48 @@
+{
+    "default":{
+        "name": "default",
+        "tileset": {
+            "tileset_image": "prototipo/styles/assets/plataforma-tile-test.png",
+            "tile_width": 16,
+            "tile_height": 16
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ],
+            [
+                {"linha_tileset": 1, "coluna_tileset": 0},
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "dark-side-brick-3_1":{
+        "name": "default",
+        "tileset": {
+            "tileset_image": "prototipo/styles/assets/plataforma-tile-test.png",
+            "tile_width": 16,
+            "tile_height": 16
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 1}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    }
+}
+
