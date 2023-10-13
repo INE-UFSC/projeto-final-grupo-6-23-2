@@ -43,8 +43,8 @@ class TileGrid(pygame.sprite.Group):
         self.__tiles_horizontal = tiles_horizontal
         self.__tiles_vertical = tiles_vertical
         if largura_tela is not None and altura_tela is not None:
-            self.__largura_tile = largura_tile*int(largura_tela/(largura_tile*tiles_horizontal))
-            self.__altura_tile = altura_tile*int(altura_tela/(altura_tile*tiles_vertical))
+            self.__largura_tile = round(largura_tile*(largura_tela/(largura_tile*tiles_horizontal)))
+            self.__altura_tile = round(altura_tile*(altura_tela/(altura_tile*tiles_vertical)))
         else:
             self.__largura_tile = largura_tile
             self.__altura_tile = altura_tile
