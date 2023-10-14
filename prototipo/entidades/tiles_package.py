@@ -1,3 +1,4 @@
+import math
 from typing import Iterable, Union
 import pygame
 from pygame.sprite import AbstractGroup
@@ -49,6 +50,7 @@ class TileGrid(pygame.sprite.Group):
             self.__largura_tile = largura_tile
             self.__altura_tile = altura_tile
         self.__tiles = {}
+        self.__desloc = 0
     
     @property
     def tiles(self):
@@ -75,10 +77,11 @@ class TileGrid(pygame.sprite.Group):
             for pos, tile in tilegrid.tiles.items():
                 i = pos[0]
                 j = pos[1]
-                self.add_tile(tile, linha+i, coluna+j)
+                if coluna+j in range(0, self.tiles_horizontal):
+                    self.add_tile(tile, linha+i, coluna+j)
         else:
             raise TypeError("add_tilegrid deve receber um objeto do tipo TileGrid")
-
+        
     def add_tile(self, tile, linha, coluna):
         if isinstance(tile, Tile):
             tile.image = pygame.transform.scale(tile.image, (self.largura_tile, self.altura_tile))
@@ -86,7 +89,7 @@ class TileGrid(pygame.sprite.Group):
             tile.rect.x = coluna*self.altura_tile
             if tile.image.get_size() == (self.largura_tile, self.altura_tile):
                 try:
-                    if linha <= self.tiles_vertical-1 or coluna <= self.tiles_vertical-1:
+                    if coluna in range(0, self.tiles_horizontal):
                         self.tiles[(linha, coluna)] = tile
                         super().add(tile)
                     else:
@@ -100,20 +103,46 @@ class TileGrid(pygame.sprite.Group):
         
     def remove_tile(self, linha, coluna):
         try:
-            del self.tiles[(linha, coluna)]
             super().remove(self.tiles[(linha, coluna)])
+            if (linha, coluna) in self.tiles:
+                self.tiles.pop((linha, coluna))
         except KeyError:
-            if linha > self.altura or coluna > self.largura:
+            if coluna > self.tiles_horizontal:
                 raise KeyError(f"({linha}, {coluna}) inválidos para esta grade")
         
     def get_tile(self, linha, coluna):
         try:
             return self.tiles[(linha, coluna)]
         except KeyError:
-            if linha > self.tiles_vertical or coluna > self.tiles_horizontal:
+            if coluna > self.tiles_horizontal:
                 raise KeyError(f"({linha}, {coluna}) inválidos para esta grade")
             else:
                 return None
+            
+    def move_down(self, velocity: float):
+        gerar = False
+        self.__desloc += velocity
+        if self.__desloc >= self.altura_tile*self.tiles_vertical:
+            self.__desloc = 0
+            gerar = True
+        tiles_copy = self.tiles.copy()
+        for position, tile in tiles_copy.items():
+            linha = position[0]
+            coluna = position[1]
+            tile = self.get_tile(linha, coluna)
+            
+
+            if self.__desloc % self.altura_tile == 0:
+                self.remove_tile(linha, coluna)
+                self.add_tile(tile, linha+1, coluna)
+            else:
+                tile.rect.y += velocity
+
+            if tile.rect.y > self.altura_tile*self.tiles_vertical:
+                self.remove_tile(linha, coluna)
+        del tiles_copy
+        return gerar
+            
         
         
 

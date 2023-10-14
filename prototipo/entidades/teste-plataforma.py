@@ -1,9 +1,6 @@
-import random
 import pygame
-from plataforma import Plataforma
 import constantes
 from tiles_package import *
-from plataforma import Plataforma
 from cenario import Cenario
 
 
@@ -16,19 +13,20 @@ tela = pygame.display.set_mode(
 )
 pygame.display.set_caption('Volcano Jumper')
 
-scene = Cenario(tiles_horizontal=15, tiles_vertical=15, largura_tela=constantes.LARGURA_TELA, altura_tela=constantes.ALTURA_TELA)
-scene.grid.add_tilegrid(Plataforma().tilegrid, 14, 3)
-scene.gerar_cenario(3, 3)
+scene = Cenario(tiles_horizontal=10, tiles_vertical=10, largura_tela=constantes.LARGURA_TELA, altura_tela=constantes.ALTURA_TELA, dist_x_max=2, dist_y_max=2)
+clock = pygame.time.Clock()
+
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    tela.fill((0, 0, 0))  # Limpe a tela
+    tela.fill((0, 0, 0))
 
-    # Renderize todos os tiles no TileGroup
     scene.grid.draw(tela)
+    scene.update_cenario(1)
+    clock.tick(constantes.FPS)
 
-    pygame.display.flip()  # Atualize a tela
+    pygame.display.flip()
 

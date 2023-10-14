@@ -29,7 +29,7 @@ class Plataforma:
         self.__largura = style["width"]
         tileset_data = style["tileset"]
         tileset = Tileset(tileset_data["tileset_image"], int(tileset_data["tile_width"]), int(tileset_data["tile_height"]))
-        self.__tilegrid = TileGrid(int(tileset_data["tile_width"]), int(tileset_data["tile_height"]), tiles_vertical=int(style["width"]), tiles_horizontal=int(style["height"]))
+        self.__tilegrid = TileGrid(int(tileset_data["tile_width"]), int(tileset_data["tile_height"]), tiles_vertical=int(style["height"]), tiles_horizontal=int(style["width"]))
 
         i = 0
         for linha in style["structure"]:
