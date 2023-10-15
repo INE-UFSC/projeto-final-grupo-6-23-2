@@ -1,5 +1,5 @@
 import pygame
-import constantes
+from constantes.constantes import constantes
 from tiles_package import *
 from cenario import Cenario
 

@@ -1,6 +1,6 @@
 import pygame
 from abc import ABC
-from tiles_package import *
+from entidades.tiles_package import *
 import json
 import random
 

@@ -3,8 +3,8 @@ from entidades.jogador import Jogador
 from entidades.plataforma import Plataforma
 from constantes.constantes import constantes
 from pygame import Surface
-from plataforma import Plataforma
-from tiles_package import TileGrid
+from entidades.plataforma import Plataforma
+from entidades.tiles_package import TileGrid
 import random
 
 
@@ -25,6 +25,7 @@ class Cenario:
 
     def gerar_cenario(self) -> None:
         plataforma_gerada = self.__reference_platform
+        
         while True:
             plataforma_gerada = self.gerar_plataforma(*plataforma_gerada)
             if plataforma_gerada[0][0] in range(-self.grid.tiles_vertical, -self.grid.tiles_vertical+self.__dist_y_max):
@@ -65,6 +66,9 @@ class Cenario:
     def update_cenario(self, move_down: float):
         if self.grid.move_down(move_down):
             self.gerar_cenario()
-        
+    
+    @property
+    def lava(self):
+        return self.__lava
 
         
