@@ -1,21 +1,26 @@
 import pygame
-from constantes import constantes
+from constantes.constantes import constantes
 
 
 class Jogador:
+    """Classe responsável pelo jogador"""
 
     def __init__(self):
+
         self.__superficie = pygame.Surface((100, 100))
         self.__superficie.fill('Blue')
 
-        self.__posicao = (constantes.LARGURA_TELA / 2, 200)
+        self.__posicao = (constantes.largura_tela / 2, 200)
         self.__colidiu = False
-    
+
         self.__velocidade = 1
         self.__velocidade_queda = 0
         self.__tamanho_pulo = 3
 
     def aplica_gravidade(self, gravidade: int) -> None:
+        """Caso o jogador não esteja sob uma plataforma, essa função
+        irá faze-lo cair com uma certa aceleração"""
+
         if not self.__colidiu:
             self.__velocidade_queda += gravidade
             x_atual = self.__posicao[0]

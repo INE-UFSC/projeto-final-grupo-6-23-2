@@ -1,9 +1,9 @@
 import pygame
-from constantes import constantes
+from constantes.constantes import constantes
 from entidades.cenario import Cenario
 
-
 class  Jogo:
+    """Classe principal que dará início ao jogo"""
 
     def __init__(self):
         # Inicia biblioteca
@@ -11,14 +11,14 @@ class  Jogo:
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (constantes.LARGURA_TELA, constantes.ALTURA_TELA)
+            (constantes.largura_tela, constantes.altura_tela)
         )
         pygame.display.set_caption('Volcano Jumper')
 
         # Inicia cenário
         self.__cenario = Cenario(self.__tela)
 
-    # Roda o jogo (loop principal)
+    """Função responsável pelo loop principal do jogo e por gerar o cenário"""
     def iniciar(self) -> None:
         clock = pygame.time.Clock()
 
@@ -29,5 +29,5 @@ class  Jogo:
                     return
 
             self.__cenario.gerar_cenario(self.__tela)
-            clock.tick(constantes.FPS)
+            clock.tick(constantes.fps)
             pygame.display.flip()

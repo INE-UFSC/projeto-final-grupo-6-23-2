@@ -1,7 +1,7 @@
 from entidades.lava import Lava
 from entidades.jogador import Jogador
 from entidades.plataforma import Plataforma
-from constantes import constantes
+from constantes.constantes import constantes
 from pygame import Surface
 
 
@@ -10,7 +10,7 @@ class Cenario:
     def __init__(self, tela: Surface):
         self.__jogador = Jogador()
         self.__lava = Lava()
-        plataforma_inicial = Plataforma((constantes.LARGURA_TELA / 2, 400))
+        plataforma_inicial = Plataforma((constantes.largura_tela / 2, 400))
         self.__plataformas = [plataforma_inicial]
         self.__gravidade = 0.25
 
