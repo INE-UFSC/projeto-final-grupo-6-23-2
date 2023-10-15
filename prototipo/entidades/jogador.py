@@ -7,13 +7,14 @@ class Jogador:
 
     def __init__(self):
 
-        self.__superficie = pygame.Surface((100, 100))
+        self.__tamanho_jogador = (50,50)
+        self.__superficie = pygame.Surface(self.__tamanho_jogador)
         self.__superficie.fill('Blue')
 
-        self.__posicao = (constantes.largura_tela / 2, 200)
+        self.__posicao = (constantes.largura_tela / 2, 0)
         self.__colidiu = False
 
-        self.__velocidade = 1
+        self.__velocidade = 2
         self.__velocidade_queda = 0
         self.__tamanho_pulo = 3
 
@@ -23,22 +24,25 @@ class Jogador:
 
         if not self.__colidiu:
             self.__velocidade_queda += gravidade
-            x_atual = self.__posicao[0]
-            novo_y = self.__posicao[1] + self.__velocidade_queda
+            x_atual = self.posicao[0]
+            novo_y = self.posicao[1] + self.__velocidade_queda
 
-            self.__posicao = (x_atual, novo_y)
+            self.posicao = (x_atual, novo_y)
 
     def pular(self):
         if self.__colidiu:
             self.__velocidade_queda -= self.__tamanho_pulo
     
     def move_direita(self):
-        y_atual = self.__posicao[1]
-        novo_x = self.__posicao[0] + self.__velocidade
+        y_atual = self.posicao[1]
+        novo_x = self.posicao[0] + self.__velocidade
+        self.posicao = (novo_x, y_atual)
 
     def move_esquerda(self):
-        y_atual = self.__posicao[1]
-        novo_x = self.__posicao[0] - self.__velocidade
+        y_atual = self.posicao[1]
+        novo_x = self.posicao[0] - self.__velocidade
+        self.posicao = (novo_x, y_atual)
+
 
     def aterrissar(self):
         self.__velocidade_queda = 0
@@ -54,3 +58,12 @@ class Jogador:
     @property
     def posicao(self) -> tuple:
         return self.__posicao
+    
+    @posicao.setter
+    def posicao(self, nova_posicao):
+        if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (constantes.largura_tela - self.__tamanho_jogador[0])):
+            if (nova_posicao[1] >= 0) and (nova_posicao[1] <= constantes.altura_tela):
+                self.__posicao = nova_posicao
+            else:
+                self.__velocidade_queda = 0
+

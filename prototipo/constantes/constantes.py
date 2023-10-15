@@ -2,8 +2,8 @@ class Constantes:
     """Classe relativa às constantes do jogo"""
 
     def __init__(self):
-        self.__largura_tela = 1000
-        self.__altura_tela = 1000
+        self.__largura_tela = 450
+        self.__altura_tela = 800
         self.__fps = 60
         self.__gravidade = 0.25
     
