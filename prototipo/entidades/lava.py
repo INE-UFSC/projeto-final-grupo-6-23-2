@@ -17,3 +17,7 @@ class Lava:
     @property
     def posicao(self) -> tuple:
         return self.__posicao
+    
+    @property
+    def rect(self):
+        return self.superficie.get_rect()

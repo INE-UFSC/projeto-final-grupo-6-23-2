@@ -1,5 +1,7 @@
 import pygame
 from constantes.constantes import constantes
+from entidades.lava import Lava
+from entidades.plataforma import Plataforma
 
 
 class Jogador:
@@ -51,6 +53,12 @@ class Jogador:
     def cair(self):
         self.__colidiu = False
 
+    def handle_collision(self, objeto):
+        if isinstance(objeto, Lava):
+            print("Colidiu com a lava")
+        if isinstance(objeto, Plataforma):
+            self.aterrissar()
+
     @property
     def superficie(self) -> pygame.Surface:
         return self.__superficie
@@ -59,11 +67,17 @@ class Jogador:
     def posicao(self) -> tuple:
         return self.__posicao
     
+    @property
+    def rect(self):
+        return self.superficie.get_rect()
+    
     @posicao.setter
     def posicao(self, nova_posicao):
         if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (constantes.largura_tela - self.__tamanho_jogador[0])):
             if (nova_posicao[1] >= 0) and (nova_posicao[1] <= constantes.altura_tela):
                 self.__posicao = nova_posicao
+                self.rect.x = nova_posicao[0]
+                self.rect.y = nova_posicao[1]
             else:
                 self.__velocidade_queda = 0
 

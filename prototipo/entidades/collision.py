@@ -14,5 +14,7 @@ class CollisionManager: # USANDO O DESIGN PATTERN OBSERVER (FAZ PARTE DO CONTEÚ
     def notify_collisions(self, objeto):
         for observer in self.observers:
             if observer != objeto:
-                if objeto.rect.colliderect(observer.rect):
-                    observer.handle_collision(objeto)
+                # if objeto.rect.colliderect(observer.rect):
+                    # observer.handle_collision(objeto)
+                print(observer.rect.y)
+                print(objeto.rect.y)

@@ -2,6 +2,7 @@ import pygame
 from constantes.constantes import constantes
 from entidades.cenario import Cenario
 from entidades.jogador import Jogador
+from entidades.collision import CollisionManager
 
 
 class  Jogo:
@@ -10,8 +11,9 @@ class  Jogo:
     def __init__(self):
         # Inicia biblioteca
         pygame.init()
-
+        self.__adm_colisao = CollisionManager()
         self.__jogador = Jogador()
+        self.__adm_colisao.add_observer(self.__jogador)
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
@@ -48,5 +50,6 @@ class  Jogo:
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
             self.__jogador.aplica_gravidade(0.02)
 
+            self.__adm_colisao.notify_collisions(self.__cenario.lava)
             clock.tick(constantes.fps)
             pygame.display.flip()
