@@ -5,6 +5,7 @@ class Constantes:
         self.__largura_tela = 1000
         self.__altura_tela = 1000
         self.__fps = 60
+        self.__gravidade = 0.25
     
     @property
     def largura_tela(self):
@@ -17,5 +18,9 @@ class Constantes:
     @property
     def fps(self):
         return self.__fps
+
+    @property
+    def gravidade(self):
+        return self.__gravidade
 
 constantes = Constantes()
