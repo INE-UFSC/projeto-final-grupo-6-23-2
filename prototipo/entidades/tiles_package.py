@@ -57,6 +57,10 @@ class TileGrid(pygame.sprite.Group):
         return self.__tiles
     
     @property
+    def plataforma_rects(self):
+        return self.__plataforma_rects
+    
+    @property
     def tiles_horizontal(self):
         return self.__tiles_horizontal
     

@@ -2,6 +2,7 @@ import pygame
 from constantes.constantes import constantes
 from entidades.lava import Lava
 from entidades.plataforma import Plataforma
+from entidades.tiles_package import Tile
 
 
 class Jogador:
@@ -19,12 +20,15 @@ class Jogador:
         self.__velocidade = 2
         self.__velocidade_queda = 0
         self.__tamanho_pulo = 3
+        self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
 
     def aplica_gravidade(self, gravidade: int) -> None:
         """Caso o jogador não esteja sob uma plataforma, essa função
         irá faze-lo cair com uma certa aceleração"""
+        print(self.__colidiu)
 
         if not self.__colidiu:
+            self.cair()
             self.__velocidade_queda += gravidade
             x_atual = self.posicao[0]
             novo_y = self.posicao[1] + self.__velocidade_queda
@@ -55,9 +59,10 @@ class Jogador:
 
     def handle_collision(self, objeto):
         if isinstance(objeto, Lava):
-            print("Colidiu com a lava")
-        if isinstance(objeto, Plataforma):
-            self.aterrissar()
+            return 'kill'
+        if isinstance(objeto, Tile) and objeto.rect.y > self.rect.y:
+            if objeto.solido:
+                self.aterrissar()
 
     @property
     def superficie(self) -> pygame.Surface:
@@ -69,15 +74,15 @@ class Jogador:
     
     @property
     def rect(self):
-        return self.superficie.get_rect()
+        return self.__rect
     
     @posicao.setter
     def posicao(self, nova_posicao):
         if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (constantes.largura_tela - self.__tamanho_jogador[0])):
             if (nova_posicao[1] >= 0) and (nova_posicao[1] <= constantes.altura_tela):
                 self.__posicao = nova_posicao
-                self.rect.x = nova_posicao[0]
-                self.rect.y = nova_posicao[1]
+                self.__rect.x = nova_posicao[0]
+                self.__rect.y = nova_posicao[1]
             else:
                 self.__velocidade_queda = 0
 

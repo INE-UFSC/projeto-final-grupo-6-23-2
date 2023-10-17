@@ -9,6 +9,7 @@ class Lava:
         self.__superficie = pygame.Surface((constantes.largura_tela, constantes.altura_tela * 0.2))
         self.__superficie.fill('Orange')
         self.__posicao = (0, constantes.altura_tela * 0.8)
+        self.__rect = pygame.Rect(*self.__posicao, constantes.largura_tela, constantes.altura_tela * 0.2)
 
     @property
     def superficie(self) -> pygame.Surface:
@@ -20,4 +21,4 @@ class Lava:
     
     @property
     def rect(self):
-        return self.superficie.get_rect()
+        return self.__rect

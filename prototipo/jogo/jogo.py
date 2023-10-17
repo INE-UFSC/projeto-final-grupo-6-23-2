@@ -50,6 +50,8 @@ class  Jogo:
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
             self.__jogador.aplica_gravidade(0.02)
 
-            self.__adm_colisao.notify_collisions(self.__cenario.lava)
+            if self.__adm_colisao.notify_collisions(self.__cenario.lava, *self.__cenario.grid.tiles.values()) == 'kill':
+                pygame.quit()
+
             clock.tick(constantes.fps)
             pygame.display.flip()

@@ -1,7 +1,7 @@
 import pygame
 
 
-class CollisionManager: # USANDO O DESIGN PATTERN OBSERVER (FAZ PARTE DO CONTEÚDO)
+class CollisionManager: # USANDO O DESIGN PATTERN OBSERVER
     def __init__(self):
         self.observers = []
 
@@ -11,10 +11,11 @@ class CollisionManager: # USANDO O DESIGN PATTERN OBSERVER (FAZ PARTE DO CONTEÚ
     def remove_observer(self, observer):
         self.observers.remove(observer)
 
-    def notify_collisions(self, objeto):
+    def notify_collisions(self, *objetos):
         for observer in self.observers:
-            if observer != objeto:
-                # if objeto.rect.colliderect(observer.rect):
-                    # observer.handle_collision(objeto)
-                print(observer.rect.y)
-                print(objeto.rect.y)
+            for objeto in objetos:
+                if observer != objeto:
+                    if objeto.rect.colliderect(observer.rect):
+                        return observer.handle_collision(objeto)
+                    
+        return None
