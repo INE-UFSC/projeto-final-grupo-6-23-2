@@ -1,12 +1,15 @@
 import pygame
 
-
+"""O objetivo desta classe é cortar os tiles de uma imagem, por exemplo, a imagem dos tiles que estão
+em styles/assets/plataformas-tiles-test.png. Assim é possível passar a imagem inteira que o próprio
+pygame já corta e retorna o bloco que queremos."""
 class Tileset:
     def __init__(self, imagem: str, largura_tile: int, altura_tile: int):
         self.tileset = pygame.image.load(imagem).convert()
         self.largura_tile = largura_tile
         self.altura_tile = altura_tile
 
+    """Retorna um objeto de Tile referente ao bloco posicionado na linha e coluna do tileset."""
     def get_tile(self, linha: int, coluna: int):
         # Calcula a posição do retângulo do tile na imagem
         x = coluna * self.largura_tile
@@ -20,6 +23,10 @@ class Tileset:
 
         return tile
 
+"""Essa classe em si é responsável por modelar o objeto de Tile (extraído do Tileset), como é
+algo gráfico ela herda de Sprite do pygame. O que ela faz é basicamente ter uma imagem, altura e largura
+associada ao tile, além disso há uma implementação que provavelmente será útil mais adiante sobre
+se este tile é sólido ou não."""
 class Tile(pygame.sprite.Sprite):
     def __init__(self, imagem, largura_tile: int, altura_tile: int, solido=True):
         super().__init__()
@@ -34,7 +41,20 @@ class Tile(pygame.sprite.Sprite):
         # Define se o tile é sólido ou não
         self.solido = solido
 
+"""Essa classe TileGrid é basicamente uma grade de Tiles, de maneira gráfica, é uma grade
+onde poderemos posicionar os nossos 'blocos gráficos', ela herda de Group pois como cada Tile é um
+Sprite, e o TileGrid nada mais é do que uma grade de Tiles, faz sentido esta classe herdar de Group.
+
+De forma genérica, o TileGrid também é utilizado em cada plataforma pois uma plataforma também possui
+uma grade de tiles, exemplo plataforma 1x3, é uma grade de 1  tile na vertical e 3 na horizontal."""
 class TileGrid(pygame.sprite.Group):
+
+    """Os cálculos aqui feito se baseiam nas dimensões do tile em si e nas dimensões da tela (quando
+    a grade for a grade principal da tela do jogo), então a imagem de cada tile é adequada para que
+    a tela realmente possua os tiles informados (tiles_horizontal e tiles_vertical).
+    
+    Caso não seja definido as dimensões da tela, então considera-se que esta grade é uma grade interna
+    no caso das plataformas, cada plataforma é uma grade interna de tiles, como comentado."""
     def __init__(self, largura_tile: int, altura_tile: int, tiles_horizontal:int = 1, tiles_vertical:int = 1, largura_tela: int = None, altura_tela: int = None):
         super().__init__()
         self.__tiles_horizontal = tiles_horizontal
@@ -72,6 +92,8 @@ class TileGrid(pygame.sprite.Group):
     def altura_tile(self):
         return self.__altura_tile
 
+    """Este método permite adicionar uma grade de tiles dentro de outra grade, como no caso das plataformas
+    então ele basicamente pega a grade a ser adicionada, e adiciona tile por tile na grade em questão"""
     def add_tilegrid(self, tilegrid, linha, coluna):
         if isinstance(tilegrid, TileGrid):
             for pos, tile in tilegrid.tiles.items():
@@ -81,7 +103,12 @@ class TileGrid(pygame.sprite.Group):
                     self.add_tile(tile, linha+i, coluna+j)
         else:
             raise TypeError("add_tilegrid deve receber um objeto do tipo TileGrid")
-        
+
+    """Este método adiciona um tile específico na (linha, coluna) da grade, previamente é feito
+    o redimensionamento do tile de acordo com as dimensões calculadas no construtor. Um ponto importante
+    aqui é que para adicionar o tile não é feito a verificação se a linha realmente existe, apenas a coluna,
+    isso nos foi útil já que o cenário é gerado antes (acima da tela) para que possa ir descendo de acordo
+    com o jogo, e consequentemente gerando mais cenário. (isso é feito na classe Cenario)""" 
     def add_tile(self, tile, linha, coluna):
         if isinstance(tile, Tile):
             tile.image = pygame.transform.scale(tile.image, (self.largura_tile, self.altura_tile))
@@ -101,6 +128,7 @@ class TileGrid(pygame.sprite.Group):
         else:
             raise TypeError("add_tile deve receber um objeto do tipo Tile")
         
+    """Remove um tile da grade em questão"""    
     def remove_tile(self, linha, coluna):
         try:
             super().remove(self.tiles[(linha, coluna)])
@@ -110,6 +138,7 @@ class TileGrid(pygame.sprite.Group):
             if coluna > self.tiles_horizontal:
                 raise KeyError(f"({linha}, {coluna}) inválidos para esta grade")
         
+    """Retorna o tile da respectiva posição"""    
     def get_tile(self, linha, coluna):
         try:
             return self.tiles[(linha, coluna)]
@@ -119,6 +148,9 @@ class TileGrid(pygame.sprite.Group):
             else:
                 return None
             
+    """Esse método é responsáve por mover a grade para baixo de acordo com uma certa velocidade definida
+    pelo jogo, então é considerado se o tile já se moveu o suficiente para ir para a próxima linha da
+    grade, ou se ele saiu da tela, mudando o tile de linha e removendo-o quando sai da tela."""        
     def move_down(self, velocity: float):
         gerar = False
         self.__desloc += velocity
