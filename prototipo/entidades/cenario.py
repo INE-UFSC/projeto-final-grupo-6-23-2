@@ -1,8 +1,7 @@
 from entidades.lava import Lava
-from entidades.jogador import Jogador
 from entidades.plataforma import Plataforma
 from constantes.constantes import constantes
-from pygame import Surface
+from entidades.plataforma import Plataformas
 from entidades.plataforma import Plataforma
 from entidades.tiles_package import TileGrid
 import random
@@ -17,11 +16,16 @@ class Cenario:
         self.__reference_platform = ((10, 3), 3)
         self.__dist_x_max = dist_x_max
         self.__dist_y_max = dist_y_max
+        self.__plataformas = Plataformas()
         self.gerar_cenario()
 
     @property
     def grid(self):
         return self.__grid
+    
+    @property
+    def plataformas(self):
+        return self.__plataformas
 
     def gerar_cenario(self) -> None:
         plataforma_gerada = self.__reference_platform
@@ -36,6 +40,8 @@ class Cenario:
         random.seed(None)
 
         plataforma = Plataforma(random=True)
+
+        self.__plataformas.add(plataforma.tilegrid)
 
         Imin = initial_position[0] - self.__dist_y_max
         Imax = initial_position[0]-2

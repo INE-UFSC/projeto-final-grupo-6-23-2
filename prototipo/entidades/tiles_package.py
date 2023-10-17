@@ -1,8 +1,4 @@
-import math
-from typing import Iterable, Union
 import pygame
-from pygame.sprite import AbstractGroup
-import json
 
 
 class Tileset:

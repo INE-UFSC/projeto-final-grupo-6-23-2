@@ -11,10 +11,13 @@ class CollisionManager: # USANDO O DESIGN PATTERN OBSERVER
     def remove_observer(self, observer):
         self.observers.remove(observer)
 
-    def notify_collisions(self, *objetos):
+    def notify_collisions(self, objeto, group=False):
         for observer in self.observers:
-            for objeto in objetos:
-                if observer != objeto:
+            if observer != objeto:
+                if group:
+                    if pygame.sprite.groupcollide(objeto, [observer], False, False):
+                        return observer.handle_collision(objeto)
+                else:
                     if objeto.rect.colliderect(observer.rect):
                         return observer.handle_collision(objeto)
                     

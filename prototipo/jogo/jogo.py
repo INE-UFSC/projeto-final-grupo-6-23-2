@@ -1,3 +1,4 @@
+import sys
 import pygame
 from constantes.constantes import constantes
 from entidades.cenario import Cenario
@@ -48,10 +49,13 @@ class  Jogo:
             self.__cenario.update_cenario(1)
             self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
-            self.__jogador.aplica_gravidade(0.02)
+            self.__jogador.aplica_gravidade(0.2)
 
-            if self.__adm_colisao.notify_collisions(self.__cenario.lava, *self.__cenario.grid.tiles.values()) == 'kill':
+            if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':
                 pygame.quit()
+                sys.exit()
+            
+            self.__adm_colisao.notify_collisions(self.__cenario.plataformas, group=True)
 
             clock.tick(constantes.fps)
             pygame.display.flip()

@@ -1,9 +1,7 @@
 import pygame
-from abc import ABC
 from entidades.tiles_package import *
 import json
 import random
-
 
 class Plataforma:
     def __init__(self, style_source: str = 'default', random=False):
@@ -43,4 +41,8 @@ class Plataforma:
         with open(f'prototipo/styles/styles-plataformas.json', 'r') as file:
             style = list(json.load(file).keys())
             return random.choice(style)
+        
+class Plataformas(pygame.sprite.Group):
+    def __init__(self) -> None:
+        super().__init__()
     
