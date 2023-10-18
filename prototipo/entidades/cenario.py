@@ -48,13 +48,13 @@ class Cenario:
     def plataformas(self):
         return self.__plataformas
 
-    """Neste método o cenário é gerado, inicialmente o cenário gera plataformas na tela visível, e 
-    posteriormente na parte sobre não visível da tela para que o cenário vá descendo. O intervalo considerado
-    no range permite que o cenário só gere plataformas na tela visível e apenas uma tela invisível sobre esta (para
-    não gerar uso excessivo de memória), a cada geração de plataforma a última destas é considerada
-    a plataforma de referência para gerar mais posteriormente"""
-
     def gerar_cenario(self) -> None:
+        """Neste método, o cenário é gerado. Inicialmente, o cenário gera plataformas na tela visível, e 
+        posteriormente na parte não visível da tela, para que o cenário vá descendo. O intervalo considerado
+        no range permite que o cenário só gere plataformas na tela visível e apenas uma tela invisível sobre esta (para
+        não gerar uso excessivo de memória). A cada geração de plataforma, a última destas é considerada
+        a plataforma de referência para gerar mais posteriormente"""
+
         plataforma_gerada = self.__reference_platform
 
         while True:
@@ -68,27 +68,30 @@ class Cenario:
                 )
                 break
 
-    """Esse método gera aleatoriamente cada plataforma, para isso ele leva em consideração a posição, e 
-    a largura da plataforma de referência. Ao iniciar, ele gera propriamente uma plataforma aleatória e 
-    após isso é realizado randomicamente de acordo com os intervalos máximos e mínimos definidos pelas distâncias
-    o valor da linha e da coluna a ser posicionada a plataforma. Note que na geração da coluna, é feito a
-    verificação se a plataforma deve ser gerada a esquerda, a direita ou tanto faz, para garantir que
-    todas as plataformas estejam no limite da tela e são acesíveis pelo jogador."""
-
     def gerar_plataforma(
         self,
         initial_position: tuple,
         initial_width: int,
     ):
+        """Esse método gera aleatoriamente cada plataforma. P ara isso, ele leva em consideração a posição, e 
+        a largura da plataforma de referência. Ao iniciar, ele gera propriamente uma plataforma aleatória, e, 
+        após isso, é realizado randomicamente de acordo com os intervalos máximos e mínimos definidos pelas distâncias
+        o valor da linha e da coluna a ser posicionada a plataforma. Note que na geração da coluna, é feito a
+        verificação se a plataforma deve ser gerada a esquerda, a direita ou tanto faz, para garantir que
+        todas as plataformas estejam no limite da tela e são acesíveis pelo jogador."""
+
         random.seed(None)
 
         plataforma = Plataforma(random=True)
 
         self.__plataformas.add(plataforma.tilegrid)
 
-        Imin = initial_position[0] - self.__dist_y_max
-        Imax = initial_position[0] - 2
-        linha = random.randint(Imin, Imax)
+        dist_vertical_min = initial_position[0] - self.__dist_y_max
+        dist_vertical_max = initial_position[0] - 2
+        linha = random.randint(
+            dist_vertical_min,
+            dist_vertical_max
+            )
 
         col = 0
         Ia = initial_position[1] + initial_width
@@ -118,11 +121,11 @@ class Cenario:
         self.grid.add_tilegrid(plataforma.tilegrid, linha, col)
         return ((linha, col), plataforma.largura)
 
-    """Esse método atualiza o cenário, movendo-o para baixo de acordo com um valor passado pelo Jogo por parâmetro
-    para isso ele chama o move_down de sua grade, se o move_down retornar True, é necessário gerar mais plataformas
-    sobre a tela."""
-
     def update_cenario(self, move_down: float):
+        """Esse método atualiza o cenário, movendo-o para baixo de acordo com um valor passado pelo Jogo por parâmetro.
+        Para isso, ele chama o move_down de sua grade; se o move_down retornar True, é necessário gerar mais plataformas
+        sobre a tela."""
+
         if self.grid.move_down(move_down):
             self.gerar_cenario()
 

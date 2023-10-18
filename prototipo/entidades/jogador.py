@@ -7,7 +7,7 @@ from entidades.plataforma import Plataformas
 class Jogador(pygame.sprite.Sprite):
     """Classe responsável pelo jogador"""
 
-    def __init__(self):
+    def __init__(self, velocidade_descida):
         super().__init__()
 
         self.__tamanho_jogador = (50,50)
@@ -17,20 +17,27 @@ class Jogador(pygame.sprite.Sprite):
         self.__posicao = (constantes.largura_tela / 2, 0)
         self.__colidiu = False
 
-        self.__velocidade = 2
-        self.__velocidade_queda = 0
+        self.__velocidade = 2 # Para deslocamento horizontal
+        self.__velocidade_queda = 0 # Velocidade de queda atual
+        self.__velocidade_descida = velocidade_descida # Velocidade de queda mínima
         self.__tamanho_pulo = 7
         self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
 
-    def aplica_gravidade(self, gravidade: int) -> None:
+    def aplica_gravidade(self, gravidade) -> None:
         """Caso o jogador não esteja sob uma plataforma, essa função
         irá faze-lo cair com uma certa aceleração"""
-
-        self.__velocidade_queda += gravidade
-        x_atual = self.posicao[0]
-        novo_y = self.posicao[1] + self.__velocidade_queda
-
-        self.posicao = (x_atual, novo_y)
+    
+        if not self.__colidiu:
+            self.__velocidade_queda += gravidade
+            x_atual = self.posicao[0]
+            novo_y = self.posicao[1] + self.__velocidade_queda
+            self.posicao = (x_atual, novo_y)
+        
+        else:
+            x_atual = self.posicao[0]
+            novo_y = self.posicao[1] + self.__velocidade_queda
+            self.posicao = (x_atual, novo_y)
+            self.__colidiu = False
 
     def pular(self):
         if self.__colidiu:
@@ -48,7 +55,7 @@ class Jogador(pygame.sprite.Sprite):
         self.posicao = (novo_x, y_atual)
 
     def aterrissar(self):
-        self.__velocidade_queda = 0
+        self.__velocidade_queda = self.__velocidade_descida
         self.__colidiu = True
 
     def cair(self):
@@ -59,8 +66,6 @@ class Jogador(pygame.sprite.Sprite):
             return 'kill'
         if isinstance(objeto, Plataformas) and self.__velocidade_queda > 0:
             self.aterrissar()
-        else:
-            self.cair()
 
     @property
     def superficie(self) -> pygame.Surface:

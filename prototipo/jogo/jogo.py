@@ -12,8 +12,12 @@ class  Jogo:
     def __init__(self):
         # Inicia biblioteca
         pygame.init()
+
+        self.__velocidade_descida = 1
+
+        # Instancia jogador e gerenciador de colisões (padrão observador)
         self.__adm_colisao = CollisionManager()
-        self.__jogador = Jogador()
+        self.__jogador = Jogador(self.__velocidade_descida)
         self.__adm_colisao.add_observer(self.__jogador)
 
         # Inicia display
@@ -22,11 +26,14 @@ class  Jogo:
         )
         pygame.display.set_caption('Volcano Jumper')
 
+
         # Inicia cenário
         self.__cenario = Cenario(9, 16, constantes.largura_tela, constantes.altura_tela, 2, 2)
 
-    """Função responsável pelo loop principal do jogo e por gerar o cenário"""
     def iniciar(self) -> None:
+        """Função responsável pelo loop principal do jogo e por gerar o cenário"""
+
+        # O clock regula a taxa de frames do jogo
         clock = pygame.time.Clock()
 
         while True:
@@ -46,7 +53,7 @@ class  Jogo:
             
             self.__tela.fill('Black')
             self.__cenario.grid.draw(self.__tela)
-            self.__cenario.update_cenario(1)
+            self.__cenario.update_cenario(self.__velocidade_descida)
             self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
             self.__jogador.aplica_gravidade(0.2)
