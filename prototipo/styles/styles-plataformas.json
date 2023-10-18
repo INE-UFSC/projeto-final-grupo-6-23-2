@@ -2,7 +2,6 @@
     "default":{
         "name": "default",
         "tileset": {
-            "tileset_image": "prototipo/styles/assets/plataforma-tile-test.png",
             "tile_width": 16,
             "tile_height": 16
         },
@@ -22,7 +21,6 @@
     "brick-2":{
         "name": "brick-2",
         "tileset": {
-            "tileset_image": "prototipo/styles/assets/plataforma-tile-test.png",
             "tile_width": 16,
             "tile_height": 16
         },
@@ -41,7 +39,6 @@
     "brick-4":{
         "name": "brick-4",
         "tileset": {
-            "tileset_image": "prototipo/styles/assets/plataforma-tile-test.png",
             "tile_width": 16,
             "tile_height": 16
         },
