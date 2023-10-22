@@ -1,6 +1,6 @@
 from entidades.lava import Lava
 from entidades.plataforma import Plataforma
-from constantes.constantes import constantes
+from constantes.constantes import Constantes
 from entidades.plataforma import Plataformas
 from entidades.plataforma import Plataforma
 from entidades.tiles_package import TileGrid
@@ -25,6 +25,7 @@ class Cenario:
         dist_y_max: int,
         dist_x_max: int,
     ):
+        self.__constantes = Constantes()
         self.__lava = Lava()
         self.__grid = TileGrid(
             16,

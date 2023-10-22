@@ -1,7 +1,13 @@
 class Constantes:
     """Classe relativa às constantes do jogo"""
 
-    def __init__(self):
+    def __new__(cls):
+        if not hasattr(cls, 'isinstance'):
+            cls.instance = super(Constantes, cls).__new__(cls)
+            cls.instance.__init_constantes()
+        return cls.instance
+
+    def __init_constantes(self):
         self.__largura_tela = 450
         self.__altura_tela = 800
         self.__fps = 60
@@ -22,5 +28,3 @@ class Constantes:
     @property
     def gravidade(self):
         return self.__gravidade
-
-constantes = Constantes()

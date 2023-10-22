@@ -1,6 +1,6 @@
 import sys
 import pygame
-from constantes.constantes import constantes
+from constantes.constantes import Constantes
 from entidades.cenario import Cenario
 from entidades.jogador import Jogador
 from entidades.collision import CollisionManager
@@ -12,6 +12,7 @@ class  Jogo:
     def __init__(self):
         # Inicia biblioteca
         pygame.init()
+        self.__constantes = Constantes()
 
         self.__velocidade_descida = 1
 
@@ -22,13 +23,13 @@ class  Jogo:
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (constantes.largura_tela, constantes.altura_tela)
+            (self.__constantes.largura_tela, self.__constantes.altura_tela)
         )
         pygame.display.set_caption('Volcano Jumper')
 
 
         # Inicia cenário
-        self.__cenario = Cenario(9, 16, constantes.largura_tela, constantes.altura_tela, 2, 2)
+        self.__cenario = Cenario(9, 16, self.__constantes.largura_tela, self.__constantes.altura_tela, 2, 2)
 
     def iniciar(self) -> None:
         """Função responsável pelo loop principal do jogo e por gerar o cenário"""
@@ -64,5 +65,5 @@ class  Jogo:
             
             self.__adm_colisao.notify_collisions(self.__cenario.plataformas, group=True)
 
-            clock.tick(constantes.fps)
+            clock.tick(self.__constantes.fps)
             pygame.display.flip()

@@ -1,5 +1,5 @@
 import pygame
-from constantes.constantes import constantes
+from constantes.constantes import Constantes
 from entidades.lava import Lava
 from entidades.plataforma import Plataformas
 
@@ -10,11 +10,12 @@ class Jogador(pygame.sprite.Sprite):
     def __init__(self, velocidade_descida):
         super().__init__()
 
+        self.__constantes = Constantes()
         self.__tamanho_jogador = (50,50)
         self.__superficie = pygame.Surface(self.__tamanho_jogador)
         self.__superficie.fill('Blue')
 
-        self.__posicao = (constantes.largura_tela / 2, 0)
+        self.__posicao = (self.__constantes.largura_tela / 2, 0)
         self.__colidiu = False
 
         self.__velocidade = 2 # Para deslocamento horizontal
@@ -81,8 +82,8 @@ class Jogador(pygame.sprite.Sprite):
     
     @posicao.setter
     def posicao(self, nova_posicao):
-        if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (constantes.largura_tela - self.__tamanho_jogador[0])):
-            if (nova_posicao[1] >= 0) and (nova_posicao[1] <= constantes.altura_tela):
+        if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (self.__constantes.largura_tela - self.__tamanho_jogador[0])):
+            if (nova_posicao[1] >= 0) and (nova_posicao[1] <= self.__constantes.altura_tela):
                 self.__posicao = nova_posicao
                 self.__rect.x = nova_posicao[0]
                 self.__rect.y = nova_posicao[1]
