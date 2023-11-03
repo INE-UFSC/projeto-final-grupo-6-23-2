@@ -63,7 +63,7 @@ class  Jogo:
                 pygame.quit()
                 sys.exit()
             
-            self.__adm_colisao.notify_collisions(self.__cenario.plataformas, group=True)
+            self.__adm_colisao.notify_collisions(self.__cenario.plataformas)
 
             clock.tick(self.__constantes.fps)
             pygame.display.flip()

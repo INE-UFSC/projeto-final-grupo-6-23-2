@@ -1,7 +1,7 @@
 import pygame
 from constantes.constantes import Constantes
 from entidades.lava import Lava
-from entidades.plataforma import Plataformas
+from entidades.tiles_package import Tile
 
 
 class Jogador(pygame.sprite.Sprite):
@@ -21,7 +21,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__velocidade = 2 # Para deslocamento horizontal
         self.__velocidade_queda = 0 # Velocidade de queda atual
         self.__velocidade_descida = velocidade_descida # Velocidade de queda mínima
-        self.__tamanho_pulo = 7
+        self.__tamanho_pulo = 8
         self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
 
     def aplica_gravidade(self, gravidade) -> None:
@@ -65,8 +65,12 @@ class Jogador(pygame.sprite.Sprite):
     def handle_collision(self, objeto):
         if isinstance(objeto, Lava):
             return 'kill'
-        if isinstance(objeto, Plataformas) and self.__velocidade_queda > 0:
-            self.aterrissar()
+        if isinstance(objeto, Tile) and self.__velocidade_queda > 0:
+            """Verifica se a parte de baixo do jogador colide com o topo do tile (a não ser por um desvio máximo)"""
+            DESVIO = 10 
+            if abs(objeto.rect.top - self.rect.bottom) in range(DESVIO): 
+                if objeto.solido:
+                    self.aterrissar()
 
     @property
     def superficie(self) -> pygame.Surface:
