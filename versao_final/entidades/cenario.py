@@ -28,8 +28,8 @@ class Cenario:
         self.__constantes = Constantes()
         self.__lava = Lava()
         self.__grid = TileGrid(
-            16,
-            16,
+            128,
+            128,
             tiles_horizontal=tiles_horizontal,
             tiles_vertical=tiles_vertical,
             largura_tela=largura_tela,
