@@ -14,7 +14,7 @@ class  Jogo:
         pygame.init()
         self.__constantes = Constantes()
 
-        self.__velocidade_descida = 1
+        self.__velocidade_descida = 2
 
         # Instancia jogador e gerenciador de colisões (padrão observador)
         self.__adm_colisao = CollisionManager()
@@ -52,12 +52,14 @@ class  Jogo:
             if keys[pygame.K_RIGHT]:
                 self.__jogador.move_direita()
             
-            self.__tela.fill('Black')
+            self.__tela.fill('White')
+            self.__cenario.paisagem.draw(self.__tela)
+            
             self.__cenario.grid.draw(self.__tela)
             self.__cenario.update_cenario(self.__velocidade_descida)
             self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
-            self.__jogador.aplica_gravidade(0.2)
+            self.__jogador.aplica_gravidade(0.4)
 
             if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':
                 pygame.quit()

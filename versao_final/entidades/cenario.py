@@ -4,6 +4,7 @@ from constantes.constantes import Constantes
 from entidades.plataforma import Plataformas
 from entidades.plataforma import Plataforma
 from entidades.tiles_package import TileGrid
+from entidades.paisagem import Paisagem
 import random
 
 
@@ -39,6 +40,7 @@ class Cenario:
         self.__dist_x_max = dist_x_max
         self.__dist_y_max = dist_y_max
         self.__plataformas = Plataformas()
+        self.__paisagem = Paisagem()
         self.gerar_cenario()
 
     @property
@@ -48,6 +50,10 @@ class Cenario:
     @property
     def plataformas(self):
         return self.__plataformas
+    
+    @property
+    def paisagem(self):
+        return self.__paisagem
 
     def gerar_cenario(self) -> None:
         """Neste método, o cenário é gerado. Inicialmente, o cenário gera plataformas na tela visível, e 
@@ -129,6 +135,8 @@ class Cenario:
 
         if self.grid.move_down(move_down):
             self.gerar_cenario()
+
+        self.__paisagem.move(move_down)
 
     @property
     def lava(self):

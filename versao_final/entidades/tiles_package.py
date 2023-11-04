@@ -8,7 +8,7 @@ class Tileset:
     próprio pygame já corta e retorna o bloco que queremos."""
 
     def __init__(self, imagem: str, largura_tile: int, altura_tile: int):
-        self.tileset = pygame.image.load(imagem).convert()
+        self.tileset = pygame.image.load(imagem).convert_alpha()
         self.largura_tile = largura_tile
         self.altura_tile = altura_tile
 
