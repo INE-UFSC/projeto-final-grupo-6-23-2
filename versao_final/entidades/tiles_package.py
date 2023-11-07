@@ -1,4 +1,5 @@
 import pygame
+import math
 
 
 class Tileset:
@@ -74,10 +75,10 @@ class TileGrid(pygame.sprite.Group):
         self.__tiles_horizontal = tiles_horizontal
         self.__tiles_vertical = tiles_vertical
         if largura_tela is not None and altura_tela is not None:
-            self.__largura_tile = round(
+            self.__largura_tile = math.floor(
                 (largura_tela / (tiles_horizontal))
             )
-            self.__altura_tile = round(
+            self.__altura_tile = math.floor(
                 (altura_tela / tiles_vertical)
             )
         else:
@@ -134,6 +135,7 @@ class TileGrid(pygame.sprite.Group):
             tile.image = pygame.transform.scale(
                 tile.image, (self.largura_tile, self.altura_tile)
             )
+            tile.rect = tile.image.get_rect()
             tile.rect.y = linha * self.largura_tile
             tile.rect.x = coluna * self.altura_tile
             if tile.image.get_size() == (self.largura_tile, self.altura_tile):

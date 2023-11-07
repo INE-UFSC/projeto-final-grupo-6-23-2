@@ -18,7 +18,7 @@ class Plataforma:
         )
 
         self.__image_path = path.join(
-            path.dirname(__file__), "../styles/assets/plataforma-tile-test.png"
+            path.dirname(__file__), "../styles/assets/plataforma-tileset.png"
         )
 
         if random:
