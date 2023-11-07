@@ -14,7 +14,7 @@ class  Jogo:
         pygame.init()
         self.__constantes = Constantes()
 
-        self.__velocidade_descida = 2
+        self.__velocidade_descida = 1
 
         # Instancia jogador e gerenciador de colisões (padrão observador)
         self.__adm_colisao = CollisionManager()
