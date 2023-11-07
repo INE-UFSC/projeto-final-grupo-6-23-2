@@ -129,6 +129,7 @@ class Cenario:
 
         if self.grid.move_down(move_down):
             self.gerar_cenario()
+        self.lava.animacao()
 
     @property
     def lava(self):
