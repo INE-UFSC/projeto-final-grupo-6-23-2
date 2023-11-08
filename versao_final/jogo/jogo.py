@@ -23,7 +23,7 @@ class  Jogo:
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (self.__constantes.largura_tela, self.__constantes.altura_tela)
+            (self.__constantes.largura_tela, min(800, pygame.display.Info().current_h - 50))
         )
         pygame.display.set_caption('Volcano Jumper')
 
@@ -57,8 +57,8 @@ class  Jogo:
             
             self.__cenario.grid.draw(self.__tela)
             self.__cenario.update_cenario(self.__velocidade_descida)
-            self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
+            self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__jogador.aplica_gravidade(0.4)
 
             if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':
