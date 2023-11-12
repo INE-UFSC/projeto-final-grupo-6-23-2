@@ -24,10 +24,12 @@ class Jogador(pygame.sprite.Sprite):
         self.__tamanho_pulo = 10
         self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
 
-    def aplica_gravidade(self, gravidade) -> None:
+    def aplica_gravidade(self, gravidade, velocidade_descida) -> None:
         """Caso o jogador não esteja sob uma plataforma, essa função
         irá faze-lo cair com uma certa aceleração"""
-    
+
+        self.__velocidade_descida = velocidade_descida
+
         if not self.__colidiu:
             self.__velocidade_queda += gravidade
             x_atual = self.posicao[0]
