@@ -59,6 +59,7 @@ class  Jogo:
             self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
             self.__jogador.aplica_gravidade(0.4)
+            self.__jogador.atualizar()
 
             if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':
                 pygame.quit()
