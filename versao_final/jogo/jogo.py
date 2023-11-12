@@ -13,7 +13,11 @@ class  Jogo:
         # Inicia biblioteca
         pygame.init()
         self.__constantes = Constantes()
-
+        # Inicia display
+        self.__tela = pygame.display.set_mode(
+            (self.__constantes.largura_tela, self.__constantes.altura_tela)
+        )
+        pygame.display.set_caption('Volcano Jumper')
         self.__velocidade_descida = 1
 
         # Instancia jogador e gerenciador de colisões (padrão observador)
@@ -21,11 +25,6 @@ class  Jogo:
         self.__jogador = Jogador(self.__velocidade_descida)
         self.__adm_colisao.add_observer(self.__jogador)
 
-        # Inicia display
-        self.__tela = pygame.display.set_mode(
-            (self.__constantes.largura_tela, self.__constantes.altura_tela)
-        )
-        pygame.display.set_caption('Volcano Jumper')
 
 
         # Inicia cenário

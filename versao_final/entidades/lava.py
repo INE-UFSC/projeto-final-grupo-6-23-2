@@ -22,9 +22,6 @@ class Lava(pygame.sprite.Sprite):
         else:
             self.rect.x = -65.5
 
-        
-
-
     @property
     def superficie(self) -> pygame.sprite.Sprite:
         return self.__image
