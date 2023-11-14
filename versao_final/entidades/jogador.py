@@ -11,9 +11,13 @@ class Jogador(pygame.sprite.Sprite):
         super().__init__()
 
         self.__constantes = Constantes()
-        self.__tamanho_jogador = (50,50)
-        self.__superficie = pygame.Surface(self.__tamanho_jogador)
-        self.__superficie.fill('Blue')
+        self.__imagem_parado = pygame.image.load("versao_final/styles/assets/parado.png").convert_alpha()
+        self.__imagem_correndo = pygame.image.load("versao_final/styles/assets/correndo.png").convert_alpha()
+        self.__image = self.__imagem_parado
+        self.__rect = self.__image.get_rect()
+
+        self.__virado_direita = False
+        self.__moving = False
 
         self.__posicao = (self.__constantes.largura_tela / 2, 0)
         self.__colidiu = False
@@ -22,7 +26,24 @@ class Jogador(pygame.sprite.Sprite):
         self.__velocidade_queda = 0 # Velocidade de queda atual
         self.__velocidade_descida = velocidade_descida # Velocidade de queda mínima
         self.__tamanho_pulo = 10
-        self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
+    
+    def atualizar(self):
+        print(self.__moving)
+        if self.__moving:
+            if not self.__virado_direita:
+                self.__image = pygame.transform.flip(surface=self.__imagem_correndo, flip_x=True, flip_y=False)
+                
+            else:
+                self.__image = self.__imagem_correndo
+            self.__moving = False
+            return
+
+        if not self.__virado_direita:
+            self.__image = pygame.transform.flip(surface=self.__imagem_parado, flip_x=True, flip_y=False)
+            return
+        else:
+            self.__image = self.__imagem_parado
+            return
 
     def aplica_gravidade(self, gravidade, velocidade_descida) -> None:
         """Caso o jogador não esteja sob uma plataforma, essa função
@@ -48,11 +69,15 @@ class Jogador(pygame.sprite.Sprite):
             self.__colidiu = False
     
     def move_direita(self):
+        self.__virado_direita = True
+        self.__moving = True
         y_atual = self.posicao[1]
         novo_x = self.posicao[0] + self.__velocidade
         self.posicao = (novo_x, y_atual)
 
     def move_esquerda(self):
+        self.__virado_direita = False
+        self.__moving = True
         y_atual = self.posicao[1]
         novo_x = self.posicao[0] - self.__velocidade
         self.posicao = (novo_x, y_atual)
@@ -76,7 +101,7 @@ class Jogador(pygame.sprite.Sprite):
 
     @property
     def superficie(self) -> pygame.Surface:
-        return self.__superficie
+        return self.__image
     
     @property
     def posicao(self) -> tuple:
@@ -88,7 +113,7 @@ class Jogador(pygame.sprite.Sprite):
     
     @posicao.setter
     def posicao(self, nova_posicao):
-        if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (self.__constantes.largura_tela - self.__tamanho_jogador[0])):
+        if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (self.__constantes.largura_tela - 50)):
             if (nova_posicao[1] >= 0) and (nova_posicao[1] <= self.__constantes.altura_tela):
                 self.__posicao = nova_posicao
                 self.__rect.x = nova_posicao[0]

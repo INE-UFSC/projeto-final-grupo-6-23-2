@@ -13,12 +13,18 @@ class  Jogo:
         # Inicia biblioteca
         pygame.init()
         self.__constantes = Constantes()
-
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (self.__constantes.largura_tela, min(800, pygame.display.Info().current_h - 50))
+            (self.__constantes.largura_tela, self.__constantes.altura_tela)
         )
         pygame.display.set_caption('Volcano Jumper')
+        self.__velocidade_descida = 1
+
+        # Instancia jogador e gerenciador de colisões (padrão observador)
+        self.__adm_colisao = CollisionManager()
+        self.__jogador = Jogador(self.__velocidade_descida)
+        self.__adm_colisao.add_observer(self.__jogador)
+
 
         # Inicia cenário
         self.__cenario = Cenario(9, 16, self.__constantes.largura_tela, self.__constantes.altura_tela, 2, 2)
@@ -58,6 +64,8 @@ class  Jogo:
             self.__jogador.aplica_gravidade(0.4, self.__cenario.velocidade_descida)
             self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
+            self.__jogador.aplica_gravidade(0.4)
+            self.__jogador.atualizar()
 
             if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':
                 pygame.quit()
