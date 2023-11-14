@@ -13,7 +13,7 @@ class Lava(pygame.sprite.Sprite):
         self.__rect = self.__mask_image.get_rect()
 
         self.__rect.x = 0
-        self.__rect.y = min(self.__constantes.altura_tela, pygame.display.Info().current_h - 50) * 0.9
+        self.__rect.y = min(self.__constantes.altura_tela, pygame.display.Info().current_h - 100) * 0.9
 
         self.__rect_collide = pygame.Rect(self.__rect.x, self.__rect.y + 30, self.__rect.width, self.__rect.height - 30) #30 para que a colisão seja registrada apenas quando o jogador estiver imerso 30px na lava
 

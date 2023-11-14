@@ -20,19 +20,17 @@ class  Jogo:
         pygame.display.set_caption('Volcano Jumper')
         self.__velocidade_descida = 1
 
-        # Instancia jogador e gerenciador de colisões (padrão observador)
-        self.__adm_colisao = CollisionManager()
-        self.__jogador = Jogador(self.__velocidade_descida)
-        self.__adm_colisao.add_observer(self.__jogador)
-
-
         # Inicia cenário
         self.__cenario = Cenario(9, 16, self.__constantes.largura_tela, self.__constantes.altura_tela, 2, 2)
 
         # Instancia jogador e gerenciador de colisões (padrão observador)
         self.__adm_colisao = CollisionManager()
-        self.__jogador = Jogador(self.__cenario.velocidade_descida)
+        self.__jogador = Jogador(self.__velocidade_descida)
         self.__adm_colisao.add_observer(self.__jogador)
+
+    
+    def update_velocidade(self):
+        self.__velocidade_descida += 1
 
 
     def iniciar(self) -> None:
@@ -60,10 +58,11 @@ class  Jogo:
             self.__cenario.paisagem.draw(self.__tela)
             
             self.__cenario.grid.draw(self.__tela)
-            self.__cenario.update_cenario()
-            self.__jogador.aplica_gravidade(0.4, self.__cenario.velocidade_descida)
-            self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
+            if self.__cenario.update_cenario(self.__velocidade_descida):
+                self.update_velocidade()
+            self.__jogador.aplica_gravidade(0.4, self.__velocidade_descida)
             self.__tela.blit(self.__jogador.superficie, self.__jogador.posicao)
+            self.__tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.posicao)
             self.__jogador.atualizar()
 
             if self.__adm_colisao.notify_collisions(self.__cenario.lava) == 'kill':

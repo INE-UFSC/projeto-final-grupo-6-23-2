@@ -42,7 +42,6 @@ class Cenario:
         self.__plataformas = Plataformas()
         self.__paisagem = Paisagem()
         self.gerar_cenario()
-        self.__velocidade_descida = 1
 
     @property
     def grid(self):
@@ -129,22 +128,20 @@ class Cenario:
         self.grid.add_tilegrid(plataforma.tilegrid, linha, col)
         return ((linha, col), plataforma.largura)
 
-    def update_cenario(self):
+    def update_cenario(self, velocidade_descida):
         """Esse método atualiza o cenário, movendo-o para baixo de acordo com um valor de velocidade.
         Para isso, ele chama o move_down de sua grade; se o move_down retornar True, é necessário gerar mais plataformas
         sobre a tela."""
 
-        self.__velocidade_descida += 0.001
+        atualiza_velocidade = False
 
-        if self.grid.move_down(self.__velocidade_descida):
+        if self.grid.move_down(velocidade_descida):
             self.gerar_cenario()
+            atualiza_velocidade = True
         self.lava.animacao()
 
-        self.__paisagem.move(self.__velocidade_descida)
-
-    @property
-    def velocidade_descida(self):
-        return self.__velocidade_descida
+        self.__paisagem.move(velocidade_descida)
+        return atualiza_velocidade
 
     @property
     def lava(self):
