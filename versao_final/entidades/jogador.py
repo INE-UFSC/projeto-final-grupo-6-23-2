@@ -28,7 +28,6 @@ class Jogador(pygame.sprite.Sprite):
         self.__tamanho_pulo = 10
     
     def atualizar(self):
-        print(self.__moving)
         if self.__moving:
             if not self.__virado_direita:
                 self.__image = pygame.transform.flip(surface=self.__imagem_correndo, flip_x=True, flip_y=False)
