@@ -38,7 +38,7 @@ class Jogador:
                 dy += 1
             
             print(self.__velocidade_queda)
-            self.__rect.centery += dy
+            self.__rect.centery += dy - 1
 
     def pular(self):
         if self.__colidiu:
