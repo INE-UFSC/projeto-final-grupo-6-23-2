@@ -21,7 +21,6 @@ class Jogador:
 
     def aplica_gravidade(self, detector_colisao) -> None:
         self.__velocidade_queda += self.__constantes.gravidade_jogo
-        print (self.__velocidade_queda)
 
         if self.__velocidade_queda < 0:
             self.__rect.centery += self.__velocidade_queda
@@ -34,15 +33,14 @@ class Jogador:
                 )
                 if colidiu:
                     self.aterrissar()
-                    return
+                    break
                 dy += 1
             
-            print(self.__velocidade_queda)
             self.__rect.centery += dy - 1
 
     def pular(self):
         if self.__colidiu:
-            self.__velocidade_queda -= self.__tamanho_pulo
+            self.__velocidade_queda = -self.__tamanho_pulo
             self.__colidiu = False
     
     def move_direita(self):

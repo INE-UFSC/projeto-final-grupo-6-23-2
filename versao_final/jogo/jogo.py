@@ -9,8 +9,10 @@ class Jogo:
 
     def __init__(self):
         # Inicia biblioteca
-        self.__constantes = Constantes()
         pygame.init()
+
+        #  Instancia singleton das constantes
+        self.__constantes = Constantes()
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
@@ -24,6 +26,7 @@ class Jogo:
         # Instancia jogador
         self.__jogador = Jogador(self.__constantes)
 
+        # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
         for plataforma in self.__cenario.plataformas:
@@ -55,7 +58,7 @@ class Jogo:
             pygame.display.flip()
 
     def __desenhar_objetos(self):
-        self.__tela.fill('Brown')
+        self.__tela.fill('Black')
         self.__tela.blit(self.__jogador.superficie,
                          self.__jogador.rect)
         self.__tela.blit(self.__cenario.lava.superficie,

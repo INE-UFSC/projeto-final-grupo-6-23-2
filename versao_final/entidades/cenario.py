@@ -10,7 +10,8 @@ class Cenario:
         self.__constantes = constantes
         self.__lava = Lava()
         plataforma_inicial = Plataforma((self.__constantes.largura_tela / 2, 400))
-        self.__plataformas = [plataforma_inicial]
+        a = Plataforma((self.__constantes.largura_tela / 2, 500))
+        self.__plataformas = [plataforma_inicial, a]
         self.__gravidade = 0.25
 
         tela.blit(self.__lava.superficie, self.__lava.posicao)
