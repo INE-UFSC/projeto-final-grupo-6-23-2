@@ -6,7 +6,7 @@ class Lava:
 
     def __init__(self):
         self.__constantes = Constantes()
-    
+
         self.__superficie = pygame.Surface((self.__constantes.largura_tela,
                                             self.__constantes.altura_tela * 0.2))
         self.__superficie.fill('Orange')

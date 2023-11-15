@@ -20,7 +20,7 @@ class Constantes:
     @property
     def largura_tela(self):
         return self.__largura_tela
-    
+
     @property
     def altura_tela(self):
         return self.__altura_tela
@@ -32,11 +32,11 @@ class Constantes:
     @property
     def gravidade(self):
         return self.__gravidade
-    
+
     @property
     def jogador_veloc_base(self):
         return self.__jogador_veloc_base
-    
+
     @property
     def jogador_pulo_base(self):
         return self.__jogador_pulo_base
@@ -44,7 +44,7 @@ class Constantes:
     @property
     def gravidade_jogo(self):
         return self.__gravidade_jogo
-    
+
     @property
     def jogador_pos_inicial(self):
         return self.__jogador_pos_inicial

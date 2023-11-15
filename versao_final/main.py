@@ -1,4 +1,9 @@
 from jogo.jogo import Jogo
 
-volcano_jumper = Jogo()
-volcano_jumper.iniciar()
+
+def main():
+    Jogo().iniciaro()
+
+
+if __name__ == '__main__':
+    main()

@@ -28,7 +28,6 @@ class Jogador:
             return
         else:
             deslocamento = self.__lidar_colisao(detector_colisao)
-            print(deslocamento)
             self.posicao_centro = (self.posicao_centro[0],
                                    self.posicao_centro[1] + deslocamento)
 
@@ -36,7 +35,8 @@ class Jogador:
         dy = 0
         while dy < int(self.__veloc_queda):
             dy += 1
-            colidiu = detector_colisao.detectar_colisao(self.__rect, 0, dy, Plataforma)
+            colidiu = detector_colisao.detectar_colisao(
+                self.__rect, 0, dy, Plataforma)
             if colidiu:
                 self.aterrissar()
                 return (dy - 1)
@@ -85,7 +85,8 @@ class Jogador:
     @posicao_centro.setter
     def posicao_centro(self, nova_posicao):
         if (nova_posicao[0] >= self.__largura / 2) and (
-            nova_posicao[0] <= (self.__constantes.largura_tela - self.__largura / 2)
+            nova_posicao[0] <= (
+                self.__constantes.largura_tela - self.__largura / 2)
         ):
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao

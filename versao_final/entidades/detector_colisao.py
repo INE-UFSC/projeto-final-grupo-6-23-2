@@ -21,7 +21,7 @@ class DetectorColisao:
                         colidiu = True
                 else:
                     colidiu = True
-        
+
         rect.centerx -= desloc_x
         rect.centery -= desloc_y
         return colidiu

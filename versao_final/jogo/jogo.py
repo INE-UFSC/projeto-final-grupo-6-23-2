@@ -30,7 +30,7 @@ class Jogo:
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
         for plataforma in self.__cenario.plataformas:
-            self.__detector_colisao.adicionar_objeto(plataforma)    
+            self.__detector_colisao.adicionar_objeto(plataforma)
 
     # Roda o jogo (loop principal)
     def iniciar(self) -> None:
@@ -63,6 +63,6 @@ class Jogo:
                          self.__jogador.rect)
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
-        
+
         for plataforma in self.__cenario.plataformas:
             self.__tela.blit(plataforma.superficie, plataforma.rect)

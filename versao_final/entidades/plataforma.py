@@ -8,16 +8,15 @@ class Plataforma:
         self.__superficie.fill('Gray')
         self.__posicao = posicao
         self.__rect = self.__superficie.get_rect(center=posicao)
-    
+
     @property
     def superficie(self) -> pygame.Surface:
         return self.__superficie
-    
+
     @property
     def posicao(self) -> tuple:
         return self.__posicao
-    
+
     @property
     def rect(self):
         return self.__rect
-    
