@@ -15,7 +15,8 @@ class Constantes:
         self.__jogador_veloc_base = 5
         self.__jogador_pulo_base = 10
         self.__gravidade_jogo = 0.4
-    
+        self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
+
     @property
     def largura_tela(self):
         return self.__largura_tela
@@ -43,3 +44,7 @@ class Constantes:
     @property
     def gravidade_jogo(self):
         return self.__gravidade_jogo
+    
+    @property
+    def jogador_pos_inicial(self):
+        return self.__jogador_pos_inicial
