@@ -43,7 +43,7 @@ class Jogo:
                     return
                 if evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_UP:
-                        self.__jogador.pular()
+                        self.__jogador.pular(self.__detector_colisao)
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
@@ -51,7 +51,9 @@ class Jogo:
             if keys[pygame.K_RIGHT]:
                 self.__jogador.move_direita()
 
-            self.__jogador.aplica_gravidade(self.__detector_colisao)
+            self.__cenario.movimentar_cenario()
+            self.__jogador.aplica_gravidade(self.__detector_colisao,
+                                            self.__cenario.veloc_cenario)
             self.__desenhar_objetos()
 
             clock.tick(self.__constantes.fps)
@@ -61,8 +63,10 @@ class Jogo:
         self.__tela.fill('Black')
         self.__tela.blit(self.__jogador.superficie,
                          self.__jogador.rect)
+        for plataforma in self.__cenario.plataformas:
+            self.__tela.blit(plataforma.superficie, plataforma.rect)
+
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
 
-        for plataforma in self.__cenario.plataformas:
-            self.__tela.blit(plataforma.superficie, plataforma.rect)
+

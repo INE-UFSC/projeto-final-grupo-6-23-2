@@ -11,8 +11,6 @@ class Jogador:
         self.__altura = self.__superficie.get_height()
         self.__superficie.fill("Blue")
 
-        self.cair()
-
         self.__veloc_corrida = self.__constantes.jogador_veloc_base
         self.__tamanho_pulo = self.__constantes.jogador_pulo_base
         self.__veloc_queda = 0
@@ -20,34 +18,36 @@ class Jogador:
         self.__posicao = self.__constantes.jogador_pos_inicial
         self.__rect = self.__superficie.get_rect(center=self.__posicao)
 
-    def aplica_gravidade(self, detector_colisao) -> None:
+    def aplica_gravidade(self, detector_colisao, veloc_cenario) -> None:
+        self.__veloc_queda_min = veloc_cenario
         self.__veloc_queda += self.__constantes.gravidade_jogo
+
         if self.__veloc_queda < 0:
             self.posicao_centro = (self.posicao_centro[0],
                                    self.posicao_centro[1] + self.__veloc_queda)
             return
         else:
-            deslocamento = self.__lidar_colisao(detector_colisao)
+            deslocamento = self.__calcula_queda(detector_colisao)
             self.posicao_centro = (self.posicao_centro[0],
                                    self.posicao_centro[1] + deslocamento)
 
-    def __lidar_colisao(self, detector_colisao):
+    def __calcula_queda(self, detector_colisao):
         dy = 0
-        while dy < int(self.__veloc_queda):
+        while dy < self.__veloc_queda:
             dy += 1
             colidiu = detector_colisao.detectar_colisao(
                 self.__rect, 0, dy, Plataforma)
             if colidiu:
                 self.aterrissar()
                 return (dy - 1)
-        if dy != 0:
-            self.cair()
         return dy
 
-    def pular(self):
-        if self.__colidiu:
+    def pular(self, detector_colisao):
+        colidiu = detector_colisao.detectar_colisao(
+            self.__rect, 0, 1, Plataforma
+        )
+        if colidiu:
             self.__veloc_queda = -self.__tamanho_pulo
-            self.__colidiu = False
 
     def move_direita(self):
         y_atual = self.__rect.centery
@@ -60,11 +60,7 @@ class Jogador:
         self.posicao_centro = (novo_x, y_atual)
 
     def aterrissar(self):
-        self.__veloc_queda = 0
-        self.__colidiu = True
-
-    def cair(self):
-        self.__colidiu = False
+        self.__veloc_queda = self.__veloc_queda_min
 
     @property
     def superficie(self) -> pygame.Surface:
@@ -91,3 +87,6 @@ class Jogador:
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao
                 self.__rect.center = nova_posicao
+            
+            else:
+                self.__veloc_queda = 0

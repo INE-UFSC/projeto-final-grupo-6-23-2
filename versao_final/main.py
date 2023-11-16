@@ -2,7 +2,7 @@ from jogo.jogo import Jogo
 
 
 def main():
-    Jogo().iniciaro()
+    Jogo().iniciar()
 
 
 if __name__ == '__main__':
