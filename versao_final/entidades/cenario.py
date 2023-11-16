@@ -5,16 +5,18 @@ from pygame import Surface
 
 
 class Cenario:
-    def __init__(self, tela: Surface, constantes):
+    def __init__(self, constantes):
         self.__constantes = constantes
         self.__lava = Lava()
+
         self.__plataforma_refenc = Plataforma(
             (self.__constantes.largura_tela / 2, 500))
         self.__plataformas = [self.__plataforma_refenc]
-        self.__veloc_cenario = self.__constantes.cenario_veloc_base
-
         for _ in range(20):
             self.gerar_plataforma()
+
+        self.__veloc_cenario = self.__constantes.cenario_veloc_base
+        self.__aceleracao = self.__constantes.aceleracao_cenario
 
     def gerar_plataforma(self):
         plataforma_y = self.__plataforma_refenc.rect.y - 100
@@ -34,6 +36,8 @@ class Cenario:
                 self.gerar_plataforma()
                 break
             self.__plataformas[indice].rect.y += self.__veloc_cenario
+
+        self.__veloc_cenario += self.__aceleracao
 
     @property
     def lava(self):

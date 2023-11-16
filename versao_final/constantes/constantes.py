@@ -11,12 +11,14 @@ class Constantes:
         self.__largura_tela = 450
         self.__altura_tela = 800
         self.__fps = 60
-        self.__gravidade = 0.4
+
         self.__jogador_veloc_base = 5
         self.__jogador_pulo_base = 10
-        self.__cenario_veloc_base = 1
-        self.__gravidade_jogo = 0.4
         self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
+        self.__gravidade_jogo = 0.4
+
+        self.__cenario_veloc_base = 1
+        self.__aceleracao_cenario = 0.001
 
     @property
     def largura_tela(self):
@@ -29,10 +31,6 @@ class Constantes:
     @property
     def fps(self):
         return self.__fps
-
-    @property
-    def gravidade(self):
-        return self.__gravidade
 
     @property
     def jogador_veloc_base(self):
@@ -53,3 +51,7 @@ class Constantes:
     @property
     def cenario_veloc_base(self):
         return self.__cenario_veloc_base
+
+    @property
+    def aceleracao_cenario(self):
+        return self.__aceleracao_cenario

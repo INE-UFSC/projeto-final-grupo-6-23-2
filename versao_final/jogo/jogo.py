@@ -21,7 +21,7 @@ class Jogo:
         pygame.display.set_caption('Volcano Jumper')
 
         # Inicia cenário
-        self.__cenario = Cenario(self.__tela, self.__constantes)
+        self.__cenario = Cenario(self.__constantes)
 
         # Instancia jogador
         self.__jogador = Jogador(self.__constantes)
