@@ -1,3 +1,16 @@
-Nesse diretório, o grupo irá trabalhar em cima do primeiro protótipo do jogo.
+# Volcano Jumper - Protótipo do Projeto Final Grupo 06
+### Alunos: João Sutter, Jonatan Hartmann e Lucas Vieira | Disciplina de Programação Orientada a Objetos II - 2023.2
 
-A ideia do protótipo não é que ele seja uma versão demo do jogo completo, mas sim que o principal mecanismo do jogo esteja implementado com certo grau de sucesso. Exemplo: em um jogo do tipo plataforma 2D, basta mostrar um retângulo colidindo com objetos e saltando/destruindo com alguma comando do usuário. A interface gráfica (com sprites) é opcional nessa etapa.
+### Dependências
+- PyGame: ``` pip install pygame ```
+
+### Como executar
+- ```python3 ./main.py```
+   
+
+Evoluções do jogo:
+- [X] Descrição do jogo
+- [X] Diagramas UML
+- [X] Interface Gráfica
+- [X] Protótipo do jogo
+- [ ] Versão final com relatório e vídeo

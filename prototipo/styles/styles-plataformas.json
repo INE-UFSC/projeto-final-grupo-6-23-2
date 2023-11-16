@@ -1,0 +1,60 @@
+{
+    "default":{
+        "name": "default",
+        "tileset": {
+            "tile_width": 16,
+            "tile_height": 16
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "brick-2":{
+        "name": "brick-2",
+        "tileset": {
+            "tile_width": 16,
+            "tile_height": 16
+        },
+        "width": 2,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "brick-4":{
+        "name": "brick-4",
+        "tileset": {
+            "tile_width": 16,
+            "tile_height": 16
+        },
+        "width": 4,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    }
+}
+
