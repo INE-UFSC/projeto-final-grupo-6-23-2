@@ -1,0 +1,230 @@
+{
+    "default":{
+        "name": "default",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "lava-block-2":{
+        "name": "lava-block-2",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 2,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "lava-block-4":{
+        "name": "lava-block-4",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 4,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 0, "coluna_tileset": 0},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 1},
+                {"linha_tileset": 0, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "lava-slab-default":{
+        "name": "lava-slab-default",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 2, "coluna_tileset": 0},
+                {"linha_tileset": 2, "coluna_tileset": 1},
+                {"linha_tileset": 2, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "lava-slab-2":{
+        "name": "lava-slab-2",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 2,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 2, "coluna_tileset": 0},
+                {"linha_tileset": 2, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "lava-slab-4":{
+        "name": "lava-slab-4",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 4,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 2, "coluna_tileset": 0},
+                {"linha_tileset": 2, "coluna_tileset": 1},
+                {"linha_tileset": 2, "coluna_tileset": 1},
+                {"linha_tileset": 2, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-block-default":{
+        "name": "rock-block-default",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 1, "coluna_tileset": 0},
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-block-2":{
+        "name": "rock-block-2",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 2,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 1, "coluna_tileset": 0},
+                {"linha_tileset": 1, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-block-4":{
+        "name": "rock-block-4",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 4,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 1, "coluna_tileset": 0},
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 1},
+                {"linha_tileset": 1, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-slab-default":{
+        "name": "rock-slab-default",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 3,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 3, "coluna_tileset": 0},
+                {"linha_tileset": 3, "coluna_tileset": 1},
+                {"linha_tileset": 3, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-slab-2":{
+        "name": "rock-slab-2",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 2,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 3, "coluna_tileset": 0},
+                {"linha_tileset": 3, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    },
+    "rock-slab-4":{
+        "name": "rock-slab-4",
+        "tileset": {
+            "tile_width": 128,
+            "tile_height": 128
+        },
+        "width": 4,
+        "height": 1,
+        "structure": [
+            [
+                {"linha_tileset": 3, "coluna_tileset": 0},
+                {"linha_tileset": 3, "coluna_tileset": 1},
+                {"linha_tileset": 3, "coluna_tileset": 1},
+                {"linha_tileset": 3, "coluna_tileset": 2}
+            ]
+        ],
+        "plataforma_attributes":{
+            "fragil": false
+        }
+    }
+}
