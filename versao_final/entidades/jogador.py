@@ -1,6 +1,8 @@
 import pygame
+import sys
 from entidades.detector_colisao import DetectorColisao
 from entidades.plataforma import Plataforma
+from entidades.lava import Lava
 
 
 class Jogador:
@@ -19,6 +21,13 @@ class Jogador:
         self.__rect = self.__superficie.get_rect(center=self.__posicao)
 
     def aplica_gravidade(self, detector_colisao, veloc_cenario) -> None:
+        colidiu_lava = detector_colisao.detectar_colisao(
+            self.__rect, 0, 1, Lava
+        )
+        if colidiu_lava:
+            pygame.quit()
+            sys.exit()
+
         self.__veloc_queda_min = veloc_cenario
         self.__veloc_queda += self.__constantes.gravidade_jogo
 
@@ -87,6 +96,6 @@ class Jogador:
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao
                 self.__rect.center = nova_posicao
-            
+
             else:
                 self.__veloc_queda = 0

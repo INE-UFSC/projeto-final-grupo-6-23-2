@@ -29,6 +29,7 @@ class Jogo:
         # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
+        self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:
             self.__detector_colisao.adicionar_objeto(plataforma)
 
@@ -57,7 +58,6 @@ class Jogo:
             self.__desenhar_objetos()
 
             clock.tick(self.__constantes.fps)
-            pygame.display.flip()
 
     def __desenhar_objetos(self):
         self.__tela.fill('Black')
@@ -68,5 +68,4 @@ class Jogo:
 
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
-
-
+        pygame.display.flip()

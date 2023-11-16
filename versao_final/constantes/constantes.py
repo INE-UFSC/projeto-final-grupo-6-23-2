@@ -2,7 +2,7 @@ class Constantes:
     """Classe relativa às constantes do jogo"""
 
     def __new__(cls):
-        if not hasattr(cls, 'isinstance'):
+        if not hasattr(cls, 'instance'):
             cls.instance = super(Constantes, cls).__new__(cls)
             cls.instance.__init_constantes()
         return cls.instance
