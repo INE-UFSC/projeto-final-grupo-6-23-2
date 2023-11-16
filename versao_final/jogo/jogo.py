@@ -61,6 +61,7 @@ class Jogo:
 
     def __desenhar_objetos(self):
         self.__tela.fill("Black")
+        self.__cenario.paisagem.draw(self.__tela)
         self.__tela.blit(self.__jogador.superficie, self.__jogador.rect)
         for plataforma in self.__cenario.plataformas:
             self.__tela.blit(plataforma.superficie, plataforma.rect)

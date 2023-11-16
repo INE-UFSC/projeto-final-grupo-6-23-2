@@ -2,12 +2,14 @@ import random
 from entidades.lava import Lava
 from entidades.plataforma import Plataforma
 from pygame import Surface
+from entidades.paisagem import Paisagem
 
 
 class Cenario:
     def __init__(self, constantes):
         self.__constantes = constantes
         self.__lava = Lava()
+        self.__paisagem = Paisagem()
 
         self.__plataforma_refenc = Plataforma(
             (self.__constantes.largura_tela / 2, 500))
@@ -42,6 +44,8 @@ class Cenario:
             self.__plataformas[indice].rect.y += self.__veloc_cenario
 
         self.__veloc_cenario += self.__aceleracao
+        self.lava.animacao()
+        self.__paisagem.move(self.__veloc_cenario)
 
     def eliminar_plataforma(self, indice, detector_colisao):
         self.__plataformas.pop(indice)
@@ -60,3 +64,7 @@ class Cenario:
     @property
     def veloc_cenario(self):
         return self.__veloc_cenario
+    
+    @property
+    def paisagem(self):
+        return self.__paisagem
