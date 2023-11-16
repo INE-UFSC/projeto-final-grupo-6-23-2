@@ -1,11 +1,15 @@
 import random
 from entidades.lava import Lava
 from entidades.plataforma import Plataforma
-from pygame import Surface
 
 
 class Cenario:
     def __init__(self, constantes):
+        """Essa classe será responsável pelos objetos que serão desenhados
+        na tela do jogo (plataformas, lava, inimigos). Ao iniciar o jogo, um
+        número pré-determinado de plataformas é gerado na tela. Note queesses
+        objetos movem-se de forma descendente e acelerada."""
+
         self.__constantes = constantes
         self.__lava = Lava()
 
@@ -19,6 +23,13 @@ class Cenario:
         self.__aceleracao = self.__constantes.aceleracao_cenario
 
     def gerar_plataforma(self):
+        """Essa função gera uma plataforma aleatória, tendo como base uma plataforma
+        de referência, que é sempre a última paltaforma a ser gerada. Sua distância
+        vertical, bem como a horizontal em relação à plataforma de referência é aleatória
+        (função random.choice()). No entanto, precisamos levar em consideração a largura
+        da tela, para que não seja gerada uma plataforma fora das bordas do display.
+        Posteriormente, essa plataforma é acrescida à lista de plataformas. """
+
         intervalo_y = range(
             self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100
         )
@@ -35,6 +46,11 @@ class Cenario:
         self.__plataformas.append(self.__plataforma_refenc)
 
     def movimentar_cenario(self, detector_colisao):
+        """Com esse método, é possível movimentar todas as plataformas de
+        uma só vez. No entanto, se a plataforma atinge o fundo da tela, ela é
+        eliminada (método eliminar_plataforma()). Ademais, ele também serve para
+        acelerar o cenário."""
+
         for indice in range(len(self.__plataformas)):
             if self.__plataformas[indice].rect.y >= self.__constantes.altura_tela:
                 self.eliminar_plataforma(indice, detector_colisao)
@@ -44,6 +60,11 @@ class Cenario:
         self.__veloc_cenario += self.__aceleracao
 
     def eliminar_plataforma(self, indice, detector_colisao):
+        """Esse método elimina uma plataforma que atingiu o fundo
+        da tela, e também remove-a da lista do detector_colisao. Ele
+        também chama o gerar_plataforma para repor a plataforma que
+        foi eliminada."""
+
         self.__plataformas.pop(indice)
         detector_colisao.remover_objeto(self.__plataformas[indice])
         self.gerar_plataforma()
