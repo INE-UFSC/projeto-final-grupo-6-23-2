@@ -19,7 +19,8 @@ class Cenario:
         self.__aceleracao = self.__constantes.aceleracao_cenario
 
     def gerar_plataforma(self):
-        plataforma_y = self.__plataforma_refenc.rect.y - 100
+        intervalo_y = range(self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100)
+        plataforma_y = random.choice(intervalo_y)
         intervalo_x = range(
             max(0, self.__plataforma_refenc.rect.centerx - 300),
             min(self.__constantes.largura_tela - self.__plataforma_refenc.largura,

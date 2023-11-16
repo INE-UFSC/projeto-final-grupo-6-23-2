@@ -18,7 +18,7 @@ class Constantes:
         self.__gravidade_jogo = 0.4
 
         self.__cenario_veloc_base = 1
-        self.__aceleracao_cenario = 0.001
+        self.__aceleracao_cenario = 0.0005
 
     @property
     def largura_tela(self):
