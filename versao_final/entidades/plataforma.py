@@ -1,17 +1,19 @@
 import pygame
+import random
 
 
 class Plataforma:
     def __init__(self, posicao: tuple):
-        self.__superficie = pygame.Surface((100, 25))
-        self.__largura = self.__superficie.get_width()
-        self.__superficie.fill("Gray")
+        numero = random.randint(1,8)
+        self.__imagem = pygame.image.load(f"versao_final/styles/assets/plataformas/style{numero}.png").convert_alpha()
+        # self.__imagem = pygame.transform.scale(self.__imagem, (48,48))
+        self.__largura = self.__imagem.get_width()
         self.__posicao = posicao
-        self.__rect = self.__superficie.get_rect(topleft=posicao)
+        self.__rect = self.__imagem.get_rect(topleft=posicao)
 
     @property
-    def superficie(self) -> pygame.Surface:
-        return self.__superficie
+    def imagem(self) -> pygame.Surface:
+        return self.__imagem
 
     @property
     def posicao(self) -> tuple:

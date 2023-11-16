@@ -43,7 +43,7 @@ class Lava(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.__constantes = Constantes()
-        self.__image = pygame.image.load("versao_final/styles/assets/sprite_lava_5.png").convert_alpha()
+        self.__image = pygame.image.load("versao_final/styles/assets/sprite_lava.png").convert_alpha()
         self.__mask_image = pygame.mask.from_surface(self.__image)
         self.__rect = self.__mask_image.get_rect()
 
