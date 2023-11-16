@@ -52,7 +52,7 @@ class Jogo:
             if keys[pygame.K_RIGHT]:
                 self.__jogador.move_direita()
 
-            self.__cenario.movimentar_cenario()
+            self.__cenario.movimentar_cenario(self.__detector_colisao)
             self.__jogador.aplica_gravidade(self.__detector_colisao,
                                             self.__cenario.veloc_cenario)
             self.__desenhar_objetos()

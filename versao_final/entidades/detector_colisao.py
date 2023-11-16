@@ -9,6 +9,9 @@ class DetectorColisao:
     def adicionar_objeto(self, objeto):
         self.__objetos.append(objeto)
 
+    def remover_objeto(self, objeto):
+        self.__objetos.remove(objeto)
+
     def detectar_colisao(self, rect, desloc_x, desloc_y, tipo):
         colidiu = False
         rect.centerx += desloc_x

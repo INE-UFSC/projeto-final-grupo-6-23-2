@@ -29,15 +29,20 @@ class Cenario:
         self.__plataforma_refenc = Plataforma((plataforma_x, plataforma_y))
         self.__plataformas.append(self.__plataforma_refenc)
     
-    def movimentar_cenario(self):
+    def movimentar_cenario(self, detector_colisao):
         for indice in range(len(self.__plataformas)):
             if self.__plataformas[indice].rect.y >= self.__constantes.altura_tela:
-                self.__plataformas.pop(indice)
-                self.gerar_plataforma()
+                self.eliminar_plataforma(indice, detector_colisao)
                 break
             self.__plataformas[indice].rect.y += self.__veloc_cenario
 
         self.__veloc_cenario += self.__aceleracao
+
+    def eliminar_plataforma(self, indice, detector_colisao):
+        self.__plataformas.pop(indice)
+        detector_colisao.remover_objeto(self.__plataformas[indice])
+        self.gerar_plataforma()
+        detector_colisao.adicionar_objeto(self.__plataforma_refenc)
 
     @property
     def lava(self):
