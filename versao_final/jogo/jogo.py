@@ -3,6 +3,7 @@ from constantes.constantes import Constantes
 from entidades.cenario import Cenario
 from entidades.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
+from entidades.pontuacao import Pontuacao
 
 
 class Jogo:
@@ -21,6 +22,9 @@ class Jogo:
 
         # Inicia cenário
         self.__cenario = Cenario(self.__constantes)
+
+        # Instancia pontuacao
+        self.__pontuacao = Pontuacao()
 
         # Instancia jogador
         self.__jogador = Jogador(self.__constantes)
@@ -56,8 +60,12 @@ class Jogo:
                 self.__detector_colisao, self.__cenario.veloc_cenario
             )
             self.__desenhar_objetos()
+            self.__pontuacao.aumenta_pontuacao()
+            self.__pontuacao.verificar_pontuacao()
+
 
             clock.tick(self.__constantes.fps)
+        
 
     def __desenhar_objetos(self):
         self.__tela.fill("Black")
@@ -68,4 +76,5 @@ class Jogo:
 
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
+        self.__pontuacao.mostrar_pontuacao(self.__tela)
         pygame.display.flip()
