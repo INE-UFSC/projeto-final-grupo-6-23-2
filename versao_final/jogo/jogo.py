@@ -6,7 +6,6 @@ from entidades.detector_colisao import DetectorColisao
 
 
 class Jogo:
-
     def __init__(self):
         # Inicia biblioteca
         pygame.init()
@@ -18,7 +17,7 @@ class Jogo:
         self.__tela = pygame.display.set_mode(
             (self.__constantes.largura_tela, self.__constantes.altura_tela)
         )
-        pygame.display.set_caption('Volcano Jumper')
+        pygame.display.set_caption("Volcano Jumper")
 
         # Inicia cenário
         self.__cenario = Cenario(self.__constantes)
@@ -53,16 +52,16 @@ class Jogo:
                 self.__jogador.move_direita()
 
             self.__cenario.movimentar_cenario(self.__detector_colisao)
-            self.__jogador.aplica_gravidade(self.__detector_colisao,
-                                            self.__cenario.veloc_cenario)
+            self.__jogador.aplica_gravidade(
+                self.__detector_colisao, self.__cenario.veloc_cenario
+            )
             self.__desenhar_objetos()
 
             clock.tick(self.__constantes.fps)
 
     def __desenhar_objetos(self):
-        self.__tela.fill('Black')
-        self.__tela.blit(self.__jogador.superficie,
-                         self.__jogador.rect)
+        self.__tela.fill("Black")
+        self.__tela.blit(self.__jogador.superficie, self.__jogador.rect)
         for plataforma in self.__cenario.plataformas:
             self.__tela.blit(plataforma.superficie, plataforma.rect)
 

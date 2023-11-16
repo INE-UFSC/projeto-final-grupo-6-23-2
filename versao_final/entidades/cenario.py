@@ -19,17 +19,21 @@ class Cenario:
         self.__aceleracao = self.__constantes.aceleracao_cenario
 
     def gerar_plataforma(self):
-        intervalo_y = range(self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100)
+        intervalo_y = range(
+            self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100
+        )
         plataforma_y = random.choice(intervalo_y)
         intervalo_x = range(
             max(0, self.__plataforma_refenc.rect.centerx - 300),
-            min(self.__constantes.largura_tela - self.__plataforma_refenc.largura,
-                self.__plataforma_refenc.rect.x + 300),
+            min(
+                self.__constantes.largura_tela - self.__plataforma_refenc.largura,
+                self.__plataforma_refenc.rect.x + 300,
+            ),
         )
         plataforma_x = random.choice(intervalo_x)
         self.__plataforma_refenc = Plataforma((plataforma_x, plataforma_y))
         self.__plataformas.append(self.__plataforma_refenc)
-    
+
     def movimentar_cenario(self, detector_colisao):
         for indice in range(len(self.__plataformas)):
             if self.__plataformas[indice].rect.y >= self.__constantes.altura_tela:
@@ -52,7 +56,7 @@ class Cenario:
     @property
     def plataformas(self):
         return self.__plataformas
-    
+
     @property
     def veloc_cenario(self):
         return self.__veloc_cenario

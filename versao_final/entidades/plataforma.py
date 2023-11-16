@@ -2,11 +2,10 @@ import pygame
 
 
 class Plataforma:
-
     def __init__(self, posicao: tuple):
         self.__superficie = pygame.Surface((100, 25))
         self.__largura = self.__superficie.get_width()
-        self.__superficie.fill('Gray')
+        self.__superficie.fill("Gray")
         self.__posicao = posicao
         self.__rect = self.__superficie.get_rect(topleft=posicao)
 

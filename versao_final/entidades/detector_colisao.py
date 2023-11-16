@@ -19,7 +19,7 @@ class DetectorColisao:
 
         for objeto in self.__objetos:
             if isinstance(objeto, tipo) and rect.colliderect(objeto.rect):
-                if (tipo == Plataforma):
+                if tipo == Plataforma:
                     if int(rect.bottom) <= int(objeto.rect.top) + 1:
                         colidiu = True
                 else:

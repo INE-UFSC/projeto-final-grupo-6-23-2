@@ -22,8 +22,7 @@ class Jogador:
 
     def aplica_gravidade(self, detector_colisao, veloc_cenario) -> None:
         colidiu_lava = detector_colisao.detectar_colisao(
-            self.__rect, 0, 1, Lava
-        )
+            self.__rect, 0, 1, Lava)
         if colidiu_lava:
             pygame.quit()
             sys.exit()
@@ -32,13 +31,17 @@ class Jogador:
         self.__veloc_queda += self.__constantes.gravidade_jogo
 
         if self.__veloc_queda < 0:
-            self.posicao_centro = (self.posicao_centro[0],
-                                   self.posicao_centro[1] + self.__veloc_queda)
+            self.posicao_centro = (
+                self.posicao_centro[0],
+                self.posicao_centro[1] + self.__veloc_queda,
+            )
             return
         else:
             deslocamento = self.__calcula_queda(detector_colisao)
-            self.posicao_centro = (self.posicao_centro[0],
-                                   self.posicao_centro[1] + deslocamento)
+            self.posicao_centro = (
+                self.posicao_centro[0],
+                self.posicao_centro[1] + deslocamento,
+            )
 
     def __calcula_queda(self, detector_colisao):
         dy = 0
@@ -48,13 +51,12 @@ class Jogador:
                 self.__rect, 0, dy, Plataforma)
             if colidiu:
                 self.aterrissar()
-                return (dy - 1)
+                return dy - 1
         return dy
 
     def pular(self, detector_colisao):
         colidiu = detector_colisao.detectar_colisao(
-            self.__rect, 0, 1, Plataforma
-        )
+            self.__rect, 0, 1, Plataforma)
         if colidiu:
             self.__veloc_queda = -self.__tamanho_pulo
 

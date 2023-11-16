@@ -2,7 +2,7 @@ class Constantes:
     """Classe relativa às constantes do jogo"""
 
     def __new__(cls):
-        if not hasattr(cls, 'instance'):
+        if not hasattr(cls, "instance"):
             cls.instance = super(Constantes, cls).__new__(cls)
             cls.instance.__init_constantes()
         return cls.instance
@@ -47,7 +47,7 @@ class Constantes:
     @property
     def jogador_pos_inicial(self):
         return self.__jogador_pos_inicial
-    
+
     @property
     def cenario_veloc_base(self):
         return self.__cenario_veloc_base
