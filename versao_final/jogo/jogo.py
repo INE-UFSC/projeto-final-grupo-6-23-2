@@ -16,7 +16,7 @@ class Jogo:
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (self.__constantes.largura_tela, self.__constantes.altura_tela)
+            (self.__constantes.largura_tela, min(800, pygame.display.Info().current_h - 50))
         )
         pygame.display.set_caption("Volcano Jumper")
 
