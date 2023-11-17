@@ -19,7 +19,6 @@ class Paisagem(Group):
                 sprite.rect.y = -1600
             else:
                 sprite.rect.y += (velocidade_descida*(speed/10))
-                print(sprite.rect.y)
 
 class Layer(Sprite):
     def __init__(self, file: str, alpha=False):
