@@ -1,7 +1,7 @@
 import pygame
 from constantes.constantes import Constantes
-from entidades.entidades_cenario.lava import Lava
-from entidades.entidades_cenario.plataforma import Plataformas
+from entidades.lava import Lava
+from entidades.plataforma import Plataformas
 
 
 class Jogador(pygame.sprite.Sprite):

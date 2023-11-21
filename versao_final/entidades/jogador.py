@@ -3,32 +3,33 @@ import sys
 from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.lava import Lava
+from configuracoes.configuracoes import Configuracoes
 
 
 class Jogador:
     """O jogador vai ser ser o objeto que se movimenta na tela, e
     que será controlado pelas teclas, de modo a evitar que caia na lava."""
 
-    def __init__(self, constantes):
-        self.__constantes = constantes
+    def __init__(self, configuracoes: Configuracoes):
+        self.__configuracoes = configuracoes
 
         self.__imagem = pygame.image.load(
             "versao_final/styles/assets/sprites_jogador/parado0.png"
         ).convert_alpha()
         self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
         self.__indice_imagem = 0
-        self.__total_imagens = 4
+        self.__total_imagens = self.__configuracoes.jogador_num_imagens_parado
         self.__estado_atual = 'parado'
         self.__virado_direita = True
         self.__mascara = pygame.mask.from_surface(self.__imagem)
         self.__largura = self.__imagem.get_width()
         self.__altura = self.__imagem.get_height()
 
-        self.__veloc_corrida = self.__constantes.jogador_veloc_base
-        self.__tamanho_pulo = self.__constantes.jogador_pulo_base
+        self.__veloc_corrida = self.__configuracoes.jogador_veloc_base
+        self.__tamanho_pulo = self.__configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
 
-        self.__posicao = self.__constantes.jogador_pos_inicial
+        self.__posicao = self.__configuracoes.jogador_pos_inicial
         self.__rect = self.__imagem.get_rect(center=self.__posicao)
 
     def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
@@ -45,7 +46,7 @@ class Jogador:
             sys.exit()
 
         self.__veloc_queda_min = veloc_cenario
-        self.__veloc_queda += self.__constantes.gravidade_jogo
+        self.__veloc_queda += self.__configuracoes.gravidade_jogo
 
         if self.__veloc_queda < 0:
             self.posicao_centro = (
@@ -85,7 +86,8 @@ class Jogador:
         """O método só deixa o jogador pular se ele estiver imediatamente
         acima de uma plataforma, o que é verificado pelo detector_colisao."""
 
-        self.trocar_estado(nome_estado='pulo', numero_imagens=2)
+        self.trocar_estado(nome_estado='pulo',
+                           numero_imagens=self.__configuracoes.jogador_num_imagens_pulo)
 
         colidiu = detector_colisao.detectar_colisao(
             rect=self.__rect,
@@ -111,10 +113,12 @@ class Jogador:
 
     def aterrissar(self) -> None:
         self.__veloc_queda = self.__veloc_queda_min
-        self.trocar_estado(nome_estado='parado', numero_imagens=4)
+        self.trocar_estado(
+            nome_estado='parado', numero_imagens=self.__configuracoes.jogador_num_imagens_parado)
 
     def animar(self) -> None:
-        self.__indice_imagem = (self.__indice_imagem + 0.1) % (self.__total_imagens)
+        self.__indice_imagem = (self.__indice_imagem +
+                                0.1) % (self.__total_imagens)
         self.__imagem = pygame.image.load(
             f"versao_final/styles/assets/sprites_jogador/{self.__estado_atual}{int(self.__indice_imagem)}.png"
         ).convert_alpha()
@@ -154,7 +158,7 @@ class Jogador:
 
         if (nova_posicao[0] >= self.__largura / 2) and (
             nova_posicao[0] <= (
-                self.__constantes.largura_tela - self.__largura / 2)
+                self.__configuracoes.largura_tela - self.__largura / 2)
         ):
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao

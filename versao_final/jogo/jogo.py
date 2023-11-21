@@ -1,5 +1,5 @@
 import pygame
-from constantes.constantes import Constantes
+from configuracoes.configuracoes import Configuracoes
 from entidades.entidades_cenario.cenario import Cenario
 from entidades.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
@@ -11,24 +11,24 @@ class Jogo:
         # Inicia biblioteca
         pygame.init()
 
-        #  Instancia singleton das constantes
-        self.__constantes = Constantes()
+        #  Instancia singleton das Configuracoes
+        self.__configuracoes = Configuracoes()
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (self.__constantes.largura_tela, min(
+            (self.__configuracoes.largura_tela, min(
                 800, pygame.display.Info().current_h - 50))
         )
         pygame.display.set_caption("Volcano Jumper")
 
         # Inicia cenário
-        self.__cenario = Cenario(self.__constantes)
+        self.__cenario = Cenario(self.__configuracoes)
 
         # Instancia pontuacao
         self.__pontuacao = Pontuacao()
 
         # Instancia jogador
-        self.__jogador = Jogador(self.__constantes)
+        self.__jogador = Jogador(self.__configuracoes)
 
         # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
@@ -64,7 +64,7 @@ class Jogo:
             self.__pontuacao.aumenta_pontuacao()
             self.__pontuacao.verificar_pontuacao()
 
-            clock.tick(self.__constantes.fps)
+            clock.tick(self.__configuracoes.fps)
 
     def __desenhar_objetos(self):
         self.__tela.fill("Black")

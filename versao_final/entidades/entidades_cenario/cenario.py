@@ -5,24 +5,24 @@ from entidades.entidades_cenario.paisagem import Paisagem
 
 
 class Cenario:
-    def __init__(self, constantes):
+    def __init__(self, Configuracoes):
         """Essa classe será responsável pelos objetos que serão desenhados
         na tela do jogo (plataformas, lava, inimigos). Ao iniciar o jogo, um
         número pré-determinado de plataformas é gerado na tela. Note queesses
         objetos movem-se de forma descendente e acelerada."""
 
-        self.__constantes = constantes
+        self.__configuracoes = Configuracoes
         self.__lava = Lava()
         self.__paisagem = Paisagem()
 
         self.__plataforma_refenc = Plataforma(
-            (self.__constantes.largura_tela / 2, 500))
+            (self.__configuracoes.largura_tela / 2, 500))
         self.__plataformas = [self.__plataforma_refenc]
         for _ in range(20):
             self.gerar_plataforma()
 
-        self.__veloc_cenario = self.__constantes.cenario_veloc_base
-        self.__aceleracao = self.__constantes.aceleracao_cenario
+        self.__veloc_cenario = self.__configuracoes.cenario_veloc_base
+        self.__aceleracao = self.__configuracoes.aceleracao_cenario
 
     def gerar_plataforma(self):
         """Essa função gera uma plataforma aleatória, tendo como base uma plataforma
@@ -39,7 +39,7 @@ class Cenario:
         intervalo_x = range(
             max(0, self.__plataforma_refenc.rect.centerx - 300),
             min(
-                self.__constantes.largura_tela - self.__plataforma_refenc.largura,
+                self.__configuracoes.largura_tela - self.__plataforma_refenc.largura,
                 self.__plataforma_refenc.rect.x + 300,
             ),
         )
@@ -54,7 +54,7 @@ class Cenario:
         acelerar o cenário."""
 
         for indice in range(len(self.__plataformas)):
-            if self.__plataformas[indice].rect.y >= self.__constantes.altura_tela:
+            if self.__plataformas[indice].rect.y >= self.__configuracoes.altura_tela:
                 self.eliminar_plataforma(indice, detector_colisao)
                 break
             self.__plataformas[indice].rect.y += self.__veloc_cenario

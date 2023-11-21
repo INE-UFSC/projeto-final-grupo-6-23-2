@@ -1,19 +1,21 @@
-class Constantes:
-    """Classe relativa às constantes do jogo"""
+class Configuracoes:
+    """Classe relativa às Configuracoes do jogo"""
 
     def __new__(cls):
         if not hasattr(cls, "instance"):
-            cls.instance = super(Constantes, cls).__new__(cls)
-            cls.instance.__init_constantes()
+            cls.instance = super(Configuracoes, cls).__new__(cls)
+            cls.instance.__init_configuracoes()
         return cls.instance
 
-    def __init_constantes(self):
+    def __init_configuracoes(self):
         self.__largura_tela = 450
         self.__altura_tela = 800
         self.__fps = 60
 
         self.__jogador_veloc_base = 5
         self.__jogador_pulo_base = 10
+        self.__jogador_num_imagens_parado = 4
+        self.__jogador_num_imagens_pulo = 2
         self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
         self.__gravidade_jogo = 0.4
 
@@ -55,3 +57,11 @@ class Constantes:
     @property
     def aceleracao_cenario(self):
         return self.__aceleracao_cenario
+
+    @property
+    def jogador_num_imagens_parado(self):
+        return self.__jogador_num_imagens_parado
+
+    @property
+    def jogador_num_imagens_pulo(self):
+        return self.__jogador_num_imagens_pulo
