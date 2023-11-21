@@ -11,17 +11,24 @@ class Jogador:
 
     def __init__(self, constantes):
         self.__constantes = constantes
-        self.__superficie = pygame.Surface((50, 50))
-        self.__largura = self.__superficie.get_width()
-        self.__altura = self.__superficie.get_height()
-        self.__superficie.fill("Blue")
+
+        self.__imagem_base = pygame.image.load(
+            "versao_final/styles/assets/sprites_jogador/parado0.png"
+        ).convert_alpha()
+        self.__imagem_base = pygame.transform.scale_by(self.__imagem_base, 3)
+        self.__imagem = self.__imagem_base
+        self.__indice_imagem = 0
+        self.__virado_direita = True
+        self.__mascara = pygame.mask.from_surface(self.__imagem)
+        self.__largura = self.__imagem.get_width()
+        self.__altura = self.__imagem.get_height()
 
         self.__veloc_corrida = self.__constantes.jogador_veloc_base
         self.__tamanho_pulo = self.__constantes.jogador_pulo_base
         self.__veloc_queda = 0
 
         self.__posicao = self.__constantes.jogador_pos_inicial
-        self.__rect = self.__superficie.get_rect(center=self.__posicao)
+        self.__rect = self.__imagem.get_rect(center=self.__posicao)
 
     def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
         """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
@@ -30,7 +37,8 @@ class Jogador:
         plataforma (aterrissar)."""
 
         colidiu_lava = detector_colisao.detectar_colisao(
-            self.__rect, 0, 1, Lava)
+            rect=self.__rect, mascara=self.__mascara, desloc_x=0, desloc_y=1, tipo=Lava
+        )
         if colidiu_lava:
             pygame.quit()
             sys.exit()
@@ -61,7 +69,12 @@ class Jogador:
         while dy < self.__veloc_queda:
             dy += 1
             colidiu = detector_colisao.detectar_colisao(
-                self.__rect, 0, dy, Plataforma)
+                rect=self.__rect,
+                mascara=self.__mascara,
+                desloc_x=0,
+                desloc_y=dy,
+                tipo=Plataforma,
+            )
             if colidiu:
                 self.aterrissar()
                 return dy - 1
@@ -72,7 +85,12 @@ class Jogador:
         acima de uma plataforma, o que é verificado pelo detector_colisao."""
 
         colidiu = detector_colisao.detectar_colisao(
-            rect=self.__rect, desloc_x=0, desloc_y=1, tipo=Plataforma)
+            rect=self.__rect,
+            mascara=self.__mascara,
+            desloc_x=0,
+            desloc_y=1,
+            tipo=Plataforma,
+        )
         if colidiu:
             self.__veloc_queda = -self.__tamanho_pulo
 
@@ -80,18 +98,31 @@ class Jogador:
         y_atual = self.__rect.centery
         novo_x = self.__rect.centerx + self.__veloc_corrida
         self.posicao_centro = (novo_x, y_atual)
+        self.__virado_direita = True
 
     def move_esquerda(self) -> None:
         y_atual = self.__rect.centery
         novo_x = self.__rect.centerx - self.__veloc_corrida
         self.posicao_centro = (novo_x, y_atual)
+        self.__virado_direita = False
 
     def aterrissar(self) -> None:
         self.__veloc_queda = self.__veloc_queda_min
+    
+    def animar(self) -> None:
+        self.__indice_imagem = (self.__indice_imagem + 0.1) % 4
+        self.__imagem = pygame.image.load(
+            f"versao_final/styles/assets/sprites_jogador/parado{int(self.__indice_imagem)}.png"
+        ).convert_alpha()
+        if not self.__virado_direita:
+            self.__imagem = pygame.transform.flip(self.__imagem, flip_x=True, flip_y=False)
+
+        self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
+        self.__mascara = pygame.mask.from_surface(self.__imagem)
 
     @property
-    def superficie(self) -> pygame.Surface:
-        return self.__superficie
+    def imagem(self) -> pygame.Surface:
+        return self.__imagem
 
     @property
     def posicao_centro(self) -> tuple:
@@ -112,8 +143,7 @@ class Jogador:
         o topo. Ambos os casos são impedidos."""
 
         if (nova_posicao[0] >= self.__largura / 2) and (
-            nova_posicao[0] <= (
-                self.__constantes.largura_tela - self.__largura / 2)
+            nova_posicao[0] <= (self.__constantes.largura_tela - self.__largura / 2)
         ):
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao

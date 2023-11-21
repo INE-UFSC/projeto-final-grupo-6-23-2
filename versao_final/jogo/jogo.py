@@ -72,9 +72,11 @@ class Jogo:
         self.__cenario.paisagem.draw(self.__tela)
         for plataforma in self.__cenario.plataformas:
             self.__tela.blit(plataforma.imagem, plataforma.rect)
-        self.__tela.blit(self.__jogador.superficie, self.__jogador.rect)
+        self.__tela.blit(self.__jogador.imagem, self.__jogador.rect)
 
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
         self.__pontuacao.mostrar_pontuacao(self.__tela)
         pygame.display.flip()
+
+        self.__jogador.animar()

@@ -16,7 +16,12 @@ class DetectorColisao:
         self.__objetos.remove(objeto)
 
     def detectar_colisao(
-        self, rect: pygame.Rect, desloc_x: float, desloc_y: float, tipo: type
+        self,
+        rect: pygame.Rect,
+        mascara: pygame.Mask,
+        desloc_x: float,
+        desloc_y: float,
+        tipo: type,
     ):
         """Esse método recebe um retângulo, um deslocamento (x e y) e
         um tipo. Então, ele movimenta esse retângulo com base nos parâmetros
@@ -28,7 +33,9 @@ class DetectorColisao:
         rect.centery += desloc_y
 
         for objeto in self.__objetos:
-            if isinstance(objeto, tipo) and rect.colliderect(objeto.rect):
+            if isinstance(objeto, tipo) and mascara.overlap(
+                objeto.mascara, (objeto.rect.x - rect.x, objeto.rect.y - rect.y)
+            ):
                 if tipo == Plataforma:
                     if int(rect.bottom) <= int(objeto.rect.top) + 1:
                         colidiu = True

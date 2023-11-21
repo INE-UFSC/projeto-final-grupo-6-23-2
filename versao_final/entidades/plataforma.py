@@ -4,9 +4,11 @@ import random
 
 class Plataforma:
     def __init__(self, posicao: tuple):
-        numero = random.randint(1,8)
-        self.__imagem = pygame.image.load(f"versao_final/styles/assets/plataformas/style{numero}.png").convert_alpha()
-        # self.__imagem = pygame.transform.scale(self.__imagem, (48,48))
+        numero = random.randint(1, 8)
+        self.__imagem = pygame.image.load(
+            f"versao_final/styles/assets/plataformas/style{numero}.png"
+        ).convert_alpha()
+        self.__mascara = pygame.mask.from_surface(self.__imagem)
         self.__largura = self.__imagem.get_width()
         self.__posicao = posicao
         self.__rect = self.__imagem.get_rect(topleft=posicao)
@@ -26,3 +28,7 @@ class Plataforma:
     @property
     def largura(self):
         return self.__largura
+
+    @property
+    def mascara(self):
+        return self.__mascara

@@ -9,8 +9,8 @@ class Lava(pygame.sprite.Sprite):
         super().__init__()
         self.__constantes = Constantes()
         self.__image = pygame.image.load("versao_final/styles/assets/sprite_lava_resized.png").convert_alpha()
-        self.__mask_image = pygame.mask.from_surface(self.__image)
-        self.__rect = self.__mask_image.get_rect()
+        self.__mascara = pygame.mask.from_surface(self.__image)
+        self.__rect = self.__image.get_rect()
 
         self.rect.x = 0
         self.__rect.y = min(self.__constantes.altura_tela, pygame.display.Info().current_h - 50) * 0.9
@@ -21,9 +21,10 @@ class Lava(pygame.sprite.Sprite):
             self.rect.x -= 1
         else:
             self.rect.x = -65.5
-
-        
-
+    
+    @property
+    def mascara(self):
+        return self.__mascara
 
     @property
     def superficie(self) -> pygame.sprite.Sprite:
