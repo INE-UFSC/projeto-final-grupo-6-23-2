@@ -1,7 +1,7 @@
 import pygame
 from constantes.constantes import Constantes
-from entidades.lava import Lava
-from entidades.plataforma import Plataformas
+from entidades.entidades_cenario.lava import Lava
+from entidades.entidades_cenario.plataforma import Plataformas
 
 
 class Jogador(pygame.sprite.Sprite):
@@ -11,29 +11,29 @@ class Jogador(pygame.sprite.Sprite):
         super().__init__()
 
         self.__constantes = Constantes()
-        self.__tamanho_jogador = (50,50)
+        self.__tamanho_jogador = (50, 50)
         self.__superficie = pygame.Surface(self.__tamanho_jogador)
         self.__superficie.fill('Blue')
 
         self.__posicao = (self.__constantes.largura_tela / 2, 0)
         self.__colidiu = False
 
-        self.__velocidade = 2 # Para deslocamento horizontal
-        self.__velocidade_queda = 0 # Velocidade de queda atual
-        self.__velocidade_descida = velocidade_descida # Velocidade de queda mínima
+        self.__velocidade = 2  # Para deslocamento horizontal
+        self.__velocidade_queda = 0  # Velocidade de queda atual
+        self.__velocidade_descida = velocidade_descida  # Velocidade de queda mínima
         self.__tamanho_pulo = 7
         self.__rect = pygame.Rect(*self.__posicao, *self.__tamanho_jogador)
 
     def aplica_gravidade(self, gravidade) -> None:
         """Caso o jogador não esteja sob uma plataforma, essa função
         irá faze-lo cair com uma certa aceleração"""
-    
+
         if not self.__colidiu:
             self.__velocidade_queda += gravidade
             x_atual = self.posicao[0]
             novo_y = self.posicao[1] + self.__velocidade_queda
             self.posicao = (x_atual, novo_y)
-        
+
         else:
             x_atual = self.posicao[0]
             novo_y = self.posicao[1] + self.__velocidade_queda
@@ -44,7 +44,7 @@ class Jogador(pygame.sprite.Sprite):
         if self.__colidiu:
             self.__velocidade_queda -= self.__tamanho_pulo
             self.__colidiu = False
-    
+
     def move_direita(self):
         y_atual = self.posicao[1]
         novo_x = self.posicao[0] + self.__velocidade
@@ -71,15 +71,15 @@ class Jogador(pygame.sprite.Sprite):
     @property
     def superficie(self) -> pygame.Surface:
         return self.__superficie
-    
+
     @property
     def posicao(self) -> tuple:
         return self.__posicao
-    
+
     @property
     def rect(self):
         return self.__rect
-    
+
     @posicao.setter
     def posicao(self, nova_posicao):
         if (nova_posicao[0] >= 0) and (nova_posicao[0] <= (self.__constantes.largura_tela - self.__tamanho_jogador[0])):
@@ -89,4 +89,3 @@ class Jogador(pygame.sprite.Sprite):
                 self.__rect.y = nova_posicao[1]
             else:
                 self.__velocidade_queda = 0
-

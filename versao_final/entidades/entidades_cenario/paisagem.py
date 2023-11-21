@@ -24,8 +24,8 @@ class Layer(Sprite):
     def __init__(self, file: str, alpha=False):
         super().__init__()
         if alpha:
-            self.image = pygame.image.load(os.path.join(os.path.dirname(__file__), "../styles/assets/"+file)).convert_alpha()
+            self.image = pygame.image.load(os.path.join(os.path.dirname(__file__), "../../styles/assets/"+file)).convert_alpha()
         else:
-            self.image = pygame.image.load(os.path.join(os.path.dirname(__file__), "../styles/assets/"+file)).convert()
+            self.image = pygame.image.load(os.path.join(os.path.dirname(__file__), "../../styles/assets/"+file)).convert()
         self.rect = self.image.get_rect()
         self.rect.y = -2400

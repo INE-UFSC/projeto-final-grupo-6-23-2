@@ -1,7 +1,7 @@
 import random
-from entidades.lava import Lava
-from entidades.plataforma import Plataforma
-from entidades.paisagem import Paisagem
+from entidades.entidades_cenario.lava import Lava
+from entidades.entidades_cenario.plataforma import Plataforma
+from entidades.entidades_cenario.paisagem import Paisagem
 
 
 class Cenario:
@@ -85,7 +85,7 @@ class Cenario:
     @property
     def veloc_cenario(self):
         return self.__veloc_cenario
-    
+
     @property
     def paisagem(self):
         return self.__paisagem

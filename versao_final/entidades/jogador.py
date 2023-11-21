@@ -1,8 +1,8 @@
 import pygame
 import sys
 from entidades.detector_colisao import DetectorColisao
-from entidades.plataforma import Plataforma
-from entidades.lava import Lava
+from entidades.entidades_cenario.plataforma import Plataforma
+from entidades.entidades_cenario.lava import Lava
 
 
 class Jogador:
@@ -12,12 +12,13 @@ class Jogador:
     def __init__(self, constantes):
         self.__constantes = constantes
 
-        self.__imagem_base = pygame.image.load(
+        self.__imagem = pygame.image.load(
             "versao_final/styles/assets/sprites_jogador/parado0.png"
         ).convert_alpha()
-        self.__imagem_base = pygame.transform.scale_by(self.__imagem_base, 3)
-        self.__imagem = self.__imagem_base
+        self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
         self.__indice_imagem = 0
+        self.__total_imagens = 4
+        self.__estado_atual = 'parado'
         self.__virado_direita = True
         self.__mascara = pygame.mask.from_surface(self.__imagem)
         self.__largura = self.__imagem.get_width()
@@ -84,6 +85,8 @@ class Jogador:
         """O método só deixa o jogador pular se ele estiver imediatamente
         acima de uma plataforma, o que é verificado pelo detector_colisao."""
 
+        self.trocar_estado(nome_estado='pulo', numero_imagens=2)
+
         colidiu = detector_colisao.detectar_colisao(
             rect=self.__rect,
             mascara=self.__mascara,
@@ -108,17 +111,24 @@ class Jogador:
 
     def aterrissar(self) -> None:
         self.__veloc_queda = self.__veloc_queda_min
-    
+        self.trocar_estado(nome_estado='parado', numero_imagens=4)
+
     def animar(self) -> None:
-        self.__indice_imagem = (self.__indice_imagem + 0.1) % 4
+        self.__indice_imagem = (self.__indice_imagem + 0.1) % (self.__total_imagens)
         self.__imagem = pygame.image.load(
-            f"versao_final/styles/assets/sprites_jogador/parado{int(self.__indice_imagem)}.png"
+            f"versao_final/styles/assets/sprites_jogador/{self.__estado_atual}{int(self.__indice_imagem)}.png"
         ).convert_alpha()
         if not self.__virado_direita:
-            self.__imagem = pygame.transform.flip(self.__imagem, flip_x=True, flip_y=False)
+            self.__imagem = pygame.transform.flip(
+                self.__imagem, flip_x=True, flip_y=False)
 
         self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
         self.__mascara = pygame.mask.from_surface(self.__imagem)
+
+    def trocar_estado(self, nome_estado, numero_imagens):
+        self.__estado_atual = nome_estado
+        self.__total_imagens = numero_imagens
+        self.__indice_imagem = 0
 
     @property
     def imagem(self) -> pygame.Surface:
@@ -143,7 +153,8 @@ class Jogador:
         o topo. Ambos os casos são impedidos."""
 
         if (nova_posicao[0] >= self.__largura / 2) and (
-            nova_posicao[0] <= (self.__constantes.largura_tela - self.__largura / 2)
+            nova_posicao[0] <= (
+                self.__constantes.largura_tela - self.__largura / 2)
         ):
             if nova_posicao[1] >= self.__altura / 2:
                 self.__posicao = nova_posicao

@@ -1,4 +1,4 @@
-from entidades.plataforma import Plataforma
+from entidades.entidades_cenario.plataforma import Plataforma
 import pygame
 
 
@@ -34,7 +34,8 @@ class DetectorColisao:
 
         for objeto in self.__objetos:
             if isinstance(objeto, tipo) and mascara.overlap(
-                objeto.mascara, (objeto.rect.x - rect.x, objeto.rect.y - rect.y)
+                objeto.mascara, (objeto.rect.x - rect.x,
+                                 objeto.rect.y - rect.y)
             ):
                 if tipo == Plataforma:
                     if int(rect.bottom) <= int(objeto.rect.top) + 1:

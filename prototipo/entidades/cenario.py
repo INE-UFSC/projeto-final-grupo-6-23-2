@@ -1,8 +1,8 @@
-from entidades.lava import Lava
-from entidades.plataforma import Plataforma
+from entidades.entidades_cenario.lava import Lava
+from entidades.entidades_cenario.plataforma import Plataforma
 from constantes.constantes import Constantes
-from entidades.plataforma import Plataformas
-from entidades.plataforma import Plataforma
+from entidades.entidades_cenario.plataforma import Plataformas
+from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.tiles_package import TileGrid
 import random
 
@@ -92,7 +92,7 @@ class Cenario:
         linha = random.randint(
             dist_vertical_min,
             dist_vertical_max
-            )
+        )
 
         col = 0
         Ia = initial_position[1] + initial_width
