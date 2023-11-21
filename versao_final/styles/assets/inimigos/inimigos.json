@@ -1,0 +1,110 @@
+{
+    "Aqua": {
+        "sprite": "versao_final/styles/assets/inimigos/Aqua/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    },
+    "Great": {
+        "sprite": "versao_final/styles/assets/inimigos/Great/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    },
+    "Mud": {
+        "sprite": "versao_final/styles/assets/inimigos/Mud/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    },
+    "Poison": {
+        "sprite": "versao_final/styles/assets/inimigos/Poison/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    },
+    "Pygmy": {
+        "sprite": "versao_final/styles/assets/inimigos/Pygmy/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    },
+    "Viridian": {
+        "sprite": "versao_final/styles/assets/inimigos/Viridian/",
+        "velocidade": 2,
+        "posicaoInicial":{
+            "x": 0,
+            "y": 0
+        },
+        "rota": {
+            "p1":{
+                "x": 0,
+                "y": 0
+            },
+            "p2": {
+                "x": 450,
+                "y": 800
+            }
+        }
+    }
+}

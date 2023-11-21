@@ -4,6 +4,7 @@ from entidades.cenario import Cenario
 from entidades.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
 from entidades.pontuacao import Pontuacao
+from entidades.inimigo import Inimigo
 
 
 class Jogo:
@@ -25,6 +26,8 @@ class Jogo:
 
         # Instancia pontuacao
         self.__pontuacao = Pontuacao()
+
+        self.__teste_inimigo = Inimigo()
 
         # Instancia jogador
         self.__jogador = Jogador(self.__constantes)
@@ -76,5 +79,8 @@ class Jogo:
 
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
+        self.__teste_inimigo.update()
+        self.__tela.blit(self.__teste_inimigo.image, self.__teste_inimigo.rect)
         self.__pontuacao.mostrar_pontuacao(self.__tela)
+
         pygame.display.flip()
