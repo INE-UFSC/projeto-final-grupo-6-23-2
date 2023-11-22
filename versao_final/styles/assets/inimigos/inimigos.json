@@ -6,16 +6,7 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "gravidade": true
     },
     "Great": {
         "sprite": "versao_final/styles/assets/inimigos/Great/",
@@ -24,16 +15,7 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "gravidade": true
     },
     "Mud": {
         "sprite": "versao_final/styles/assets/inimigos/Mud/",
@@ -42,16 +24,12 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "movimento": {
+            "A": 250,
+            "B": 0.016,
+            "C": 250
+        },
+        "gravidade": false
     },
     "Poison": {
         "sprite": "versao_final/styles/assets/inimigos/Poison/",
@@ -60,16 +38,12 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "movimento": {
+            "A": 100,
+            "B": 0.02,
+            "C": 100
+        },
+        "gravidade": false
     },
     "Pygmy": {
         "sprite": "versao_final/styles/assets/inimigos/Pygmy/",
@@ -78,16 +52,12 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "movimento": {
+            "A": 500,
+            "B": 0.005,
+            "C": 1
+        },
+        "gravidade": false
     },
     "Viridian": {
         "sprite": "versao_final/styles/assets/inimigos/Viridian/",
@@ -96,15 +66,11 @@
             "x": 0,
             "y": 0
         },
-        "rota": {
-            "p1":{
-                "x": 0,
-                "y": 0
-            },
-            "p2": {
-                "x": 450,
-                "y": 800
-            }
-        }
+        "movimento": {
+            "A": 600,
+            "B": 0.008,
+            "C": 1
+        },
+        "gravidade": false
     }
 }
