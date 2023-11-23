@@ -28,7 +28,7 @@ class Inimigo(pygame.surface.Surface):
         self.__ctrl_tick = 0
 
         self.__velocidade_base_y = self.__constantes.cenario_veloc_base
-        self.__direcao = "direita"
+        self.__direcao = 1
 
     def update(self):
         self.__ctrl_tick += 1
@@ -45,24 +45,26 @@ class Inimigo(pygame.surface.Surface):
             key_random = random.choice(keys)
             style = data[key_random]
 
-        #style = data["Aqua"]
+        # style = data["Aqua"]
         return style
 
     def _movimentar(self):
         if self.__style['gravidade']:
-            if self.__direcao == 'esquerda':
-                self.rect.x -= 0.5
-            elif self.__direcao == 'direita':
-                self.rect.x += 0.5
+            # Antes do loop principal (for example)
 
-            if self.rect.x > 401 and self.__direcao == 'direita':
-                self.__direcao =  'esquerda'
-                self.__image = pygame.transform.flip(self.__image, True, False)
-            elif self.rect.x < 48:
-                self.__direcao = "direita"
-                self.__image = pygame.transform.flip(self.__image, True, False)
+            limite_esquerda = 0
+            limite_direita = 402
 
-            print(self.rect.x)
+            # Verificar a direção e mover o inimigo
+            if self.__direcao == 1:  # Movimento para a direita
+                self.rect.x += 2
+                if self.rect.x >= limite_direita:
+                    self.__direcao = -1  # Altera a direção para mover para a esquerda
+            
+            if self.__direcao == -1:  # Movimento para a esquerda
+                self.rect.x -= 2
+                if self.rect.x <= limite_esquerda:
+                    self.__direcao = 1  # Altera a direção para mover para a direita
 
             self.rect.y += self.__velocidade_base_y
             self.__velocidade_base_y += self.__constantes.aceleracao_cenario
@@ -78,6 +80,8 @@ class Inimigo(pygame.surface.Surface):
         self.__id_tile = 0 if self.__id_tile == 3 else self.__id_tile + 1
         self.__image = pygame.image.load(f"{self.__style['sprite']}/tile00{self.__id_tile}.png").convert_alpha()
         self.__image = pygame.transform.scale(self.__image, (48, 48))
+        if self.__direcao == -1:
+            self.__image = pygame.transform.flip(self.__image, True, False)
 
     @property
     def image(self):
