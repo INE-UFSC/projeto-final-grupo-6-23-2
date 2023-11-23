@@ -27,8 +27,6 @@ class Jogo:
         # Instancia pontuacao
         self.__pontuacao = Pontuacao()
 
-        self.__teste_inimigo = Inimigo()
-
         # Instancia jogador
         self.__jogador = Jogador(self.__constantes)
 
@@ -75,12 +73,16 @@ class Jogo:
         self.__cenario.paisagem.draw(self.__tela)
         for plataforma in self.__cenario.plataformas:
             self.__tela.blit(plataforma.imagem, plataforma.rect)
+        for inimigo in self.__cenario.inimigos:
+            self.__tela.blit(inimigo.image, inimigo.rect)
+            inimigo.update()
+        self.__cenario.gerar_inimigo()
+        self.__cenario.remover_inimigos()
+        print(len(self.__cenario.inimigos))
         self.__tela.blit(self.__jogador.superficie, self.__jogador.rect)
 
         self.__tela.blit(self.__cenario.lava.superficie,
                          self.__cenario.lava.rect)
-        self.__teste_inimigo.update()
-        self.__tela.blit(self.__teste_inimigo.image, self.__teste_inimigo.rect)
         self.__pontuacao.mostrar_pontuacao(self.__tela)
 
         pygame.display.flip()

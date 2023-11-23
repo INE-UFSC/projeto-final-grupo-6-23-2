@@ -12,7 +12,6 @@ class Inimigo(pygame.surface.Surface):
             path.dirname(__file__), "../styles/assets/inimigos/inimigos.json"
         )
         self.__style = self.set_style()
-        print(self.__style['sprite'])
 
         self.__constantes = Constantes()
 

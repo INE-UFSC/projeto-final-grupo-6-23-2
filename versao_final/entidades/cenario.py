@@ -2,6 +2,7 @@ import random
 from entidades.lava import Lava
 from entidades.plataforma import Plataforma
 from entidades.paisagem import Paisagem
+from entidades.inimigo import Inimigo
 
 
 class Cenario:
@@ -11,6 +12,7 @@ class Cenario:
         número pré-determinado de plataformas é gerado na tela. Note queesses
         objetos movem-se de forma descendente e acelerada."""
 
+        self.__deslocamento = 1
         self.__constantes = constantes
         self.__lava = Lava()
         self.__paisagem = Paisagem()
@@ -23,6 +25,8 @@ class Cenario:
 
         self.__veloc_cenario = self.__constantes.cenario_veloc_base
         self.__aceleracao = self.__constantes.aceleracao_cenario
+
+        self.__inimigos = []
 
     def gerar_plataforma(self):
         """Essa função gera uma plataforma aleatória, tendo como base uma plataforma
@@ -46,6 +50,7 @@ class Cenario:
         plataforma_x = random.choice(intervalo_x)
         self.__plataforma_refenc = Plataforma((plataforma_x, plataforma_y))
         self.__plataformas.append(self.__plataforma_refenc)
+        self.__deslocamento += 1
 
     def movimentar_cenario(self, detector_colisao):
         """Com esse método, é possível movimentar todas as plataformas de
@@ -74,6 +79,24 @@ class Cenario:
         self.gerar_plataforma()
         detector_colisao.adicionar_objeto(self.__plataforma_refenc)
 
+    def gerar_inimigo(self):
+        if len(self.__inimigos) <= 3:
+            if self.__deslocamento % 6 == 0:
+                if random.randint(1, 3) == 1:
+                    self.__deslocamento += 1
+                    inimigo =  Inimigo()
+                    self.__inimigos.append(inimigo)
+
+
+    def remover_inimigos(self):
+        copy_inimigos = self.__inimigos.copy()
+        for index in range(len(copy_inimigos)):
+            inimigo = self.__inimigos[index]
+            if inimigo.rect.x >= 508+100 or inimigo.rect.x <= -10-100 or inimigo.rect.y <= -10 or inimigo.rect.y >= 858:
+                copy_inimigos.pop(index)
+        
+        self.__inimigos = copy_inimigos
+
     @property
     def lava(self):
         return self.__lava
@@ -89,3 +112,7 @@ class Cenario:
     @property
     def paisagem(self):
         return self.__paisagem
+    
+    @property
+    def inimigos(self):
+        return self.__inimigos
