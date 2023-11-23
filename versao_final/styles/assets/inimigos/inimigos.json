@@ -12,7 +12,7 @@
         "sprite": "versao_final/styles/assets/inimigos/Great/",
         "velocidade": 2,
         "posicaoInicial":{
-            "x": 0,
+            "x": 402,
             "y": 0
         },
         "gravidade": true

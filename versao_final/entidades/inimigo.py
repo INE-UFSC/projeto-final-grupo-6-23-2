@@ -45,7 +45,6 @@ class Inimigo(pygame.surface.Surface):
             key_random = random.choice(keys)
             style = data[key_random]
 
-        # style = data["Aqua"]
         return style
 
     def _movimentar(self):
