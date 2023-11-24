@@ -12,10 +12,12 @@ class Configuracoes:
         self.__altura_tela = 800
         self.__fps = 60
 
+        self.__tamanho_jogador = (24 * 3, 21 * 3)
         self.__jogador_veloc_base = 5
         self.__jogador_pulo_base = 10
         self.__jogador_num_imagens_parado = 4
-        self.__jogador_num_imagens_pulo = 2
+        self.__jogador_num_imagens_andando = 7
+        self.__jogador_num_imagens_pulo = 1
         self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
         self.__gravidade_jogo = 0.4
 
@@ -59,8 +61,16 @@ class Configuracoes:
         return self.__aceleracao_cenario
 
     @property
+    def tamanho_jogador(self):
+        return self.__tamanho_jogador
+
+    @property
     def jogador_num_imagens_parado(self):
         return self.__jogador_num_imagens_parado
+
+    @property
+    def jogador_num_imagens_andando(self):
+        return self.__jogador_num_imagens_andando
 
     @property
     def jogador_num_imagens_pulo(self):

@@ -3,6 +3,10 @@ import sys
 from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.lava import Lava
+from entidades.arquivos_jogador.estado_parado import EstadoParado
+from entidades.arquivos_jogador.estado_andando import EstadoAndando
+from entidades.arquivos_jogador.estado_pulo import EstadoPulo
+
 from configuracoes.configuracoes import Configuracoes
 
 
@@ -13,24 +17,22 @@ class Jogador:
     def __init__(self, configuracoes: Configuracoes):
         self.__configuracoes = configuracoes
 
-        self.__imagem = pygame.image.load(
-            "versao_final/styles/assets/sprites_jogador/parado0.png"
-        ).convert_alpha()
-        self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
-        self.__indice_imagem = 0
-        self.__total_imagens = self.__configuracoes.jogador_num_imagens_parado
-        self.__estado_atual = 'parado'
-        self.__virado_direita = True
-        self.__mascara = pygame.mask.from_surface(self.__imagem)
-        self.__largura = self.__imagem.get_width()
-        self.__altura = self.__imagem.get_height()
+        self.__estados = {
+            'parado': EstadoParado(configuracoes),
+            'andando': EstadoAndando(configuracoes),
+            'pulo': EstadoPulo(configuracoes),
+        }
+        self.__estado_atual = self.__estados['parado']
 
-        self.__veloc_corrida = self.__configuracoes.jogador_veloc_base
-        self.__tamanho_pulo = self.__configuracoes.jogador_pulo_base
+        self.__veloc_corrida = configuracoes.jogador_veloc_base
+        self.__tamanho_pulo = configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
-
-        self.__posicao = self.__configuracoes.jogador_pos_inicial
-        self.__rect = self.__imagem.get_rect(center=self.__posicao)
+        
+        self.__virado_direita = True
+        self.__largura = configuracoes.tamanho_jogador[0]
+        self.__altura = configuracoes.tamanho_jogador[1]
+        superficie = pygame.Surface(configuracoes.tamanho_jogador)
+        self.__rect = superficie.get_rect(center=configuracoes.jogador_pos_inicial)
 
     def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
         """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
@@ -39,7 +41,7 @@ class Jogador:
         plataforma (aterrissar)."""
 
         colidiu_lava = detector_colisao.detectar_colisao(
-            rect=self.__rect, mascara=self.__mascara, desloc_x=0, desloc_y=1, tipo=Lava
+            rect=self.__rect, mascara=self.__estado_atual.mascara, desloc_x=0, desloc_y=1, tipo=Lava
         )
         if colidiu_lava:
             pygame.quit()
@@ -72,7 +74,7 @@ class Jogador:
             dy += 1
             colidiu = detector_colisao.detectar_colisao(
                 rect=self.__rect,
-                mascara=self.__mascara,
+                mascara=self.__estado_atual.mascara,
                 desloc_x=0,
                 desloc_y=dy,
                 tipo=Plataforma,
@@ -86,17 +88,15 @@ class Jogador:
         """O método só deixa o jogador pular se ele estiver imediatamente
         acima de uma plataforma, o que é verificado pelo detector_colisao."""
 
-        self.trocar_estado(nome_estado='pulo',
-                           numero_imagens=self.__configuracoes.jogador_num_imagens_pulo)
-
         colidiu = detector_colisao.detectar_colisao(
             rect=self.__rect,
-            mascara=self.__mascara,
+            mascara=self.__estado_atual.mascara,
             desloc_x=0,
             desloc_y=1,
             tipo=Plataforma,
         )
         if colidiu:
+            self.__estado_atual = self.__estados['pulo']
             self.__veloc_queda = -self.__tamanho_pulo
 
     def move_direita(self) -> None:
@@ -112,31 +112,15 @@ class Jogador:
         self.__virado_direita = False
 
     def aterrissar(self) -> None:
+        self.__estado_atual = self.__estados['parado']
         self.__veloc_queda = self.__veloc_queda_min
-        self.trocar_estado(
-            nome_estado='parado', numero_imagens=self.__configuracoes.jogador_num_imagens_parado)
 
     def animar(self) -> None:
-        self.__indice_imagem = (self.__indice_imagem +
-                                0.1) % (self.__total_imagens)
-        self.__imagem = pygame.image.load(
-            f"versao_final/styles/assets/sprites_jogador/{self.__estado_atual}{int(self.__indice_imagem)}.png"
-        ).convert_alpha()
-        if not self.__virado_direita:
-            self.__imagem = pygame.transform.flip(
-                self.__imagem, flip_x=True, flip_y=False)
-
-        self.__imagem = pygame.transform.scale_by(self.__imagem, 3)
-        self.__mascara = pygame.mask.from_surface(self.__imagem)
-
-    def trocar_estado(self, nome_estado, numero_imagens):
-        self.__estado_atual = nome_estado
-        self.__total_imagens = numero_imagens
-        self.__indice_imagem = 0
+        self.__estado_atual.animar(self.__virado_direita)
 
     @property
     def imagem(self) -> pygame.Surface:
-        return self.__imagem
+        return self.__estado_atual.imagem
 
     @property
     def posicao_centro(self) -> tuple:
@@ -148,7 +132,7 @@ class Jogador:
 
     @property
     def posicao_centro(self) -> tuple:
-        return self.__posicao
+        return self.__rect.center
 
     @posicao_centro.setter
     def posicao_centro(self, nova_posicao: tuple) -> None:
@@ -161,7 +145,6 @@ class Jogador:
                 self.__configuracoes.largura_tela - self.__largura / 2)
         ):
             if nova_posicao[1] >= self.__altura / 2:
-                self.__posicao = nova_posicao
                 self.__rect.center = nova_posicao
 
             else:
