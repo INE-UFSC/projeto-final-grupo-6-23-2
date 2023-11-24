@@ -16,23 +16,23 @@ class Jogador:
 
     def __init__(self, configuracoes: Configuracoes):
         self.__configuracoes = configuracoes
+        self.__largura = configuracoes.tamanho_jogador[0]
+        self.__altura = configuracoes.tamanho_jogador[1]
+        superficie = pygame.Surface(configuracoes.tamanho_jogador)
+        self.__rect = superficie.get_rect(center=configuracoes.jogador_pos_inicial)
 
         self.__estados = {
             'parado': EstadoParado(configuracoes),
             'andando': EstadoAndando(configuracoes),
             'pulo': EstadoPulo(configuracoes),
         }
-        self.__estado_atual = self.__estados['parado']
+        self.__virado_direita = True
+        self.trocar_estado('parado')
 
         self.__veloc_corrida = configuracoes.jogador_veloc_base
         self.__tamanho_pulo = configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
-        
-        self.__virado_direita = True
-        self.__largura = configuracoes.tamanho_jogador[0]
-        self.__altura = configuracoes.tamanho_jogador[1]
-        superficie = pygame.Surface(configuracoes.tamanho_jogador)
-        self.__rect = superficie.get_rect(center=configuracoes.jogador_pos_inicial)
+
 
     def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
         """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
@@ -96,7 +96,7 @@ class Jogador:
             tipo=Plataforma,
         )
         if colidiu:
-            self.__estado_atual = self.__estados['pulo']
+            self.trocar_estado('pulo')
             self.__veloc_queda = -self.__tamanho_pulo
 
     def move_direita(self) -> None:
@@ -112,8 +112,12 @@ class Jogador:
         self.__virado_direita = False
 
     def aterrissar(self) -> None:
-        self.__estado_atual = self.__estados['parado']
+        self.trocar_estado('parado')
         self.__veloc_queda = self.__veloc_queda_min
+
+    def trocar_estado(self, estado):
+        self.__estado_atual = self.__estados[estado]
+        self.__estado_atual.entrar_estado(self.__virado_direita)
 
     def animar(self) -> None:
         self.__estado_atual.animar(self.__virado_direita)
@@ -146,6 +150,5 @@ class Jogador:
         ):
             if nova_posicao[1] >= self.__altura / 2:
                 self.__rect.center = nova_posicao
-
             else:
                 self.__veloc_queda = 0

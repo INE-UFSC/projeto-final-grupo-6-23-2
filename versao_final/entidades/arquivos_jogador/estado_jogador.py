@@ -14,6 +14,10 @@ class EstadoJogador(ABC):
             self._imagem = pygame.transform.flip(
                 self._imagem, flip_x=True, flip_y=False)
     
+    def entrar_estado(self, virado_direita):
+        self._indice_imagem = 0
+        self.animar(virado_direita)
+
     @property
     def imagem(self):
         return self._imagem
