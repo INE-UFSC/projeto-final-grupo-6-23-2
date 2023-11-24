@@ -3,9 +3,12 @@ from abc import ABC
 
 
 class EstadoJogador(ABC):
+    def __init__(self):
+        self._indice_imagem = 0
+
     def animar(self, virado_direita) -> None:
         self._indice_imagem = (self._indice_imagem +
-                                0.01) % (self._total_imagens)
+                                0.05) % (self._total_imagens)
         imagem = pygame.image.load(
             f"versao_final/styles/assets/sprites_jogador/{self._nome_estado}{int(self._indice_imagem)}.png"
         ).convert_alpha()
@@ -15,7 +18,6 @@ class EstadoJogador(ABC):
                 self._imagem, flip_x=True, flip_y=False)
     
     def entrar_estado(self, virado_direita):
-        self._indice_imagem = 0
         self.animar(virado_direita)
 
     @property

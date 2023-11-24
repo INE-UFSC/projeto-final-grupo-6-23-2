@@ -14,6 +14,5 @@ class EstadoParado(EstadoJogador):
         self._largura = self._imagem.get_width()
         self._altura = self._imagem.get_height()
 
-        self._indice_imagem = 0
         self._total_imagens = configuracoes.jogador_num_imagens_parado
         self._nome_estado = 'parado'
