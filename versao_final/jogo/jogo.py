@@ -50,12 +50,8 @@ class Jogo:
                     if evento.key == pygame.K_UP:
                         self.__jogador.pular(self.__detector_colisao)
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_LEFT]:
-                self.__jogador.move_esquerda()
-            if keys[pygame.K_RIGHT]:
-                self.__jogador.move_direita()
-
+            
+            self.__jogador.andar_jogador(pygame.key.get_pressed())
             self.__cenario.movimentar_cenario(self.__detector_colisao)
             self.__jogador.aplica_gravidade(
                 self.__detector_colisao, self.__cenario.veloc_cenario

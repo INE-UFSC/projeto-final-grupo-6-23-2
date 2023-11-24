@@ -33,7 +33,6 @@ class Jogador:
         self.__tamanho_pulo = configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
 
-
     def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
         """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
         (self.__veloc_queda < 0), basta deslocá-lo. Caso contrário, é preciso fazer uma
@@ -98,21 +97,37 @@ class Jogador:
         if colidiu:
             self.trocar_estado('pulo')
             self.__veloc_queda = -self.__tamanho_pulo
+        
+    def andar_jogador(self, keys):
+        parado = True
+        if keys[pygame.K_RIGHT]:
+            self.move_direita()
+            parado = False
+        if keys[pygame.K_LEFT]:
+            self.move_esquerda()
+            parado = False
+        if parado and self.__estado_atual != self.__estados['pulo']:
+            self.trocar_estado('parado')
 
     def move_direita(self) -> None:
         y_atual = self.__rect.centery
         novo_x = self.__rect.centerx + self.__veloc_corrida
         self.posicao_centro = (novo_x, y_atual)
         self.__virado_direita = True
+        if self.__estado_atual == self.__estados['parado']:
+            self.trocar_estado('andando')
 
     def move_esquerda(self) -> None:
         y_atual = self.__rect.centery
         novo_x = self.__rect.centerx - self.__veloc_corrida
         self.posicao_centro = (novo_x, y_atual)
         self.__virado_direita = False
+        if self.__estado_atual == self.__estados['parado']:
+            self.trocar_estado('andando')
 
     def aterrissar(self) -> None:
-        self.trocar_estado('parado')
+        if self.__estado_atual == self.__estados['pulo']:
+            self.trocar_estado('parado')
         self.__veloc_queda = self.__veloc_queda_min
 
     def trocar_estado(self, estado):
