@@ -6,41 +6,68 @@ from entidades.entidades_cenario.lava import Lava
 from entidades.arquivos_jogador.estado_parado import EstadoParado
 from entidades.arquivos_jogador.estado_andando import EstadoAndando
 from entidades.arquivos_jogador.estado_pulo import EstadoPulo
-
 from configuracoes.configuracoes import Configuracoes
 
 
 class Jogador:
-    """O jogador vai ser ser o objeto que se movimenta na tela, e
-    que será controlado pelas teclas, de modo a evitar que caia na lava."""
+    """O jogador vai ser ser o objeto (dinossauro) que se movimenta na tela, e
+    que será controlado pelas teclas, de modo a evitar que caia na lava. O jogador
+    também possui estados, que transicionam com base nos botões de movimento e na
+    colisão com as plataformas. Esses estados também determinam a sua animação."""
 
     def __init__(self, configuracoes: Configuracoes):
         self.__configuracoes = configuracoes
         self.__largura = configuracoes.tamanho_jogador[0]
         self.__altura = configuracoes.tamanho_jogador[1]
-        superficie = pygame.Surface(configuracoes.tamanho_jogador)
-        self.__rect = superficie.get_rect(center=configuracoes.jogador_pos_inicial)
+        superficie_rect = pygame.Surface(configuracoes.tamanho_jogador)
+        self.__rect = superficie_rect.get_rect(
+            center=configuracoes.jogador_pos_inicial)
 
         self.__estados = {
-            'parado': EstadoParado(configuracoes),
-            'andando': EstadoAndando(configuracoes),
-            'pulo': EstadoPulo(configuracoes),
+            "parado": EstadoParado(self, configuracoes),
+            "andando": EstadoAndando(self, configuracoes),
+            "pulo": EstadoPulo(self, configuracoes),
         }
         self.__virado_direita = True
-        self.trocar_estado('parado')
+        self.__estado_atual = self.__estados["parado"]
+        self.__estado_atual.entrar_estado()
 
         self.__veloc_corrida = configuracoes.jogador_veloc_base
         self.__tamanho_pulo = configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
 
-    def aplica_gravidade(self, detector_colisao: DetectorColisao, veloc_cenario: float):
+    def atualizar_jogador(
+        self, detector_colisao: DetectorColisao, veloc_cenario: float
+    ):
+        self.__aplica_gravidade(detector_colisao, veloc_cenario)
+        self.__atualizar_estado()
+
+    def andar_jogador(self, keys):
+        self.__estado_atual.andar_jogador(keys)
+
+    def pular(self, detector_colisao: DetectorColisao) -> None:
+        """O método só deixa o jogador pular se ele estiver imediatamente
+        acima de uma plataforma, o que é verificado pelo detector_colisao."""
+
+        self.__estado_atual.pular(detector_colisao)
+
+    def __aterrissar(self) -> None:
+        self.__estado_atual.aterrissar()
+
+    def __aplica_gravidade(
+        self, detector_colisao: DetectorColisao, veloc_cenario: float
+    ):
         """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
         (self.__veloc_queda < 0), basta deslocá-lo. Caso contrário, é preciso fazer uma
         verificação, a fim de saber se ele colidiu com a lava (fim de jogo) ou com uma
         plataforma (aterrissar)."""
 
         colidiu_lava = detector_colisao.detectar_colisao(
-            rect=self.__rect, mascara=self.__estado_atual.mascara, desloc_x=0, desloc_y=1, tipo=Lava
+            rect=self.__rect,
+            mascara=self.__estado_atual.mascara,
+            desloc_x=0,
+            desloc_y=1,
+            tipo=Lava,
         )
         if colidiu_lava:
             pygame.quit()
@@ -79,75 +106,54 @@ class Jogador:
                 tipo=Plataforma,
             )
             if colidiu:
-                self.aterrissar()
+                self.__aterrissar()
                 return dy - 1
         return dy
 
-    def pular(self, detector_colisao: DetectorColisao) -> None:
-        """O método só deixa o jogador pular se ele estiver imediatamente
-        acima de uma plataforma, o que é verificado pelo detector_colisao."""
+    def __atualizar_estado(self):
+        """Esse método atualiza o estado atual, transicionando caso seja
+        necessário."""
 
-        colidiu = detector_colisao.detectar_colisao(
-            rect=self.__rect,
-            mascara=self.__estado_atual.mascara,
-            desloc_x=0,
-            desloc_y=1,
-            tipo=Plataforma,
-        )
-        if colidiu:
-            self.trocar_estado('pulo')
-            self.__veloc_queda = -self.__tamanho_pulo
-        
-    def andar_jogador(self, keys):
-        parado = True
-        if keys[pygame.K_RIGHT]:
-            self.move_direita()
-            parado = False
-        if keys[pygame.K_LEFT]:
-            self.move_esquerda()
-            parado = False
-        if parado and self.__estado_atual != self.__estados['pulo']:
-            self.trocar_estado('parado')
-
-    def move_direita(self) -> None:
-        y_atual = self.__rect.centery
-        novo_x = self.__rect.centerx + self.__veloc_corrida
-        self.posicao_centro = (novo_x, y_atual)
-        self.__virado_direita = True
-        if self.__estado_atual == self.__estados['parado']:
-            self.trocar_estado('andando')
-
-    def move_esquerda(self) -> None:
-        y_atual = self.__rect.centery
-        novo_x = self.__rect.centerx - self.__veloc_corrida
-        self.posicao_centro = (novo_x, y_atual)
-        self.__virado_direita = False
-        if self.__estado_atual == self.__estados['parado']:
-            self.trocar_estado('andando')
-
-    def aterrissar(self) -> None:
-        if self.__estado_atual == self.__estados['pulo']:
-            self.trocar_estado('parado')
-        self.__veloc_queda = self.__veloc_queda_min
-
-    def trocar_estado(self, estado):
-        self.__estado_atual = self.__estados[estado]
-        self.__estado_atual.entrar_estado(self.__virado_direita)
-
-    def animar(self) -> None:
-        self.__estado_atual.animar(self.__virado_direita)
+        self.__estado_atual.animar()
+        if self.__estado_atual != self.__estados[self.__estado_atual.prox_estado]:
+            self.__estado_atual = self.__estados[self.__estado_atual.prox_estado]
+            self.__estado_atual.entrar_estado()
 
     @property
     def imagem(self) -> pygame.Surface:
         return self.__estado_atual.imagem
 
     @property
-    def posicao_centro(self) -> tuple:
-        return self.__posicao
+    def virado_direita(self) -> bool:
+        return self.__virado_direita
+
+    @virado_direita.setter
+    def virado_direita(self, virado_direita: bool) -> None:
+        self.__virado_direita = virado_direita
 
     @property
     def rect(self) -> pygame.Rect:
         return self.__rect
+
+    @property
+    def tamanho_pulo(self) -> float:
+        return self.__tamanho_pulo
+
+    @property
+    def veloc_corrida(self) -> float:
+        return self.__veloc_corrida
+
+    @property
+    def veloc_queda(self) -> float:
+        return self.__veloc_queda
+
+    @property
+    def veloc_queda_min(self) -> float:
+        return self.__veloc_queda_min
+
+    @veloc_queda.setter
+    def veloc_queda(self, veloc_queda: float) -> None:
+        self.__veloc_queda = veloc_queda
 
     @property
     def posicao_centro(self) -> tuple:

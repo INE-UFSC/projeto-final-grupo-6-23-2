@@ -21,6 +21,7 @@ class Configuracoes:
         self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
         self.__gravidade_jogo = 0.4
 
+        self.__plataforma_inicial_pos = (self.__largura_tela / 2 - 50, 100)
         self.__cenario_veloc_base = 1
         self.__aceleracao_cenario = 0.0005
 
@@ -75,3 +76,7 @@ class Configuracoes:
     @property
     def jogador_num_imagens_pulo(self):
         return self.__jogador_num_imagens_pulo
+
+    @property
+    def plataforma_inicial_pos(self):
+        return self.__plataforma_inicial_pos

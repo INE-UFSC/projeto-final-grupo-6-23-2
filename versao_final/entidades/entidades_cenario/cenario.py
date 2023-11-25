@@ -3,21 +3,22 @@ from entidades.entidades_cenario.lava import Lava
 from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.paisagem import Paisagem
 from entidades.entidades_cenario.inimigo import Inimigo
+from configuracoes.configuracoes import Configuracoes
 
 class Cenario:
-    def __init__(self, Configuracoes):
+    def __init__(self, configuracoes: Configuracoes):
         """Essa classe será responsável pelos objetos que serão desenhados
         na tela do jogo (plataformas, lava, inimigos). Ao iniciar o jogo, um
         número pré-determinado de plataformas é gerado na tela. Note queesses
         objetos movem-se de forma descendente e acelerada."""
 
-        self.__configuracoes = Configuracoes
+        self.__configuracoes = configuracoes
         self.__deslocamento = 1
         self.__lava = Lava()
         self.__paisagem = Paisagem()
 
         self.__plataforma_refenc = Plataforma(
-            (self.__configuracoes.largura_tela / 2, 500))
+            (configuracoes.plataforma_inicial_pos))
         self.__plataformas = [self.__plataforma_refenc]
         for _ in range(20):
             self.gerar_plataforma()

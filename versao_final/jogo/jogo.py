@@ -1,7 +1,7 @@
 import pygame
 from configuracoes.configuracoes import Configuracoes
 from entidades.entidades_cenario.cenario import Cenario
-from entidades.jogador import Jogador
+from entidades.arquivos_jogador.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
 from entidades.pontuacao import Pontuacao
 
@@ -53,9 +53,7 @@ class Jogo:
             
             self.__jogador.andar_jogador(pygame.key.get_pressed())
             self.__cenario.movimentar_cenario(self.__detector_colisao)
-            self.__jogador.aplica_gravidade(
-                self.__detector_colisao, self.__cenario.veloc_cenario
-            )
+            self.__jogador.atualizar_jogador(self.__detector_colisao, self.__cenario.veloc_cenario)
             self.__desenhar_objetos()
             self.__pontuacao.aumenta_pontuacao()
             self.__pontuacao.verificar_pontuacao()
@@ -79,5 +77,3 @@ class Jogo:
         self.__pontuacao.mostrar_pontuacao(self.__tela)
 
         pygame.display.flip()
-
-        self.__jogador.animar()
