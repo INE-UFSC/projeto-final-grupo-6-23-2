@@ -1,8 +1,6 @@
 import pygame
 import sys
 from entidades.detector_colisao import DetectorColisao
-from entidades.entidades_cenario.plataforma import Plataforma
-from entidades.entidades_cenario.lava import Lava
 from entidades.arquivos_jogador.estado_parado import EstadoParado
 from entidades.arquivos_jogador.estado_andando import EstadoAndando
 from entidades.arquivos_jogador.estado_pulo import EstadoPulo
@@ -13,8 +11,8 @@ from configuracoes.configuracoes import Configuracoes
 class Jogador:
     """O jogador vai ser ser o objeto (dinossauro) que se movimenta na tela, e
     que será controlado pelas teclas, de modo a evitar que caia na lava. O jogador
-    também possui estados, que transicionam com base nos botões de movimento e na
-    colisão com as plataformas. Esses estados também determinam a sua animação."""
+    também possui estados (parado, andando, pulando e machucado), que determinam a lógica de
+    funcionamento do jogador (movimentação, animação, etc) e o próximo estado."""
 
     def __init__(self, configuracoes: Configuracoes):
         self.__configuracoes = configuracoes
@@ -28,7 +26,7 @@ class Jogador:
             "parado": EstadoParado(self, configuracoes),
             "andando": EstadoAndando(self, configuracoes),
             "pulo": EstadoPulo(self, configuracoes),
-            "machucado": EstadoMachucado(self, configuracoes)
+            "machucado": EstadoMachucado(self, configuracoes),
         }
         self.__virado_direita = True
         self.__estado_atual = self.__estados["parado"]
@@ -37,88 +35,33 @@ class Jogador:
         self.__veloc_corrida = configuracoes.jogador_veloc_base
         self.__tamanho_pulo = configuracoes.jogador_pulo_base
         self.__veloc_queda = 0
+        self.__veloc_queda_min = configuracoes.cenario_veloc_base
 
     def atualizar_jogador(
         self, detector_colisao: DetectorColisao, veloc_cenario: float
     ):
-        self.__aplica_gravidade(detector_colisao, veloc_cenario)
-        self.__estado_atual.colide_inimigos(detector_colisao)
+        """A cada ciclo do loop principal, é preciso atualizar o jogador, aplicando a
+        gravidade do jogo, verificando a colisão com inimigos, animando a sua sprite
+        e atualizando o estado atual."""
+
+        self.__estado_atual.aplicar_gravidade(
+            detector_colisao=detector_colisao, veloc_cenario=veloc_cenario
+        )
+        self.__estado_atual.colide_inimigos(detector_colisao=detector_colisao)
+        self.__estado_atual.animar()
         self.__atualizar_estado()
 
     def andar_jogador(self, keys):
         self.__estado_atual.andar_jogador(keys)
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
-        """O método só deixa o jogador pular se ele estiver imediatamente
-        acima de uma plataforma, o que é verificado pelo detector_colisao."""
-
-        self.__estado_atual.pular(detector_colisao)
-
-    def __aterrissar(self) -> None:
-        self.__estado_atual.aterrissar()
-
-    def __aplica_gravidade(
-        self, detector_colisao: DetectorColisao, veloc_cenario: float
-    ):
-        """Esse método cuida da movimentação horizontal do jogador. Caso ele esteja subindo
-        (self.__veloc_queda < 0), basta deslocá-lo. Caso contrário, é preciso fazer uma
-        verificação, a fim de saber se ele colidiu com a lava (fim de jogo) ou com uma
-        plataforma (aterrissar)."""
-
-        colidiu_lava = detector_colisao.detectar_colisao(
-            rect=self.__rect,
-            mascara=self.__estado_atual.mascara,
-            desloc_x=0,
-            desloc_y=1,
-            tipo=Lava,
-        )
-        if colidiu_lava:
-            pygame.quit()
-            sys.exit()
-
-        self.__veloc_queda_min = veloc_cenario
-        self.__veloc_queda += self.__configuracoes.gravidade_jogo
-
-        if self.__veloc_queda < 0:
-            self.posicao_centro = (
-                self.posicao_centro[0],
-                self.posicao_centro[1] + self.__veloc_queda,
-            )
-            return
-        else:
-            deslocamento = self.__calcula_queda(detector_colisao)
-            self.posicao_centro = (
-                self.posicao_centro[0],
-                self.posicao_centro[1] + deslocamento,
-            )
-
-    def __calcula_queda(self, detector_colisao: DetectorColisao) -> int:
-        """Esse método determina a quantidade que o jogador vai descer (dy). Quando
-        houver uma plataforma no caminho do jogador, ele não irá realizar todo o
-        deslocamento previsto para aquele instante, e sim somente o necessário para
-        que ele fique exatamente no topo da plataforma."""
-
-        dy = 0
-        while dy < self.__veloc_queda:
-            dy += 1
-            colidiu = detector_colisao.detectar_colisao(
-                rect=self.__rect,
-                mascara=self.__estado_atual.mascara,
-                desloc_x=0,
-                desloc_y=dy,
-                tipo=Plataforma,
-            )
-            if colidiu:
-                self.__aterrissar()
-                return dy - 1
-        return dy
+        self.__estado_atual.pular(detector_colisao=detector_colisao)
 
     def __atualizar_estado(self):
-        """Esse método atualiza o estado atual, transicionando caso seja
-        necessário."""
+        """Caso necessário, o método troca o estado se o nome do estado
+        atual for diferente do atributo 'prox_estado' (próximo estado)."""
 
-        self.__estado_atual.animar()
-        if self.__estado_atual != self.__estados[self.__estado_atual.prox_estado]:
+        if self.__estado_atual.nome_estado != self.__estado_atual.prox_estado:
             self.__estado_atual = self.__estados[self.__estado_atual.prox_estado]
             self.__estado_atual.entrar_estado()
 
@@ -153,6 +96,10 @@ class Jogador:
     @property
     def veloc_queda_min(self) -> float:
         return self.__veloc_queda_min
+
+    @veloc_queda_min.setter
+    def veloc_queda_min(self, veloc_queda_min) -> None:
+        self.__veloc_queda_min = veloc_queda_min
 
     @veloc_queda.setter
     def veloc_queda(self, veloc_queda: float) -> None:

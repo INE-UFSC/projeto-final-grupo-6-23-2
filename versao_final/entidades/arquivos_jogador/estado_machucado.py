@@ -7,7 +7,7 @@ from configuracoes.configuracoes import Configuracoes
 
 class EstadoMachucado(EstadoJogador):
     def __init__(self, jogador, configuracoes: Configuracoes):
-        super().__init__(jogador)
+        super().__init__(jogador, configuracoes)
 
         imagem = pygame.image.load(
             "versao_final/styles/assets/sprites_jogador/machucado0.png"
@@ -23,17 +23,33 @@ class EstadoMachucado(EstadoJogador):
 
     def entrar_estado(self):
         super().entrar_estado(estado_atual="machucado")
+    
+    def andar_jogador(self, keys) -> None:
+        """No estado 'machucado', é permitido ao jogador
+        movimentar-se lateralmente."""
+
+        if keys[pygame.K_RIGHT] and keys[pygame.K_LEFT]:
+            return
+        if keys[pygame.K_RIGHT]:
+            self.move_direita()
+        if keys[pygame.K_LEFT]:
+            self.move_esquerda()
 
     def colide_inimigos(self, detector_colisao: DetectorColisao):
+        """Durante o estado 'machucado', o jogador ganha imunidade
+        temporária a colisões com outros inimigos."""
+
         return
 
     def animar(self) -> None:
+        """O estado 'machucado' dura até que a sua animação acabe, e
+        então o jogador retorna para o estado 'parado'."""
+
         super().animar()
         if int(self._indice_imagem) == (self._total_imagens - 1):
             self._prox_estado = "parado"
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
-        return
+        """Não é permitido pular no estado 'machucado'."""
 
-    def aterrissar(self) -> None:
-        self._jogador.veloc_queda = self._jogador.veloc_queda_min
+        return

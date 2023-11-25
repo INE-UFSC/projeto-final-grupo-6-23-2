@@ -6,7 +6,7 @@ from configuracoes.configuracoes import Configuracoes
 
 class EstadoPulo(EstadoJogador):
     def __init__(self, jogador, configuracoes: Configuracoes):
-        super().__init__(jogador)
+        super().__init__(jogador, configuracoes)
 
         imagem_parado = pygame.image.load(
             "versao_final/styles/assets/sprites_jogador/parado0.png"
@@ -28,9 +28,25 @@ class EstadoPulo(EstadoJogador):
     def entrar_estado(self):
         super().entrar_estado(estado_atual="pulo")
 
+    def andar_jogador(self, keys) -> None:
+        """No estado 'pulo', é permitido ao jogador
+        movimentar-se lateralmente."""
+
+        if keys[pygame.K_RIGHT] and keys[pygame.K_LEFT]:
+            return
+        if keys[pygame.K_RIGHT]:
+            self.move_direita()
+        if keys[pygame.K_LEFT]:
+            self.move_esquerda()
+
     def pular(self, detector_colisao: DetectorColisao) -> None:
+        """Não é permitido pular dentro do estado 'pulo'."""
+
         return
 
     def aterrissar(self):
-        self._jogador.veloc_queda = self._jogador.veloc_queda_min
+        """Ao aterrissar, o jogador no estado 'pulo'
+         vai para o estado 'parado'."""
+
+        super().aterrissar()
         self._prox_estado = "parado"

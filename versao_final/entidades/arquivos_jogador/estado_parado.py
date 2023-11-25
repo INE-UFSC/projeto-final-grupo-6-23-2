@@ -7,7 +7,7 @@ from configuracoes.configuracoes import Configuracoes
 
 class EstadoParado(EstadoJogador):
     def __init__(self, jogador, configuracoes: Configuracoes):
-        super().__init__(jogador)
+        super().__init__(jogador, configuracoes)
 
         imagem = pygame.image.load(
             "versao_final/styles/assets/sprites_jogador/parado0.png"
@@ -20,8 +20,18 @@ class EstadoParado(EstadoJogador):
         self._total_imagens = configuracoes.jogador_num_imagens_parado
         self._nome_estado = "parado"
         self._prox_estado = "parado"
+    
+    def entrar_estado(self) -> None:
+        super().entrar_estado(estado_atual="parado")
 
-    def andar_jogador(self, keys: list) -> None:
+    def andar_jogador(self, keys) -> None:
+        """No estado 'oaradi', caso tanto seta para esquerda quanto
+        seta para direita sejam pressionadas ao mesmo tempo, o jogador continua
+        parado. Para que o próximo estado seja 'andando', é necessário
+        que somente uma delas esteja sendo pressionada."""
+
+        if keys[pygame.K_RIGHT] and keys[pygame.K_LEFT]:
+            return
         if keys[pygame.K_RIGHT]:
             self.move_direita()
             self._prox_estado = "andando"
@@ -29,10 +39,10 @@ class EstadoParado(EstadoJogador):
             self.move_esquerda()
             self._prox_estado = "andando"
 
-    def entrar_estado(self) -> None:
-        super().entrar_estado(estado_atual="parado")
-
     def pular(self, detector_colisao: DetectorColisao) -> None:
+        """Se o jogador estiver imediatamente acima (1 pixel acima)
+        de uma plataforma, ele pula e vai para o estado 'pulo'."""
+
         colidiu = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
@@ -44,5 +54,3 @@ class EstadoParado(EstadoJogador):
             self._jogador.veloc_queda = -self._jogador.tamanho_pulo
             self._prox_estado = "pulo"
 
-    def aterrissar(self) -> None:
-        self._jogador.veloc_queda = self._jogador.veloc_queda_min
