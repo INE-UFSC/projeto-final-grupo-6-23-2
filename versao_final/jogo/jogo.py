@@ -16,8 +16,10 @@ class Jogo:
 
         # Inicia display
         self.__tela = pygame.display.set_mode(
-            (self.__configuracoes.largura_tela, min(
-                800, pygame.display.Info().current_h - 50))
+            (
+                self.__configuracoes.largura_tela,
+                min(800, pygame.display.Info().current_h - 50),
+            )
         )
         pygame.display.set_caption("Volcano Jumper")
 
@@ -50,15 +52,26 @@ class Jogo:
                     if evento.key == pygame.K_UP:
                         self.__jogador.pular(self.__detector_colisao)
 
-            
-            self.__jogador.andar_jogador(pygame.key.get_pressed())
-            self.__cenario.movimentar_cenario(self.__detector_colisao)
-            self.__jogador.atualizar_jogador(self.__detector_colisao, self.__cenario.veloc_cenario)
+            self.lidar_cenario()
+            self.lidar_jogador()
+            self.lidar_pontuacao()
             self.__desenhar_objetos()
-            self.__pontuacao.aumenta_pontuacao()
-            self.__pontuacao.verificar_pontuacao()
 
             clock.tick(self.__configuracoes.fps)
+
+    def lidar_jogador(self):
+        self.__jogador.andar_jogador(pygame.key.get_pressed())
+        self.__jogador.atualizar_jogador(
+            self.__detector_colisao, self.__cenario.veloc_cenario
+        )
+
+    def lidar_cenario(self):
+        self.__cenario.movimentar_cenario(self.__detector_colisao)
+        self.__cenario.atualizar_inimigos(self.__detector_colisao)
+
+    def lidar_pontuacao(self):
+        self.__pontuacao.aumenta_pontuacao()
+        self.__pontuacao.verificar_pontuacao()
 
     def __desenhar_objetos(self):
         self.__tela.fill("Black")
@@ -68,8 +81,7 @@ class Jogo:
         for inimigo in self.__cenario.inimigos:
             self.__tela.blit(inimigo.image, inimigo.rect)
             inimigo.update()
-        self.__cenario.gerar_inimigo()
-        self.__cenario.remover_inimigos()
+
         self.__tela.blit(self.__jogador.imagem, self.__jogador.rect)
 
         self.__tela.blit(self.__cenario.lava.superficie,

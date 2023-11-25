@@ -18,10 +18,11 @@ class Configuracoes:
         self.__jogador_num_imagens_parado = 4
         self.__jogador_num_imagens_andando = 7
         self.__jogador_num_imagens_pulo = 1
+        self.__jogador_num_imagens_machucado = 3
         self.__jogador_pos_inicial = (self.__largura_tela / 2, 50)
         self.__gravidade_jogo = 0.4
 
-        self.__plataforma_inicial_pos = (self.__largura_tela / 2 - 50, 100)
+        self.__plataforma_inicial_pos = (self.__largura_tela / 2 - 50, 120)
         self.__cenario_veloc_base = 1
         self.__aceleracao_cenario = 0.0005
 
@@ -72,6 +73,10 @@ class Configuracoes:
     @property
     def jogador_num_imagens_andando(self):
         return self.__jogador_num_imagens_andando
+    
+    @property
+    def jogador_num_imagens_machucado(self):
+        return self.__jogador_num_imagens_machucado
 
     @property
     def jogador_num_imagens_pulo(self):

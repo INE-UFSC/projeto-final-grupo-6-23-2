@@ -29,7 +29,7 @@ class EstadoAndando(EstadoJogador):
             self._prox_estado = "parado"
 
     def entrar_estado(self):
-        super().entrar_estado(nome_estado="andando")
+        super().entrar_estado(estado_atual="andando")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         colidiu = detector_colisao.detectar_colisao(

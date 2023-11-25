@@ -6,6 +6,7 @@ from entidades.entidades_cenario.lava import Lava
 from entidades.arquivos_jogador.estado_parado import EstadoParado
 from entidades.arquivos_jogador.estado_andando import EstadoAndando
 from entidades.arquivos_jogador.estado_pulo import EstadoPulo
+from entidades.arquivos_jogador.estado_machucado import EstadoMachucado
 from configuracoes.configuracoes import Configuracoes
 
 
@@ -27,6 +28,7 @@ class Jogador:
             "parado": EstadoParado(self, configuracoes),
             "andando": EstadoAndando(self, configuracoes),
             "pulo": EstadoPulo(self, configuracoes),
+            "machucado": EstadoMachucado(self, configuracoes)
         }
         self.__virado_direita = True
         self.__estado_atual = self.__estados["parado"]
@@ -40,6 +42,7 @@ class Jogador:
         self, detector_colisao: DetectorColisao, veloc_cenario: float
     ):
         self.__aplica_gravidade(detector_colisao, veloc_cenario)
+        self.__estado_atual.colide_inimigos(detector_colisao)
         self.__atualizar_estado()
 
     def andar_jogador(self, keys):

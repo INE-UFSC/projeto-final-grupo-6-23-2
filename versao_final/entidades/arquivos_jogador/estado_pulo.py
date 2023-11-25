@@ -26,7 +26,7 @@ class EstadoPulo(EstadoJogador):
         self._prox_estado = "pulo"
 
     def entrar_estado(self):
-        super().entrar_estado(nome_estado="pulo")
+        super().entrar_estado(estado_atual="pulo")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         return

@@ -17,8 +17,8 @@ class Inimigo(pygame.surface.Surface):
 
         self.__image = pygame.image.load(f"{self.__style['sprite']}tile000.png").convert_alpha()
         self.__image = pygame.transform.scale(self.__image, (48, 48))
-        self.__mask_image = pygame.mask.from_surface(self.__image)
-        self.__rect = self.__mask_image.get_rect()
+        self.__mascara = pygame.mask.from_surface(self.__image)
+        self.__rect = self.__image.get_rect()
 
         self.__rect.x = self.__style['posicaoInicial']['x']
         self.__rect.y = self.__style['posicaoInicial']['y']
@@ -88,3 +88,7 @@ class Inimigo(pygame.surface.Surface):
     @property
     def rect(self):
         return self.__rect
+
+    @property
+    def mascara(self):
+        return self.__mascara
