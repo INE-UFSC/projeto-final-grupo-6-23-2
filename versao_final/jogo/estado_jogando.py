@@ -4,6 +4,7 @@ from entidades.entidades_cenario.cenario import Cenario
 from entidades.arquivos_jogador.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
 from entidades.pontuacao import Pontuacao
+from entidades.entidades_cenario.itens.moeda import Moeda
 
 
 class EstadoJogando(Estado):
@@ -32,6 +33,7 @@ class EstadoJogando(Estado):
         pygame.mixer.music.stop()
         pygame.mixer.music.load('versao_final/styles/assets/musica/jeremy_blake_powerup.mp3')
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.5)
 
     def atualizar_estado(self, eventos, tela):
         for evento in eventos:
@@ -70,7 +72,10 @@ class EstadoJogando(Estado):
             tela.blit(inimigo.image, inimigo.rect)
             inimigo.update()
         tela.blit(self.__jogador.imagem, self.__jogador.rect)
-        tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.rect)
+        for moeda in self.__cenario.moedas:
+            tela.blit(moeda.imagem, moeda.rect)
+            moeda.update()
         self.__pontuacao.mostrar_pontuacao(tela)
 
+        tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.rect)
         pygame.display.flip()

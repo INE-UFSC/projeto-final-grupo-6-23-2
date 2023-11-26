@@ -1,7 +1,7 @@
 from abc import ABC, abstractclassmethod
 import pygame
 
-class Item(ABC, pygame.surface.Surface):
+class Item(ABC):
 
     def __init__(self):
         super().__init__()
@@ -22,7 +22,5 @@ class Item(ABC, pygame.surface.Surface):
     def animar(self):
         pass
 
-    @abstractclassmethod
-    def aplica_gravidade(self):
-        pass
+ 
 
