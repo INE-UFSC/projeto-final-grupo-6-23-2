@@ -21,6 +21,9 @@ class Item(ABC):
     @abstractclassmethod
     def animar(self):
         pass
-
+    
+    def remove_item_colidido(self):
+        print(self)
+        
  
 

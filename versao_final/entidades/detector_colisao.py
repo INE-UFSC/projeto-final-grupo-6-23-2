@@ -32,6 +32,7 @@ class DetectorColisao:
         rect.centerx += desloc_x
         rect.centery += desloc_y
 
+        objeto_colidido = None
         for objeto in self.__objetos:
             if isinstance(objeto, tipo) and mascara.overlap(
                 objeto.mascara, (objeto.rect.x - rect.x,
@@ -40,9 +41,12 @@ class DetectorColisao:
                 if tipo == Plataforma:
                     if int(rect.bottom) <= int(objeto.rect.top) + 1:
                         colidiu = True
+                        objeto_colidido = objeto
+
                 else:
                     colidiu = True
+                    objeto_colidido = objeto
 
         rect.centerx -= desloc_x
         rect.centery -= desloc_y
-        return colidiu
+        return colidiu, objeto_colidido

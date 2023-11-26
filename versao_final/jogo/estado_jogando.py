@@ -13,18 +13,20 @@ class EstadoJogando(Estado):
             jogo=refer_jogo, configuracoes=configuracoes, estado_atual="jogando"
         )
 
-        # Inicia cenário
-        self.__cenario = Cenario(self._configuracoes)
-
-        # Instancia pontuacao
-        self.__pontuacao = Pontuacao()
-
         # Instancia jogador
         self.__jogador = Jogador(self._configuracoes)
 
         # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
+    
+
+        # Inicia cenário
+        self.__cenario = Cenario(self._configuracoes, self.__detector_colisao)
+
+        # Instancia pontuacao
+        self.__pontuacao = Pontuacao()
+
         self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:
             self.__detector_colisao.adicionar_objeto(plataforma)
@@ -56,8 +58,8 @@ class EstadoJogando(Estado):
         )
 
     def lidar_cenario(self):
-        self.__cenario.movimentar_cenario(self.__detector_colisao)
-        self.__cenario.atualizar_inimigos(self.__detector_colisao)
+        self.__cenario.movimentar_cenario()
+        self.__cenario.atualizar_inimigos()
 
     def lidar_pontuacao(self):
         self.__pontuacao.aumenta_pontuacao()

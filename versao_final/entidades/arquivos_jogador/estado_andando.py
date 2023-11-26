@@ -51,7 +51,7 @@ class EstadoAndando(EstadoJogador):
         """Se o jogador estiver imediatamente acima (1 pixel acima)
         de uma plataforma, ele pula e vai para o estado 'pulo'."""
 
-        colidiu = detector_colisao.detectar_colisao(
+        colidiu, _ = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
             desloc_x=0,

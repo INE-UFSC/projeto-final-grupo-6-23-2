@@ -9,6 +9,7 @@ class Moeda(Item):
         self.__image = pygame.image.load("versao_final/styles/assets/itens/moedas/tile000.png").convert_alpha()
         self.__image = pygame.transform.scale_by(self.__image, 3)
         self.__rect = self.__image.get_rect()
+        self.__mascara = pygame.mask.from_surface(self.__image)
         self.__id_tile = 0
         self.__ctrl_tick = 0
 
@@ -42,3 +43,7 @@ class Moeda(Item):
     @property
     def imagem(self):
         return self.__image
+    
+    @property
+    def mascara(self):
+        return self.__mascara

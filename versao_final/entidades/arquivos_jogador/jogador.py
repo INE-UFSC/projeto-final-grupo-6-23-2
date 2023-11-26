@@ -48,6 +48,7 @@ class Jogador:
             detector_colisao=detector_colisao, veloc_cenario=veloc_cenario
         )
         self.__estado_atual.colide_inimigos(detector_colisao=detector_colisao)
+        self.__estado_atual.colide_item(detector_colisao=detector_colisao)
         self.__estado_atual.animar()
         self.__atualizar_estado()
 

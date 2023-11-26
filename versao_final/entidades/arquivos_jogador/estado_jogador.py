@@ -4,6 +4,7 @@ from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.lava import Lava
 from entidades.entidades_cenario.inimigo import Inimigo
+from entidades.entidades_cenario.itens.item import Item
 
 
 class EstadoJogador(ABC):
@@ -56,7 +57,7 @@ class EstadoJogador(ABC):
         se self._jogador.veloc_queda < 0, bastando apenas subi-lo nessa situação. Por fim,
         se estiver descendo, precisamos saber se colidiu com alguma plataforma no caminho."""
 
-        colidiu_lava = detector_colisao.detectar_colisao(
+        colidiu_lava, _ = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
             desloc_x=0,
@@ -92,7 +93,7 @@ class EstadoJogador(ABC):
         dy = 0
         while dy < self._jogador.veloc_queda:
             dy += 1
-            colidiu = detector_colisao.detectar_colisao(
+            colidiu, _ = detector_colisao.detectar_colisao(
                 rect=self._jogador.rect,
                 mascara=self._mascara,
                 desloc_x=0,
@@ -109,7 +110,7 @@ class EstadoJogador(ABC):
         desloc_y=0), houver um inimigo, ele forçosamente irá para o
         estado 'machucado'."""
 
-        colidiu = detector_colisao.detectar_colisao(
+        colidiu, _ = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
             desloc_x=0,
@@ -118,6 +119,23 @@ class EstadoJogador(ABC):
         )
         if colidiu:
             self._prox_estado = "machucado"
+    
+    def colide_item(self, detector_colisao: DetectorColisao):
+        
+        colidiu, objeto = detector_colisao.detectar_colisao(
+            rect=self._jogador.rect,
+            mascara=self._mascara,
+            desloc_x=0,
+            desloc_y=0,
+            tipo=Item,
+        )
+
+
+        if colidiu:
+            # Problema para remover o item colidido, o objeto é apagado mas não some da tela:
+            # aumenta_score()
+            # objeto.remove_item_colidido()
+            del objeto
 
     def aterrissar(self):
         """Ao aterrissar, a velocidade do jogador é igualada
