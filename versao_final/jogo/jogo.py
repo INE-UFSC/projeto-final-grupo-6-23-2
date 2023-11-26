@@ -1,14 +1,11 @@
 import pygame
 from configuracoes.configuracoes import Configuracoes
-from entidades.entidades_cenario.cenario import Cenario
-from entidades.arquivos_jogador.jogador import Jogador
-from entidades.detector_colisao import DetectorColisao
-from entidades.pontuacao import Pontuacao
+from jogo.estado_jogando import EstadoJogando
 
 
 class Jogo:
     def __init__(self):
-        # Inicia biblioteca
+        # Inicia a biblioteca pygame
         pygame.init()
 
         #  Instancia singleton das Configuracoes
@@ -23,69 +20,35 @@ class Jogo:
         )
         pygame.display.set_caption("Volcano Jumper")
 
-        # Inicia cenário
-        self.__cenario = Cenario(self.__configuracoes)
+        # Inicia o mixer do pygame
+        pygame.mixer.init()
 
-        # Instancia pontuacao
-        self.__pontuacao = Pontuacao()
-
-        # Instancia jogador
-        self.__jogador = Jogador(self.__configuracoes)
-
-        # Instancia detector de colisão
-        self.__detector_colisao = DetectorColisao()
-        self.__detector_colisao.adicionar_objeto(self.__jogador)
-        self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
-        for plataforma in self.__cenario.plataformas:
-            self.__detector_colisao.adicionar_objeto(plataforma)
+        self.__estados = {
+            "jogando": EstadoJogando,
+            "menu": ...,
+            "game over": ...,
+        }
+        self.__estado_atual = self.__estados["jogando"](
+            refer_jogo=self, configuracoes=self.__configuracoes
+        )
+        self.__estado_atual.entrar_estado()
 
     # Roda o jogo (loop principal)
     def iniciar(self) -> None:
         clock = pygame.time.Clock()
 
         while True:
-            for evento in pygame.event.get():
-                if evento.type == pygame.QUIT:
-                    pygame.quit()
-                    return
-                if evento.type == pygame.KEYDOWN:
-                    if evento.key == pygame.K_UP:
-                        self.__jogador.pular(self.__detector_colisao)
-
-            self.lidar_cenario()
-            self.lidar_jogador()
-            self.lidar_pontuacao()
-            self.__desenhar_objetos()
-
+            eventos = pygame.event.get()
+            self.atualizar_estado(eventos)
             clock.tick(self.__configuracoes.fps)
 
-    def lidar_jogador(self):
-        self.__jogador.andar_jogador(pygame.key.get_pressed())
-        self.__jogador.atualizar_jogador(
-            self.__detector_colisao, self.__cenario.veloc_cenario
-        )
+    def atualizar_estado(self, eventos):
+        self.__estado_atual.atualizar_estado(eventos=eventos, tela=self.__tela)
 
-    def lidar_cenario(self):
-        self.__cenario.movimentar_cenario(self.__detector_colisao)
-        self.__cenario.atualizar_inimigos(self.__detector_colisao)
-
-    def lidar_pontuacao(self):
-        self.__pontuacao.aumenta_pontuacao()
-        self.__pontuacao.verificar_pontuacao()
-
-    def __desenhar_objetos(self):
-        self.__tela.fill("Black")
-        self.__cenario.paisagem.draw(self.__tela)
-        for plataforma in self.__cenario.plataformas:
-            self.__tela.blit(plataforma.imagem, plataforma.rect)
-        for inimigo in self.__cenario.inimigos:
-            self.__tela.blit(inimigo.image, inimigo.rect)
-            inimigo.update()
-
-        self.__tela.blit(self.__jogador.imagem, self.__jogador.rect)
-
-        self.__tela.blit(self.__cenario.lava.superficie,
-                         self.__cenario.lava.rect)
-        self.__pontuacao.mostrar_pontuacao(self.__tela)
-
-        pygame.display.flip()
+        prox_estado = self.__estado_atual.prox_estado
+        if self.__estado_atual.nome_estado != prox_estado:
+            del self.__estado_atual
+            self.__estado_atual = self.__estados[prox_estado](
+                refer_jogo=self, configuracoes=self.__configuracoes
+            )
+            self.__estado_atual.entrar_estado()
