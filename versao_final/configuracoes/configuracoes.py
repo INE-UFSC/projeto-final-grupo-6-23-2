@@ -25,6 +25,7 @@ class Configuracoes:
 
         self.__plataforma_inicial_pos = (self.__largura_tela / 2 - 50, 120)
         self.__cenario_veloc_base = 1
+        self.__cenario_veloc_max = 2.5
         self.__aceleracao_cenario = 0.0005
 
     @property
@@ -58,6 +59,10 @@ class Configuracoes:
     @property
     def cenario_veloc_base(self):
         return self.__cenario_veloc_base
+    
+    @property
+    def cenario_veloc_max(self):
+        return self.__cenario_veloc_max
 
     @property
     def aceleracao_cenario(self):
