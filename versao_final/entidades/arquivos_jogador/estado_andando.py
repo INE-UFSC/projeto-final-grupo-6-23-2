@@ -20,9 +20,6 @@ class EstadoAndando(EstadoJogador):
         self._total_imagens = configuracoes.jogador_num_imagens_andando
         self._nome_estado = "andando"
 
-    def entrar_estado(self):
-        super().entrar_estado()
-
     def andar_jogador(self, keys):
         """No estado 'andando', caso tanto seta para esquerda quanto
         seta para direita sejam pressionadas ao mesmo tempo, o próximo estado

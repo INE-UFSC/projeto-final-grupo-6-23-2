@@ -20,9 +20,6 @@ class EstadoParado(EstadoJogador):
         self._total_imagens = configuracoes.jogador_num_imagens_parado
         self._nome_estado = "parado"
 
-    def entrar_estado(self) -> None:
-        super().entrar_estado()
-
     def andar_jogador(self, keys) -> None:
         """No estado 'parado', caso tanto seta para esquerda quanto
         seta para direita sejam pressionadas ao mesmo tempo, o jogador continua

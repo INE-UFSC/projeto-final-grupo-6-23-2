@@ -30,9 +30,6 @@ class EstadoPulo(EstadoJogador):
         self._nome_estado = "pulo"
         self._contagem = 0
 
-    def entrar_estado(self):
-        super().entrar_estado()
-
     def andar_jogador(self, keys) -> None:
         """No estado 'pulo', é permitido ao jogador
         movimentar-se lateralmente."""

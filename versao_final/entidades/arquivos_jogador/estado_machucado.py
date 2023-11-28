@@ -24,10 +24,6 @@ class EstadoMachucado(EstadoJogador):
 
     def entrar_estado(self):
         super().entrar_estado()
-        if self._jogador.veloc_queda >= 0:
-            self._jogador.veloc_queda = -10
-        elif self._jogador.veloc_queda < 0:
-            self._jogador.veloc_queda = 5
         self.__num_ciclos = 0
     
     def animar(self) -> None:
