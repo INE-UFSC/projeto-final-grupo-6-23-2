@@ -6,6 +6,11 @@ from configuracoes.configuracoes import Configuracoes
 
 class EstadoPulo(EstadoJogador):
     def __init__(self, jogador, configuracoes: Configuracoes):
+        """OBS: O motivo do estado 'pulo' usar a mesma máscara do estado
+        'parado' deve-se ao fato da máscara do estado 'pulo' dificultar
+        a colisão com as bordas de uma plataforma, o que poderia
+        prejudicar a experiência do jogador."""
+
         super().__init__(jogador, configuracoes)
 
         imagem_parado = pygame.image.load(
@@ -23,10 +28,10 @@ class EstadoPulo(EstadoJogador):
 
         self._total_imagens = configuracoes.jogador_num_imagens_pulo
         self._nome_estado = "pulo"
-        self._prox_estado = "pulo"
+        self._contagem = 0
 
     def entrar_estado(self):
-        super().entrar_estado(estado_atual="pulo")
+        super().entrar_estado()
 
     def andar_jogador(self, keys) -> None:
         """No estado 'pulo', é permitido ao jogador
@@ -49,4 +54,4 @@ class EstadoPulo(EstadoJogador):
          vai para o estado 'parado'."""
 
         super().aterrissar()
-        self._prox_estado = "parado"
+        self._jogador.trocar_estado("parado")

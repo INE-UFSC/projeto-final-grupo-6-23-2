@@ -49,7 +49,6 @@ class Jogador:
         )
         self.__estado_atual.colide_inimigos(detector_colisao=detector_colisao)
         self.__estado_atual.animar()
-        self.__atualizar_estado()
 
     def andar_jogador(self, keys):
         self.__estado_atual.andar_jogador(keys)
@@ -57,13 +56,12 @@ class Jogador:
     def pular(self, detector_colisao: DetectorColisao) -> None:
         self.__estado_atual.pular(detector_colisao=detector_colisao)
 
-    def __atualizar_estado(self):
-        """Caso necessário, o método troca o estado se o nome do estado
-        atual for diferente do atributo 'prox_estado' (próximo estado)."""
+    def trocar_estado(self, estado):
+        """Método chamado por cada estado para alterar o
+        estado atual do jogador."""
 
-        if self.__estado_atual.nome_estado != self.__estado_atual.prox_estado:
-            self.__estado_atual = self.__estados[self.__estado_atual.prox_estado]
-            self.__estado_atual.entrar_estado()
+        self.__estado_atual = self.__estados[estado]
+        self.__estado_atual.entrar_estado()
 
     @property
     def imagem(self) -> pygame.Surface:

@@ -16,9 +16,8 @@ class EstadoJogador(ABC):
         self._configuracoes = configuracoes
         self._indice_imagem = 0
 
-    def entrar_estado(self, estado_atual: str):
+    def entrar_estado(self):
         self.animar()
-        self._prox_estado = estado_atual
 
     def animar(self) -> None:
         """Esse método acessa a próxima imagem da sequência de imagens
@@ -117,7 +116,7 @@ class EstadoJogador(ABC):
             tipo=Inimigo,
         )
         if colidiu:
-            self._prox_estado = "machucado"
+            self._jogador.trocar_estado("machucado")
 
     def aterrissar(self):
         """Ao aterrissar, a velocidade do jogador é igualada
@@ -145,7 +144,3 @@ class EstadoJogador(ABC):
     @property
     def nome_estado(self):
         return self._nome_estado
-
-    @property
-    def prox_estado(self):
-        return self._prox_estado

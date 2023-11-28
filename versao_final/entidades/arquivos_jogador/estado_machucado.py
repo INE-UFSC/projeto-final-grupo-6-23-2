@@ -19,11 +19,10 @@ class EstadoMachucado(EstadoJogador):
 
         self._total_imagens = configuracoes.jogador_num_imagens_machucado
         self._nome_estado = "machucado"
-        self._prox_estado = "machucado"
 
     def entrar_estado(self):
-        super().entrar_estado(estado_atual="machucado")
-    
+        super().entrar_estado()
+
     def andar_jogador(self, keys) -> None:
         """No estado 'machucado', é permitido ao jogador
         movimentar-se lateralmente."""
@@ -47,7 +46,7 @@ class EstadoMachucado(EstadoJogador):
 
         super().animar()
         if int(self._indice_imagem) == (self._total_imagens - 1):
-            self._prox_estado = "parado"
+            self._jogador.trocar_estado("parado")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         """Não é permitido pular no estado 'machucado'."""

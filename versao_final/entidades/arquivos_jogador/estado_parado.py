@@ -19,13 +19,12 @@ class EstadoParado(EstadoJogador):
 
         self._total_imagens = configuracoes.jogador_num_imagens_parado
         self._nome_estado = "parado"
-        self._prox_estado = "parado"
-    
+
     def entrar_estado(self) -> None:
-        super().entrar_estado(estado_atual="parado")
+        super().entrar_estado()
 
     def andar_jogador(self, keys) -> None:
-        """No estado 'oaradi', caso tanto seta para esquerda quanto
+        """No estado 'parado', caso tanto seta para esquerda quanto
         seta para direita sejam pressionadas ao mesmo tempo, o jogador continua
         parado. Para que o próximo estado seja 'andando', é necessário
         que somente uma delas esteja sendo pressionada."""
@@ -34,10 +33,10 @@ class EstadoParado(EstadoJogador):
             return
         if keys[pygame.K_RIGHT]:
             self.move_direita()
-            self._prox_estado = "andando"
+            self._jogador.trocar_estado("andando")
         if keys[pygame.K_LEFT]:
             self.move_esquerda()
-            self._prox_estado = "andando"
+            self._jogador.trocar_estado("andando")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         """Se o jogador estiver imediatamente acima (1 pixel acima)
@@ -52,5 +51,4 @@ class EstadoParado(EstadoJogador):
         )
         if colidiu:
             self._jogador.veloc_queda = -self._jogador.tamanho_pulo
-            self._prox_estado = "pulo"
-
+            self._jogador.trocar_estado("pulo")

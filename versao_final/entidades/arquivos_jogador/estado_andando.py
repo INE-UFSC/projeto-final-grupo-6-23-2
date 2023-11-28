@@ -19,11 +19,9 @@ class EstadoAndando(EstadoJogador):
 
         self._total_imagens = configuracoes.jogador_num_imagens_andando
         self._nome_estado = "andando"
-        self._prox_estado = "andando"
-        self.__pulou = False
 
     def entrar_estado(self):
-        super().entrar_estado(estado_atual="andando")
+        super().entrar_estado()
 
     def andar_jogador(self, keys):
         """No estado 'andando', caso tanto seta para esquerda quanto
@@ -33,19 +31,15 @@ class EstadoAndando(EstadoJogador):
         para o estado 'parado'."""
 
         if keys[pygame.K_RIGHT] and keys[pygame.K_LEFT]:
-            self._prox_estado = "parado"
+            self._jogador.trocar_estado("parado")
             return
         if keys[pygame.K_RIGHT]:
             self.move_direita()
-            if not self.__pulou:
-                self._prox_estado = "andando"
             return
         if keys[pygame.K_LEFT]:
             self.move_esquerda()
-            if not self.__pulou:
-                self._prox_estado = "andando"
             return
-        self._prox_estado = "parado"
+        self._jogador.trocar_estado("parado")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         """Se o jogador estiver imediatamente acima (1 pixel acima)
@@ -60,5 +54,4 @@ class EstadoAndando(EstadoJogador):
         )
         if colidiu:
             self._jogador.veloc_queda = -self._jogador.tamanho_pulo
-            self.__pulou = True
-            self._prox_estado = "pulo"
+            self._jogador.trocar_estado("pulo")
