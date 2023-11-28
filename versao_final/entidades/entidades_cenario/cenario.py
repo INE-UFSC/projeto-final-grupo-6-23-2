@@ -91,12 +91,11 @@ class Cenario:
 
     def gerar_inimigo(self, detector_colisao: DetectorColisao):
         if len(self.__inimigos) < self.__limite_inimigos:
-            if self.__deslocamento % 6 == 0:
-                if random.randint(1, 3) == 1:
-                    self.__deslocamento += 1
-                    inimigo = Inimigo()
-                    self.__inimigos.append(inimigo)
-                    detector_colisao.adicionar_objeto(inimigo)
+            if self.__deslocamento % 2 == 0:
+                self.__deslocamento += 1
+                inimigo = Inimigo()
+                self.__inimigos.append(inimigo)
+                detector_colisao.adicionar_objeto(inimigo)
 
     def remover_inimigos(self, detector_colisao: DetectorColisao):
         copy_inimigos = self.__inimigos.copy()
