@@ -12,10 +12,6 @@ class Item(ABC):
         pass
 
     @abstractclassmethod
-    def get_powerup(self):
-        pass
-
-    @abstractclassmethod
     def update(self):
         pass
 

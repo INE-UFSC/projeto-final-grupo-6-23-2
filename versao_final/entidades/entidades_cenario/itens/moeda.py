@@ -9,7 +9,7 @@ class Moeda(Item):
         self.__configuracoes = Configuracoes()
 
         self.__image = pygame.image.load("versao_final/styles/assets/itens/moedas/tile000.png").convert_alpha()
-        self.__image = pygame.transform.scale_by(self.__image, 3)
+        self.__image = pygame.transform.scale_by(self.__image, 1.5)
         self.__rect = self.__image.get_rect()
         self.__mascara = pygame.mask.from_surface(self.__image)
         self.__id_tile = 0
@@ -21,10 +21,6 @@ class Moeda(Item):
     def efeito(self):
         self.__configuracoes.pontuacao.pontuacao_bonus(5)
 
-
-    def get_powerup(self):
-        pass
-
     def update(self):
         self.__ctrl_tick += 1
         if self.__ctrl_tick == 8:
@@ -32,9 +28,9 @@ class Moeda(Item):
             self.animar()
 
     def animar(self):
-        self.__id_tile = 0 if self.__id_tile == 6 else self.__id_tile + 1
+        self.__id_tile = 0 if self.__id_tile == 7 else self.__id_tile + 1
         self.__image = pygame.image.load(f"versao_final/styles/assets/itens/moedas/tile00{self.__id_tile}.png").convert_alpha()
-        self.__image = pygame.transform.scale_by(self.__image, 3)
+        self.__image = pygame.transform.scale_by(self.__image, 1.5)
 
 
         

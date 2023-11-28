@@ -5,6 +5,7 @@ from entidades.entidades_cenario.paisagem import Paisagem
 from entidades.entidades_cenario.inimigo import Inimigo
 from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.itens.moeda import Moeda
+from entidades.entidades_cenario.itens.duplo_pulo import DuploPulo
 
 
 class Cenario:
@@ -59,7 +60,7 @@ class Cenario:
         self.__deslocamento += 1
 
         
-        self.gerar_moeda(plataforma_x + int(self.__plataforma_refenc.rect.width/2), plataforma_y - 48)
+        self.gerar_moeda(plataforma_x + int(self.__plataforma_refenc.rect.width/2), plataforma_y - 55)
 
     def movimentar_cenario(self):
         """Com esse método, é possível movimentar todas as plataformas de
@@ -127,6 +128,17 @@ class Cenario:
             moeda.rect.x -= int(moeda.rect.width/2)
             self.__itens.append(moeda)
             self.__detector_colisao.adicionar_objeto(moeda)
+
+
+    def gerar_powerups(self):
+        if random.randint(1,2) == 1:
+            x = random.randint(0,402)
+            y = random.randint(0, 500)
+            duplopulo = DuploPulo(x, y)
+            duplopulo
+            self.__itens.append(duplopulo)
+            self.__detector_colisao.adicionar_objeto(duplopulo)
+
 
     def remover_itens(self):
         copy_itens = self.__itens.copy()
