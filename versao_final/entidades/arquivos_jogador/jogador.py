@@ -37,6 +37,9 @@ class Jogador:
         self.__veloc_queda = 0
         self.__veloc_queda_min = configuracoes.cenario_veloc_base
 
+        self.__powerups = []
+        self.__ctrl_tick = 0
+
     def atualizar_jogador(
         self, detector_colisao: DetectorColisao, veloc_cenario: float
     ):
@@ -52,6 +55,12 @@ class Jogador:
         self.__estado_atual.animar()
         self.__atualizar_estado()
 
+        self.__ctrl_tick += 1
+        if self.__ctrl_tick == 100:
+            self.__ctrl_tick = 0
+            if len(self.__powerups) > 0:
+                self.__powerups.pop(0)
+
     def andar_jogador(self, keys):
         self.__estado_atual.andar_jogador(keys)
 
@@ -65,6 +74,9 @@ class Jogador:
         if self.__estado_atual.nome_estado != self.__estado_atual.prox_estado:
             self.__estado_atual = self.__estados[self.__estado_atual.prox_estado]
             self.__estado_atual.entrar_estado()
+
+    def add_powerup(self, str):
+        self.__powerups.append(str)
 
     @property
     def imagem(self) -> pygame.Surface:
@@ -109,6 +121,10 @@ class Jogador:
     @property
     def posicao_centro(self) -> tuple:
         return self.__rect.center
+    
+    @property
+    def powerups(self) -> list:
+        return self.__powerups
 
     @posicao_centro.setter
     def posicao_centro(self, nova_posicao: tuple) -> None:

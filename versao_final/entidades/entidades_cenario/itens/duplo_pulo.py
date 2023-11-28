@@ -1,7 +1,7 @@
 import pygame
-from entidades.entidades_cenario.itens.item import Item
+from entidades.entidades_cenario.itens.powerup import PowerUp
 
-class DuploPulo(Item):
+class DuploPulo(PowerUp):
     def __init__(self, x, y):
         super().__init__()
 

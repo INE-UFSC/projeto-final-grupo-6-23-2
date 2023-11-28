@@ -131,9 +131,9 @@ class Cenario:
 
 
     def gerar_powerups(self):
-        if random.randint(1,2) == 1:
+        if random.randint(1,1000) == 1:
             x = random.randint(0,402)
-            y = random.randint(0, 500)
+            y = random.randint(0, 200)
             duplopulo = DuploPulo(x, y)
             duplopulo
             self.__itens.append(duplopulo)

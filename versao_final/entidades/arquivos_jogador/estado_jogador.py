@@ -5,6 +5,8 @@ from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.lava import Lava
 from entidades.entidades_cenario.inimigo import Inimigo
 from entidades.entidades_cenario.itens.item import Item
+from entidades.entidades_cenario.itens.powerup import PowerUp
+
 
 
 class EstadoJogador(ABC):
@@ -131,6 +133,8 @@ class EstadoJogador(ABC):
         )
 
         if colidiu:
+            if isinstance(objeto, PowerUp):
+                self._jogador.add_powerup(objeto.__class__.__name__)
             objeto.efeito()
             objeto.handle_collide()
 

@@ -2,6 +2,7 @@ import pygame
 from entidades.arquivos_jogador.estado_jogador import EstadoJogador
 from entidades.detector_colisao import DetectorColisao
 from configuracoes.configuracoes import Configuracoes
+from entidades.entidades_cenario.plataforma import Plataforma
 
 
 class EstadoPulo(EstadoJogador):
@@ -25,6 +26,8 @@ class EstadoPulo(EstadoJogador):
         self._nome_estado = "pulo"
         self._prox_estado = "pulo"
 
+        self.__duplopulo = False
+
     def entrar_estado(self):
         super().entrar_estado(estado_atual="pulo")
 
@@ -41,6 +44,18 @@ class EstadoPulo(EstadoJogador):
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         """Não é permitido pular dentro do estado 'pulo'."""
+        if not self.__duplopulo:
+            self.__duplopulo = True
+            colidiu, _ = detector_colisao.detectar_colisao(
+                rect=self._jogador.rect,
+                mascara=self._mascara,
+                desloc_x=0,
+                desloc_y=1,
+                tipo=Plataforma,
+            )
+            if colidiu:
+                self._jogador.veloc_queda = -self._jogador.tamanho_pulo
+                self._prox_estado = "pulo"
 
         return
 
