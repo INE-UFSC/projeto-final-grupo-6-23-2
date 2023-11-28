@@ -14,6 +14,9 @@ class Pontuacao:
         if self.__pontuacao_atual > self.__record:
             self.__record = self.__pontuacao_atual
             self.persistencia()
+    
+    def pontuacao_bonus(self, bonus : int):
+        self.__pontuacao_atual += bonus
 
     def persistencia(self):
         with open('record.json', 'w') as file:

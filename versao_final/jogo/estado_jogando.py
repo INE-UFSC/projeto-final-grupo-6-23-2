@@ -3,7 +3,6 @@ from jogo.estado import Estado
 from entidades.entidades_cenario.cenario import Cenario
 from entidades.arquivos_jogador.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
-from entidades.pontuacao import Pontuacao
 from entidades.entidades_cenario.itens.moeda import Moeda
 
 
@@ -25,7 +24,7 @@ class EstadoJogando(Estado):
         self.__cenario = Cenario(self._configuracoes, self.__detector_colisao)
 
         # Instancia pontuacao
-        self.__pontuacao = Pontuacao()
+        self.__pontuacao = self._configuracoes.pontuacao
 
         self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:

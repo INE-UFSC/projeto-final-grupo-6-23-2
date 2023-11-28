@@ -23,9 +23,6 @@ class Item(ABC):
     def animar(self):
         pass
     
-    def remove_item_colidido(self):
-        print(self)
-
     def handle_collide(self):
         self.__is_visible = False
 
