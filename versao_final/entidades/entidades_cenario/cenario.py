@@ -132,14 +132,17 @@ class Cenario:
         copy_moedas = self.__moedas.copy()
         for index in range(len(copy_moedas)):
             moeda = self.__moedas[index]
+            if not moeda.is_visible:
+                copy_moedas.pop(index)
+                continue
             if moeda.rect.y >= self.__constantes.altura_tela:
                 self.__detector_colisao.remover_objeto(self.__moedas[index])
                 copy_moedas.pop(index)
 
         self.__moedas = copy_moedas
 
-
-
+    def atualizar_moedas(self):
+        self.remover_moedas()
 
     @property
     def lava(self):

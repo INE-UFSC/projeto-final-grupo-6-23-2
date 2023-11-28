@@ -135,7 +135,7 @@ class EstadoJogador(ABC):
             # Problema para remover o item colidido, o objeto é apagado mas não some da tela:
             # aumenta_score()
             # objeto.remove_item_colidido()
-            del objeto
+            objeto.handle_collide()
 
     def aterrissar(self):
         """Ao aterrissar, a velocidade do jogador é igualada

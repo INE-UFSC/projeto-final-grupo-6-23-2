@@ -60,6 +60,7 @@ class EstadoJogando(Estado):
     def lidar_cenario(self):
         self.__cenario.movimentar_cenario()
         self.__cenario.atualizar_inimigos()
+        self.__cenario.atualizar_moedas()
 
     def lidar_pontuacao(self):
         self.__pontuacao.aumenta_pontuacao()
