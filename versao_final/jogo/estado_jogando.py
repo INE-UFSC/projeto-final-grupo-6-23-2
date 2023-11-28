@@ -60,7 +60,7 @@ class EstadoJogando(Estado):
     def lidar_cenario(self):
         self.__cenario.movimentar_cenario()
         self.__cenario.atualizar_inimigos()
-        self.__cenario.atualizar_moedas()
+        self.__cenario.atualizar_itens()
 
     def lidar_pontuacao(self):
         self.__pontuacao.aumenta_pontuacao()
@@ -75,9 +75,9 @@ class EstadoJogando(Estado):
             tela.blit(inimigo.image, inimigo.rect)
             inimigo.update()
         tela.blit(self.__jogador.imagem, self.__jogador.rect)
-        for moeda in self.__cenario.moedas:
-            tela.blit(moeda.imagem, moeda.rect)
-            moeda.update()
+        for item in self.__cenario.itens:
+            tela.blit(item.imagem, item.rect)
+            item.update()
         self.__pontuacao.mostrar_pontuacao(tela)
 
         tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.rect)

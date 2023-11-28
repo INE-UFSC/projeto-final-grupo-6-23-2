@@ -27,7 +27,6 @@ class Item(ABC):
         print(self)
 
     def handle_collide(self):
-        print(self)
         self.__is_visible = False
 
     @property

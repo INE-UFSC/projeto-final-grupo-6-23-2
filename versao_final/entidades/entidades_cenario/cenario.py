@@ -20,7 +20,7 @@ class Cenario:
         self.__paisagem = Paisagem()
 
         self.__inimigos = []
-        self.__moedas = []
+        self.__itens = []
 
         self.__detector_colisao = detector_colisao
 
@@ -72,8 +72,8 @@ class Cenario:
                 self.eliminar_plataforma(indice)
             self.__plataformas[indice].rect.y += self.__veloc_cenario 
 
-        for indice in range(len(self.__moedas)):
-            self.__moedas[indice].rect.y += self.__veloc_cenario
+        for indice in range(len(self.__itens)):
+            self.__itens[indice].rect.y += self.__veloc_cenario
 
         self.__veloc_cenario += self.__aceleracao
         self.lava.animacao()
@@ -125,24 +125,25 @@ class Cenario:
         if random.randint(1,3) == 1:
             moeda = Moeda(x, y)
             moeda.rect.x -= int(moeda.rect.width/2)
-            self.__moedas.append(moeda)
+            self.__itens.append(moeda)
             self.__detector_colisao.adicionar_objeto(moeda)
 
-    def remover_moedas(self):
-        copy_moedas = self.__moedas.copy()
-        for index in range(len(copy_moedas)):
-            moeda = self.__moedas[index]
+    def remover_itens(self):
+        copy_itens = self.__itens.copy()
+        for index in range(len(copy_itens)):
+            moeda = self.__itens[index]
             if not moeda.is_visible:
-                copy_moedas.pop(index)
+                copy_itens.pop(index)
+                self.__detector_colisao.remover_objeto(self.__itens[index])
                 continue
             if moeda.rect.y >= self.__constantes.altura_tela:
-                self.__detector_colisao.remover_objeto(self.__moedas[index])
-                copy_moedas.pop(index)
+                self.__detector_colisao.remover_objeto(self.__itens[index])
+                copy_itens.pop(index)
 
-        self.__moedas = copy_moedas
+        self.__itens = copy_itens
 
-    def atualizar_moedas(self):
-        self.remover_moedas()
+    def atualizar_itens(self):
+        self.remover_itens()
 
     @property
     def lava(self):
@@ -165,5 +166,5 @@ class Cenario:
         return self.__inimigos
     
     @property
-    def moedas(self):
-        return self.__moedas
+    def itens(self):
+        return self.__itens
