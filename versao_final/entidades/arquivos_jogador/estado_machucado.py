@@ -18,10 +18,29 @@ class EstadoMachucado(EstadoJogador):
         self._altura = self._imagem.get_height()
 
         self._total_imagens = configuracoes.jogador_num_imagens_machucado
+        self.__max_ciclos = configuracoes.num_ciclos_machucado
         self._nome_estado = "machucado"
+        self.__num_ciclos = 0
 
     def entrar_estado(self):
         super().entrar_estado()
+        if self._jogador.veloc_queda >= 0:
+            self._jogador.veloc_queda = -10
+        elif self._jogador.veloc_queda < 0:
+            self._jogador.veloc_queda = 5
+        self.__num_ciclos = 0
+    
+    def animar(self) -> None:
+        """Esse método é quase igual ao método animar() da 
+        classe pai, mas aqui, a animação é mais lenta. Além
+        disso, o estado 'machucado' dura até que a sua animação
+        acabe, após o que o jogador retorna para o estado 'parado'."""
+
+        super().animar()
+        if int(self._indice_imagem) == (self._total_imagens - 1):
+            self.__num_ciclos += 1
+        if self.__num_ciclos == self.__max_ciclos:
+            self._jogador.trocar_estado("parado")
 
     def andar_jogador(self, keys) -> None:
         """No estado 'machucado', é permitido ao jogador
@@ -39,14 +58,6 @@ class EstadoMachucado(EstadoJogador):
         temporária a colisões com outros inimigos."""
 
         return
-
-    def animar(self) -> None:
-        """O estado 'machucado' dura até que a sua animação acabe, e
-        então o jogador retorna para o estado 'parado'."""
-
-        super().animar()
-        if int(self._indice_imagem) == (self._total_imagens - 1):
-            self._jogador.trocar_estado("parado")
 
     def pular(self, detector_colisao: DetectorColisao) -> None:
         """Não é permitido pular no estado 'machucado'."""
