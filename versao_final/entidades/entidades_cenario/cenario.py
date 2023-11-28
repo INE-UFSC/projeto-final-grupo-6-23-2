@@ -143,18 +143,19 @@ class Cenario:
     def remover_itens(self):
         copy_itens = self.__itens.copy()
         for index in range(len(copy_itens)):
-            moeda = self.__itens[index]
-            if not moeda.is_visible:
+            item = self.__itens[index]
+            if not item.is_visible:
                 copy_itens.pop(index)
                 self.__detector_colisao.remover_objeto(self.__itens[index])
                 continue
-            if moeda.rect.y >= self.__constantes.altura_tela:
+            if item.rect.y >= self.__constantes.altura_tela:
                 self.__detector_colisao.remover_objeto(self.__itens[index])
                 copy_itens.pop(index)
 
         self.__itens = copy_itens
 
     def atualizar_itens(self):
+        self.gerar_powerups()
         self.remover_itens()
 
     @property

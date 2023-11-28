@@ -32,9 +32,6 @@ class Moeda(Item):
         self.__image = pygame.image.load(f"versao_final/styles/assets/itens/moedas/tile00{self.__id_tile}.png").convert_alpha()
         self.__image = pygame.transform.scale_by(self.__image, 1.5)
 
-
-        
-
     @property
     def rect(self):
         return self.__rect
