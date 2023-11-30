@@ -4,19 +4,27 @@ from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.paisagem import Paisagem
 from entidades.entidades_cenario.inimigo import Inimigo
 from entidades.detector_colisao import DetectorColisao
+from entidades.entidades_cenario.itens.moeda import Moeda
+from entidades.entidades_cenario.itens.duplo_pulo import DuploPulo
+from entidades.entidades_cenario.itens.imortal import Imortal
 
 
 class Cenario:
-    def __init__(self, configuracoes):
+    def __init__(self, configuracoes, detector_colisao: DetectorColisao):
         """Essa classe será responsável pelos objetos que serão desenhados
         na tela do jogo (plataformas, lava, inimigos). Ao iniciar o jogo, um
         número pré-determinado de plataformas é gerado na tela. Note queesses
         objetos movem-se de forma descendente e acelerada."""
 
+        self.__detector_colisao = detector_colisao
+
         self.__deslocamento = 1
         self.__configuracoes = configuracoes
         self.__lava = Lava()
         self.__paisagem = Paisagem()
+
+        self.__inimigos = []
+        self.__itens = []
 
         self.__plataforma_refenc = Plataforma(
             (self.__configuracoes.largura_tela / 2, 500))
@@ -55,7 +63,10 @@ class Cenario:
         self.__plataformas.append(self.__plataforma_refenc)
         self.__deslocamento += 1
 
-    def movimentar_cenario(self, detector_colisao: DetectorColisao):
+        
+        self.gerar_moeda(plataforma_x + int(self.__plataforma_refenc.rect.width/2), plataforma_y - 55)
+
+    def movimentar_cenario(self):
         """Com esse método, é possível movimentar todas as plataformas de
         uma só vez. No entanto, se a plataforma atinge o fundo da tela, ela é
         eliminada (método eliminar_plataforma()). Ademais, ele também serve para
@@ -63,8 +74,11 @@ class Cenario:
 
         for indice in range(len(self.__plataformas)):
             if self.__plataformas[indice].rect.y >= self.__configuracoes.altura_tela:
-                self.eliminar_plataforma(indice, detector_colisao)
+                self.eliminar_plataforma(indice)
             self.__plataformas[indice].rect.y += self.__veloc_cenario
+
+        for indice in range(len(self.__itens)):
+            self.__itens[indice].rect.y += self.__veloc_cenario
 
         self.__veloc_cenario += self.__aceleracao
         if self.__veloc_cenario >= self.__veloc_max:
@@ -74,30 +88,33 @@ class Cenario:
         self.lava.animacao()
         self.__paisagem.move(self.__veloc_cenario)
 
-    def eliminar_plataforma(self, indice, detector_colisao: DetectorColisao):
+
+
+
+    def eliminar_plataforma(self, indice):
         """Esse método elimina uma plataforma que atingiu o fundo
         da tela, e também remove-a da lista do detector_colisao. Ele
         também chama o gerar_plataforma para repor a plataforma que
         foi eliminada."""
 
         self.__plataformas.pop(indice)
-        detector_colisao.remover_objeto(self.__plataformas[indice])
+        self.__detector_colisao.remover_objeto(self.__plataformas[indice])
         self.gerar_plataforma()
-        detector_colisao.adicionar_objeto(self.__plataforma_refenc)
+        self.__detector_colisao.adicionar_objeto(self.__plataforma_refenc)
 
-    def atualizar_inimigos(self, detector_colisao: DetectorColisao):
-        self.gerar_inimigo(detector_colisao)
-        self.remover_inimigos(detector_colisao)
+    def atualizar_inimigos(self):
+        self.gerar_inimigo()
+        self.remover_inimigos()
 
-    def gerar_inimigo(self, detector_colisao: DetectorColisao):
+    def gerar_inimigo(self):
         if len(self.__inimigos) < self.__limite_inimigos:
             if self.__deslocamento % 2 == 0:
                 self.__deslocamento += 1
                 inimigo = Inimigo()
                 self.__inimigos.append(inimigo)
-                detector_colisao.adicionar_objeto(inimigo)
+                self.__detector_colisao.adicionar_objeto(inimigo)
 
-    def remover_inimigos(self, detector_colisao: DetectorColisao):
+    def remover_inimigos(self):
         copy_inimigos = self.__inimigos.copy()
         for index in range(len(copy_inimigos)):
             inimigo = self.__inimigos[index]
@@ -107,10 +124,52 @@ class Cenario:
                 or inimigo.rect.y <= -10
                 or inimigo.rect.y >= 858
             ):
-                detector_colisao.remover_objeto(self.__inimigos[index])
+                self.__detector_colisao.remover_objeto(self.__inimigos[index])
                 copy_inimigos.pop(index)
 
         self.__inimigos = copy_inimigos
+
+    def gerar_moeda(self, x , y):
+        if random.randint(1,3) == 1:
+            moeda = Moeda(x, y)
+            moeda.rect.x -= int(moeda.rect.width/2)
+            self.__itens.append(moeda)
+            self.__detector_colisao.adicionar_objeto(moeda)
+
+
+    def gerar_powerups(self):
+        if random.randint(1,1500) == 1:
+            x = random.randint(0,402)
+            y = random.randint(0, 200)
+            duplopulo = DuploPulo(x, y)
+            self.__itens.append(duplopulo)
+            self.__detector_colisao.adicionar_objeto(duplopulo)
+
+        if random.randint(1,2500) == 1:
+            x = random.randint(0,402)
+            y = random.randint(0, 200)
+            imortal = Imortal(x, y)
+            self.__itens.append(imortal)
+            self.__detector_colisao.adicionar_objeto(imortal)
+
+
+    def remover_itens(self):
+        copy_itens = self.__itens.copy()
+        for index in range(len(copy_itens)):
+            item = self.__itens[index]
+            if not item.is_visible:
+                copy_itens.pop(index)
+                self.__detector_colisao.remover_objeto(self.__itens[index])
+                continue
+            if item.rect.y >= self.__configuracoes.altura_tela:
+                self.__detector_colisao.remover_objeto(self.__itens[index])
+                copy_itens.pop(index)
+
+        self.__itens = copy_itens
+
+    def atualizar_itens(self):
+        self.gerar_powerups()
+        self.remover_itens()
 
     @property
     def lava(self):
@@ -131,3 +190,7 @@ class Cenario:
     @property
     def inimigos(self):
         return self.__inimigos
+    
+    @property
+    def itens(self):
+        return self.__itens

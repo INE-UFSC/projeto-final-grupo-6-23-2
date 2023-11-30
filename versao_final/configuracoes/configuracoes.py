@@ -1,3 +1,5 @@
+from entidades.pontuacao import Pontuacao
+
 class Configuracoes:
     """Classe relativa às Configuracoes do jogo"""
 
@@ -27,6 +29,9 @@ class Configuracoes:
         self.__cenario_veloc_base = 1
         self.__cenario_veloc_max = 2.5
         self.__aceleracao_cenario = 0.0005
+
+        # Instancia pontuacao
+        self.__pontuacao = Pontuacao()
 
     @property
     def largura_tela(self):
@@ -95,3 +100,7 @@ class Configuracoes:
     @property
     def plataforma_inicial_pos(self):
         return self.__plataforma_inicial_pos
+    
+    @property
+    def pontuacao(self):
+        return self.__pontuacao

@@ -37,6 +37,10 @@ class Jogador:
         self.__veloc_queda = 0
         self.__veloc_queda_min = configuracoes.cenario_veloc_base
 
+        self.__powerups = []
+        self.__ctrl_tick = 0
+        self.__jump_finished = True
+
     def atualizar_jogador(
         self, detector_colisao: DetectorColisao, veloc_cenario: float
     ):
@@ -48,7 +52,14 @@ class Jogador:
             detector_colisao=detector_colisao, veloc_cenario=veloc_cenario
         )
         self.__estado_atual.colide_inimigos(detector_colisao=detector_colisao)
+        self.__estado_atual.colide_item(detector_colisao=detector_colisao)
         self.__estado_atual.animar()
+
+        self.__ctrl_tick += 1
+        if self.__ctrl_tick == 1000:
+            self.__ctrl_tick = 0
+            if len(self.__powerups) > 0:
+                self.__powerups.pop(0)
 
     def andar_jogador(self, keys):
         self.__estado_atual.andar_jogador(keys)
@@ -63,6 +74,12 @@ class Jogador:
         self.__estado_atual = self.__estados[estado]
         self.__estado_atual.entrar_estado()
 
+    def add_powerup(self, str):
+        if str in self.__powerups:
+            index = self.__powerups.index(str)
+            self.__powerups[index] = None
+        self.__powerups.append(str)
+
     @property
     def imagem(self) -> pygame.Surface:
         return self.__estado_atual.imagem
@@ -70,6 +87,10 @@ class Jogador:
     @property
     def virado_direita(self) -> bool:
         return self.__virado_direita
+    
+    @property
+    def jump_finished(self) -> bool:
+        return self.__jump_finished
 
     @virado_direita.setter
     def virado_direita(self, virado_direita: bool) -> None:
@@ -106,6 +127,10 @@ class Jogador:
     @property
     def posicao_centro(self) -> tuple:
         return self.__rect.center
+    
+    @property
+    def powerups(self) -> list:
+        return self.__powerups
 
     @posicao_centro.setter
     def posicao_centro(self, nova_posicao: tuple) -> None:
@@ -121,3 +146,7 @@ class Jogador:
                 self.__rect.center = nova_posicao
             else:
                 self.__veloc_queda = 0
+
+    @jump_finished.setter
+    def jump_finished(self, jump_finished: bool):
+        self.__jump_finished = jump_finished

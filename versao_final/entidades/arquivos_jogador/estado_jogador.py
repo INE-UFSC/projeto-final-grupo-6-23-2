@@ -4,6 +4,9 @@ from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.plataforma import Plataforma
 from entidades.entidades_cenario.lava import Lava
 from entidades.entidades_cenario.inimigo import Inimigo
+from entidades.entidades_cenario.itens.item import Item
+from entidades.entidades_cenario.itens.powerup import PowerUp
+
 
 
 class EstadoJogador(ABC):
@@ -55,7 +58,7 @@ class EstadoJogador(ABC):
         se self._jogador.veloc_queda < 0, bastando apenas subi-lo nessa situação. Por fim,
         se estiver descendo, precisamos saber se colidiu com alguma plataforma no caminho."""
 
-        colidiu_lava = detector_colisao.detectar_colisao(
+        colidiu_lava, _ = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
             desloc_x=0,
@@ -91,7 +94,7 @@ class EstadoJogador(ABC):
         dy = 0
         while dy < self._jogador.veloc_queda:
             dy += 1
-            colidiu = detector_colisao.detectar_colisao(
+            colidiu, _ = detector_colisao.detectar_colisao(
                 rect=self._jogador.rect,
                 mascara=self._mascara,
                 desloc_x=0,
@@ -108,15 +111,32 @@ class EstadoJogador(ABC):
         desloc_y=0), houver um inimigo, ele forçosamente irá para o
         estado 'machucado'."""
 
-        colidiu = detector_colisao.detectar_colisao(
+        colidiu, _ = detector_colisao.detectar_colisao(
             rect=self._jogador.rect,
             mascara=self._mascara,
             desloc_x=0,
             desloc_y=0,
             tipo=Inimigo,
         )
-        if colidiu:
+        print(self._jogador.powerups, colidiu)
+        if colidiu and not "Imortal" in self._jogador.powerups:
             self._jogador.trocar_estado("machucado")
+    
+    def colide_item(self, detector_colisao: DetectorColisao):
+        
+        colidiu, objeto = detector_colisao.detectar_colisao(
+            rect=self._jogador.rect,
+            mascara=self._mascara,
+            desloc_x=0,
+            desloc_y=0,
+            tipo=Item,
+        )
+
+        if colidiu:
+            if isinstance(objeto, PowerUp):
+                self._jogador.add_powerup(objeto.__class__.__name__)
+            objeto.efeito()
+            objeto.handle_collide()
 
     def aterrissar(self):
         """Ao aterrissar, a velocidade do jogador é igualada
