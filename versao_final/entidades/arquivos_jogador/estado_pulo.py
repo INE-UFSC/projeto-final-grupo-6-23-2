@@ -26,7 +26,7 @@ class EstadoPulo(EstadoJogador):
         self._nome_estado = "pulo"
         self._prox_estado = "pulo"
 
-        self.__duplopulo = False
+        self.__jump_counter = 1
 
     def entrar_estado(self):
         super().entrar_estado(estado_atual="pulo")
@@ -41,23 +41,19 @@ class EstadoPulo(EstadoJogador):
             self.move_direita()
         if keys[pygame.K_LEFT]:
             self.move_esquerda()
+        if self._jogador.jump_finished and keys[pygame.K_UP]:
+            self.pular()
 
-    def pular(self, detector_colisao: DetectorColisao) -> None:
-        """Não é permitido pular dentro do estado 'pulo'."""
-        if not self.__duplopulo:
-            self.__duplopulo = True
-            colidiu, _ = detector_colisao.detectar_colisao(
-                rect=self._jogador.rect,
-                mascara=self._mascara,
-                desloc_x=0,
-                desloc_y=1,
-                tipo=Plataforma,
-            )
-            if colidiu:
+    def pular(self, detector_colisao: DetectorColisao = None) -> None:
+        if "DuploPulo" in self._jogador.powerups:
+            if self.__jump_counter <= 2:
+                self.__jump_counter += 1
                 self._jogador.veloc_queda = -self._jogador.tamanho_pulo
-                self._prox_estado = "pulo"
-
-        return
+            else:
+                self.__jump_counter = 0
+                self._prox_estado = "parado"
+        # else:
+        #     print(False)
 
     def aterrissar(self):
         """Ao aterrissar, o jogador no estado 'pulo'

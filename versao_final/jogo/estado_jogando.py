@@ -43,7 +43,13 @@ class EstadoJogando(Estado):
                 exit()
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_UP:
-                    self.__jogador.pular(self.__detector_colisao)
+                    if self.__jogador.jump_finished:
+                        self.__jogador.jump_finished =  False
+                        self.__jogador.pular(self.__detector_colisao)
+
+            if evento.type == pygame.KEYUP:
+                if evento.key == pygame.K_UP:
+                    self.__jogador.jump_finished = True 
 
         self.lidar_cenario()
         self.lidar_jogador()

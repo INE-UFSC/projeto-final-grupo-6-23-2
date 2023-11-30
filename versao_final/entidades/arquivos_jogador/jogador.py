@@ -39,6 +39,7 @@ class Jogador:
 
         self.__powerups = []
         self.__ctrl_tick = 0
+        self.__jump_finished = True
 
     def atualizar_jogador(
         self, detector_colisao: DetectorColisao, veloc_cenario: float
@@ -56,7 +57,7 @@ class Jogador:
         self.__atualizar_estado()
 
         self.__ctrl_tick += 1
-        if self.__ctrl_tick == 100:
+        if self.__ctrl_tick == 1000:
             self.__ctrl_tick = 0
             if len(self.__powerups) > 0:
                 self.__powerups.pop(0)
@@ -85,6 +86,10 @@ class Jogador:
     @property
     def virado_direita(self) -> bool:
         return self.__virado_direita
+    
+    @property
+    def jump_finished(self) -> bool:
+        return self.__jump_finished
 
     @virado_direita.setter
     def virado_direita(self, virado_direita: bool) -> None:
@@ -140,3 +145,7 @@ class Jogador:
                 self.__rect.center = nova_posicao
             else:
                 self.__veloc_queda = 0
+
+    @jump_finished.setter
+    def jump_finished(self, jump_finished: bool):
+        self.__jump_finished = jump_finished

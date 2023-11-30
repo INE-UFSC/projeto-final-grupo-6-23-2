@@ -135,7 +135,6 @@ class Cenario:
             x = random.randint(0,402)
             y = random.randint(0, 200)
             duplopulo = DuploPulo(x, y)
-            duplopulo
             self.__itens.append(duplopulo)
             self.__detector_colisao.adicionar_objeto(duplopulo)
 
