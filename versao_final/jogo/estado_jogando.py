@@ -34,7 +34,7 @@ class EstadoJogando(Estado):
         pygame.mixer.music.stop()
         pygame.mixer.music.load('versao_final/styles/assets/musica/jeremy_blake_powerup.mp3')
         pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.3)
 
     def atualizar_estado(self, eventos, tela):
         for evento in eventos:

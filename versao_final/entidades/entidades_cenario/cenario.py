@@ -6,6 +6,7 @@ from entidades.entidades_cenario.inimigo import Inimigo
 from entidades.detector_colisao import DetectorColisao
 from entidades.entidades_cenario.itens.moeda import Moeda
 from entidades.entidades_cenario.itens.duplo_pulo import DuploPulo
+from entidades.entidades_cenario.itens.imortal import Imortal
 
 
 class Cenario:
@@ -131,12 +132,19 @@ class Cenario:
 
 
     def gerar_powerups(self):
-        if random.randint(1,1000) == 1:
+        if random.randint(1,1500) == 1:
             x = random.randint(0,402)
             y = random.randint(0, 200)
             duplopulo = DuploPulo(x, y)
             self.__itens.append(duplopulo)
             self.__detector_colisao.adicionar_objeto(duplopulo)
+
+        if random.randint(1,2500) == 1:
+            x = random.randint(0,402)
+            y = random.randint(0, 200)
+            imortal = Imortal(x, y)
+            self.__itens.append(imortal)
+            self.__detector_colisao.adicionar_objeto(imortal)
 
 
     def remover_itens(self):

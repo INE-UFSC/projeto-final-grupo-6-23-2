@@ -10,6 +10,9 @@ class DuploPulo(PowerUp):
         self.__rect = self.__image.get_rect()
         self.__mascara = pygame.mask.from_surface(self.__image)
 
+        self.__sound = pygame.mixer.Sound('versao_final/styles/assets/sound_effects/duplo_pulo.wav')
+        self.__sound.set_volume(0.3)
+
         self.__rect.x = x
         self.__rect.y = y
 
@@ -17,7 +20,7 @@ class DuploPulo(PowerUp):
         self.__ctrl_tick = 0
 
     def efeito(self):
-        pass
+        self.__sound.play()
 
     def update(self):
         self.__ctrl_tick += 1

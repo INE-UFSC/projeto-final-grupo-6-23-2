@@ -119,7 +119,7 @@ class EstadoJogador(ABC):
             desloc_y=0,
             tipo=Inimigo,
         )
-        if colidiu:
+        if colidiu and not "Imortal" in self._jogador.powerups:
             self._prox_estado = "machucado"
     
     def colide_item(self, detector_colisao: DetectorColisao):
