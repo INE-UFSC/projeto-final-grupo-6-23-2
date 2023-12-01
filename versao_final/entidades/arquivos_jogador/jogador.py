@@ -56,7 +56,7 @@ class Jogador:
         self.__estado_atual.animar()
 
         self.__ctrl_tick += 1
-        if self.__ctrl_tick == 1000:
+        if self.__ctrl_tick == 500:
             self.__ctrl_tick = 0
             if len(self.__powerups) > 0:
                 self.__powerups.pop(0)
@@ -77,7 +77,7 @@ class Jogador:
     def add_powerup(self, str):
         if str in self.__powerups:
             index = self.__powerups.index(str)
-            self.__powerups[index] = None
+            self.__powerups.pop(index)
         self.__powerups.append(str)
 
     @property

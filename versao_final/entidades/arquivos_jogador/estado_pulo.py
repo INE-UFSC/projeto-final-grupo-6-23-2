@@ -35,6 +35,7 @@ class EstadoPulo(EstadoJogador):
 
     def entrar_estado(self):
         super().entrar_estado()
+        self.__jump_counter = 1
 
     def andar_jogador(self, keys) -> None:
         """No estado 'pulo', é permitido ao jogador
@@ -51,14 +52,14 @@ class EstadoPulo(EstadoJogador):
 
     def pular(self, detector_colisao: DetectorColisao = None) -> None:
         if "DuploPulo" in self._jogador.powerups:
-            if self.__jump_counter <= 2:
+            if self.__jump_counter < 2:
                 self.__jump_counter += 1
                 self._jogador.veloc_queda = -self._jogador.tamanho_pulo
+                self._prox_estado = 'pulo'
             else:
-                self.__jump_counter = 0
                 self._prox_estado = "parado"
-        # else:
-        #     print(False)
+        else:
+            self._prox_estado = "parado"
 
     def aterrissar(self):
         """Ao aterrissar, o jogador no estado 'pulo'
