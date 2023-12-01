@@ -19,6 +19,9 @@ class EstadoJogador(ABC):
         self._configuracoes = configuracoes
         self._indice_imagem = 0
 
+        self.__sound_hit = pygame.mixer.Sound('versao_final/styles/assets/sound_effects/hit_inimigo.wav')
+        self.__sound_hit.set_volume(0.4)
+
     def entrar_estado(self):
         self.animar()
 
@@ -118,9 +121,10 @@ class EstadoJogador(ABC):
             desloc_y=0,
             tipo=Inimigo,
         )
-        print(self._jogador.powerups, colidiu)
+
         if colidiu and not "Imortal" in self._jogador.powerups:
             self._jogador.trocar_estado("machucado")
+            self.__sound_hit.play()
     
     def colide_item(self, detector_colisao: DetectorColisao):
         
