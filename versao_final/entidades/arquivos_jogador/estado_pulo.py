@@ -67,3 +67,6 @@ class EstadoPulo(EstadoJogador):
 
         super().aterrissar()
         self._jogador.trocar_estado("parado")
+    
+    def descer(self):
+        return

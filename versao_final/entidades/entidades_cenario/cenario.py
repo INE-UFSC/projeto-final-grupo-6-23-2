@@ -46,7 +46,8 @@ class Cenario:
         (função random.choice()). No entanto, precisamos levar em consideração a largura
         da tela, para que não seja gerada uma plataforma fora das bordas do display.
         Posteriormente, essa plataforma é acrescida à lista de plataformas."""
-
+        
+        random.seed()
         intervalo_y = range(
             self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100
         )
@@ -58,6 +59,7 @@ class Cenario:
                 self.__plataforma_refenc.rect.x + 300,
             ),
         )
+        random.seed()
         plataforma_x = random.choice(intervalo_x)
         self.__plataforma_refenc = Plataforma((plataforma_x, plataforma_y))
         self.__plataformas.append(self.__plataforma_refenc)
@@ -138,14 +140,16 @@ class Cenario:
 
 
     def gerar_powerups(self):
-        if random.randint(1,1500) == 1:
+        random.seed()
+        if random.randint(1,1000) == 1:
             x = random.randint(0,402)
             y = random.randint(0, 200)
             duplopulo = DuploPulo(x, y)
             self.__itens.append(duplopulo)
             self.__detector_colisao.adicionar_objeto(duplopulo)
 
-        if random.randint(1,2500) == 1:
+        random.seed()
+        if random.randint(1,1500) == 1 and self.__limite_inimigos >= 1:
             x = random.randint(0,402)
             y = random.randint(0, 200)
             imortal = Imortal(x, y)

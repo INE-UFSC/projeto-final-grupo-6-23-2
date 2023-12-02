@@ -58,19 +58,18 @@ class Jogador:
         self.__estado_atual.animar()
 
         self.__ctrl_tick += 1
-        if self.__ctrl_tick == 500:
+        if self.__ctrl_tick == 750:
             self.__ctrl_tick = 0
             if len(self.__powerups) > 0:
                 self.__powerups.pop(0)
+        print(f"{self.__powerups}, {self.__ctrl_tick}")
 
         if "DuploPulo" not in self.__powerups and "Imortal" not in self.__powerups:
             self.__cor_sprite = "vermelho"
         elif "DuploPulo" in self.__powerups and "Imortal" not in self.__powerups:
             self.__cor_sprite = "verde"
-            print(self.__cor_sprite)
         elif "Imortal" in self.__powerups and "DuploPulo" not in self.__powerups:
             self.__cor_sprite = "amarelo"
-            print(self.__cor_sprite)
         elif "Imortal" in self.__powerups and "DuploPulo" in self.__powerups:
             self.__cor_sprite = "azul"
 
@@ -88,11 +87,20 @@ class Jogador:
         self.__estado_atual = self.__estados[estado]
         self.__estado_atual.entrar_estado()
 
+
     def add_powerup(self, str):
         if str in self.__powerups:
             index = self.__powerups.index(str)
             self.__powerups.pop(index)
+            self.__ctrl_tick = 0
+        elif len(self.__powerups) != 0:
+            pass
+        else:
+            self.__ctrl_tick = 0 
         self.__powerups.append(str)
+
+    def descer(self):
+        self.__estado_atual.descer()
 
     @property
     def imagem(self) -> pygame.Surface:

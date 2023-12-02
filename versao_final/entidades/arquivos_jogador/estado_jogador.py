@@ -52,6 +52,10 @@ class EstadoJogador(ABC):
         self._jogador.posicao_centro = (novo_x, y_atual)
         self._jogador.virado_direita = False
 
+
+
+    
+
     def aplicar_gravidade(
         self, detector_colisao: DetectorColisao, veloc_cenario: float
     ):
@@ -154,6 +158,10 @@ class EstadoJogador(ABC):
 
     @abstractmethod
     def pular(self, detector_colisao: DetectorColisao) -> None:
+        pass
+
+    @abstractmethod
+    def descer(self) -> None:
         pass
 
     @property

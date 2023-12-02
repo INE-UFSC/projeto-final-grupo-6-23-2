@@ -52,3 +52,8 @@ class EstadoAndando(EstadoJogador):
         if colidiu:
             self._jogador.veloc_queda = -self._jogador.tamanho_pulo
             self._jogador.trocar_estado("pulo")
+
+    def descer(self) -> None:
+        x_atual = self._jogador.posicao_centro[0]
+        novo_y = self._jogador.posicao_centro[1] + 2
+        self._jogador.posicao_centro = (x_atual, novo_y)

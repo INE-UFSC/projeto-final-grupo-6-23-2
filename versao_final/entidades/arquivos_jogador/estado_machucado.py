@@ -59,3 +59,6 @@ class EstadoMachucado(EstadoJogador):
         """Não é permitido pular no estado 'machucado'."""
 
         return
+    
+    def descer(self):
+        return
