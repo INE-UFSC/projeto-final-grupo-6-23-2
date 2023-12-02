@@ -10,7 +10,7 @@ class Button:
         self.__text = text  
         self.__posicao = posicao
 
-        self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_static}")
+        self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_static}").convert_alpha()
         self.__rect = self.__image.get_rect()
         self.__rect.x = posicao[0]
         self.__rect.y = posicao[1]
@@ -47,11 +47,11 @@ class Button:
                     self.__sound_click.play()
                     self.click()  # Chama a função associada ao clique
             else:
-                self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_hover}")
+                self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_hover}").convert_alpha()
                 self.__text_color = (32, 28, 28)
                 self.__text_surface = self.__font.render(self.__text, True, self.__text_color)
         else:
-            self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_static}")
+            self.__image = pygame.image.load(f"versao_final/styles/assets/telas/buttons/{self.__image_static}").convert_alpha()
             self.__text_color = (255, 255, 255)
             self.__text_surface = self.__font.render(self.__text, True, self.__text_color)
 
