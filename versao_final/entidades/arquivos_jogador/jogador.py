@@ -58,12 +58,6 @@ class Jogador:
         self.__estado_atual.colide_item(detector_colisao=detector_colisao)
         self.__estado_atual.animar()
 
-        # self.__ctrl_tick += 1
-        # if self.__ctrl_tick == 750:
-        #     self.__ctrl_tick = 0
-        #     if len(self.__powerups) > 0:
-        #         self.__powerups.pop(0)
-
         self.__ctrl_tick_DP += 1
         if self.__ctrl_tick_DP == 750:
             self.__ctrl_tick_DP = 0
