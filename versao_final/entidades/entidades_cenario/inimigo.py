@@ -47,7 +47,7 @@ class Inimigo(pygame.surface.Surface):
         return style
 
     def _movimentar(self):
-        if self.__style['gravidade']:
+        if self.__style['estilo'] == "gravidade":
             # Antes do loop principal (for example)
 
             limite_esquerda = 0
@@ -66,8 +66,20 @@ class Inimigo(pygame.surface.Surface):
 
             self.rect.y += self.__velocidade_base_y
             self.__velocidade_base_y += self.__constantes.aceleracao_cenario
-        else:
+
+        elif self.__style['estilo'] == "esquerda":
+
             self.rect.x += 0.5
+            # A*sen(B*x) + C
+            A = self.__style['movimento']['A']
+            B = self.__style['movimento']['B']
+            C = self.__style['movimento']['C']
+            self.rect.y = A*math.sin((B*self.rect.x)) + C
+
+        elif self.__style['estilo'] == "direita":
+
+            self.rect.x -= 1
+            self.__direcao = -1
             # A*sen(B*x) + C
             A = self.__style['movimento']['A']
             B = self.__style['movimento']['B']

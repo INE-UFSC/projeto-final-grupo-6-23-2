@@ -52,5 +52,5 @@ class EstadoParado(EstadoJogador):
 
     def descer(self) -> None:
         x_atual = self._jogador.posicao_centro[0]
-        novo_y = self._jogador.posicao_centro[1] + 2
+        novo_y = self._jogador.posicao_centro[1] + 3
         self._jogador.posicao_centro = (x_atual, novo_y)
