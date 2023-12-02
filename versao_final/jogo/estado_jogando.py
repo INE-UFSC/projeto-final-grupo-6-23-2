@@ -24,6 +24,7 @@ class EstadoJogando(Estado):
 
         # Instancia pontuacao
         self.__pontuacao = self._configuracoes.pontuacao
+        self.__pontuacao.zerar_pontuacao()
 
         self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:
@@ -49,6 +50,9 @@ class EstadoJogando(Estado):
             if evento.type == pygame.KEYUP:
                 if evento.key == pygame.K_UP:
                     self.__jogador.jump_finished = True 
+
+            if evento.type == self._configuracoes.GAMEOVER:
+                self._prox_estado = "gameover"
 
         self.lidar_cenario()
         self.lidar_jogador()

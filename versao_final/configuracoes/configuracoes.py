@@ -1,3 +1,4 @@
+import pygame
 from entidades.pontuacao import Pontuacao
 
 class Configuracoes:
@@ -29,6 +30,8 @@ class Configuracoes:
         self.__cenario_veloc_base = 1
         self.__cenario_veloc_max = 2.5
         self.__aceleracao_cenario = 0.0005
+
+        self.GAMEOVER = pygame.USEREVENT + 1
 
         # Instancia pontuacao
         self.__pontuacao = Pontuacao()

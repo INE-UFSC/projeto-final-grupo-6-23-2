@@ -3,6 +3,7 @@ from configuracoes.configuracoes import Configuracoes
 from jogo.estado_jogando import EstadoJogando
 from jogo.estado_menu import EstadoMenu
 from jogo.estado_tutorial import EstadoTutorial
+from jogo.estado_gameover import EstadoGameOver
 
 
 class Jogo:
@@ -29,7 +30,7 @@ class Jogo:
             "jogando": EstadoJogando,
             "menu": EstadoMenu,
             "tutorial": EstadoTutorial,
-            "game over": ...,
+            "gameover": EstadoGameOver,
         }
         self.__estado_atual = self.__estados["menu"](
             refer_jogo=self, configuracoes=self.__configuracoes
