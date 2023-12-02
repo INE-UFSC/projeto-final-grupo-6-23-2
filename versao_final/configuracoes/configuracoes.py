@@ -2,7 +2,9 @@ import pygame
 from entidades.pontuacao import Pontuacao
 
 class Configuracoes:
-    """Classe relativa às Configuracoes do jogo"""
+    """Classe relativa às configurações gerais do jogo. Ela
+    utiliza o padrão singleton para garantir que haja, no máximo,
+    uma instância sua."""
 
     def __new__(cls):
         if not hasattr(cls, "instance"):

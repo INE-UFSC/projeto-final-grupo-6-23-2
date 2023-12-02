@@ -7,6 +7,9 @@ from jogo.estado_gameover import EstadoGameOver
 
 
 class Jogo:
+    """Essa é a classe principal do jogo. Ela será responsável por gerenciar os
+    estados correspondentes às telas (jogando, menu, tutorial, game over)."""
+
     def __init__(self):
         # Inicia a biblioteca pygame
         pygame.init()
@@ -37,8 +40,10 @@ class Jogo:
         )
         self.__estado_atual.entrar_estado()
 
-    # Roda o jogo (loop principal)
     def iniciar(self) -> None:
+        """É aqui que o loop principal do jogo acontece, e onde
+        os eventos (clique de mouse, clique de tela, etc) são lidos."""
+
         clock = pygame.time.Clock()
 
         while True:
@@ -46,7 +51,10 @@ class Jogo:
             self.atualizar_estado(eventos)
             clock.tick(self.__configuracoes.fps)
 
-    def atualizar_estado(self, eventos):
+    def atualizar_estado(self, eventos) -> None:
+        """Esse método atualiza o estado atual e verifica se é
+        necessária uma transição para um outro estado."""
+
         self.__estado_atual.atualizar_estado(eventos=eventos, tela=self.__tela)
 
         prox_estado = self.__estado_atual.prox_estado

@@ -2,6 +2,9 @@ import pygame
 import json
 
 class Pontuacao:
+    """A classe Pontuacao está encarregada de monitorar a pontuação
+    do jogador, além de cuidar do registro de recordes. Além disso, ela
+    implementa persistência."""
 
     def __init__(self):
         self.__record = self.carregar_record()

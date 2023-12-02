@@ -26,7 +26,9 @@ class Cenario:
         self.__inimigos = []
         self.__itens = []
 
-        self.__plataforma_refenc = Plataforma(((self.__configuracoes.largura_tela / 2), 100), True)
+        self.__plataforma_refenc = Plataforma(
+            ((self.__configuracoes.largura_tela / 2), 100), True
+        )
         self.__plataformas = [self.__plataforma_refenc]
         for _ in range(20):
             self.gerar_plataforma()
@@ -45,7 +47,7 @@ class Cenario:
         (função random.choice()). No entanto, precisamos levar em consideração a largura
         da tela, para que não seja gerada uma plataforma fora das bordas do display.
         Posteriormente, essa plataforma é acrescida à lista de plataformas."""
-        
+
         random.seed()
         intervalo_y = range(
             self.__plataforma_refenc.rect.y - 125, self.__plataforma_refenc.rect.y - 100
@@ -64,8 +66,10 @@ class Cenario:
         self.__plataformas.append(self.__plataforma_refenc)
         self.__deslocamento += 1
 
-        
-        self.gerar_moeda(plataforma_x + int(self.__plataforma_refenc.rect.width/2), plataforma_y - 55)
+        self.gerar_moeda(
+            plataforma_x + int(self.__plataforma_refenc.rect.width / 2),
+            plataforma_y - 55,
+        )
 
     def movimentar_cenario(self):
         """Com esse método, é possível movimentar todas as plataformas de
@@ -88,9 +92,6 @@ class Cenario:
 
         self.lava.animacao()
         self.__paisagem.move(self.__veloc_cenario)
-
-
-
 
     def eliminar_plataforma(self, indice):
         """Esse método elimina uma plataforma que atingiu o fundo
@@ -130,31 +131,29 @@ class Cenario:
 
         self.__inimigos = copy_inimigos
 
-    def gerar_moeda(self, x , y):
-        if random.randint(1,3) == 1:
+    def gerar_moeda(self, x, y):
+        if random.randint(1, 3) == 1:
             moeda = Moeda(x, y)
-            moeda.rect.x -= int(moeda.rect.width/2)
+            moeda.rect.x -= int(moeda.rect.width / 2)
             self.__itens.append(moeda)
             self.__detector_colisao.adicionar_objeto(moeda)
 
-
     def gerar_powerups(self):
         random.seed()
-        if random.randint(1,1000) == 1:
-            x = random.randint(0,402)
+        if random.randint(1, 1000) == 1:
+            x = random.randint(0, 402)
             y = random.randint(0, 100)
             duplopulo = DuploPulo(x, y)
             self.__itens.append(duplopulo)
             self.__detector_colisao.adicionar_objeto(duplopulo)
 
         random.seed()
-        if random.randint(1,1500) == 1 and self.__limite_inimigos >= 1:
-            x = random.randint(0,402)
+        if random.randint(1, 1500) == 1 and self.__limite_inimigos >= 1:
+            x = random.randint(0, 402)
             y = random.randint(0, 200)
             imortal = Imortal(x, y)
             self.__itens.append(imortal)
             self.__detector_colisao.adicionar_objeto(imortal)
-
 
     def remover_itens(self):
         copy_itens = self.__itens.copy()
@@ -193,7 +192,7 @@ class Cenario:
     @property
     def inimigos(self):
         return self.__inimigos
-    
+
     @property
     def itens(self):
         return self.__itens

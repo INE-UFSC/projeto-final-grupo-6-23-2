@@ -7,6 +7,10 @@ from entidades.entidades_tela.button import Button
 
 
 class EstadoJogando(Estado):
+    """Esse estado diz respeito à tela do jogo em si. Pode-se dizer que é o
+    estado mais importante. Nele, são instanciados o detector de colisão, o jogador
+    o cenário, a pontuação, etc."""
+
     def __init__(self, refer_jogo, configuracoes):
         super().__init__(
             jogo=refer_jogo, configuracoes=configuracoes, estado_atual="jogando"
@@ -18,7 +22,6 @@ class EstadoJogando(Estado):
         # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
-    
 
         # Inicia cenário
         self.__cenario = Cenario(self._configuracoes, self.__detector_colisao)
@@ -28,7 +31,12 @@ class EstadoJogando(Estado):
         self.__pontuacao.zerar_pontuacao()
 
         self.__pausado = False
-        self.__pause_button = Button((400, 5), self.pausa, img_hover="button-pause-hover.png", img_static="button-pause-static.png")
+        self.__pause_button = Button(
+            (400, 5),
+            self.pausa,
+            img_hover="button-pause-hover.png",
+            img_static="button-pause-static.png",
+        )
 
         self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:
@@ -36,7 +44,9 @@ class EstadoJogando(Estado):
 
     def entrar_estado(self):
         pygame.mixer.music.stop()
-        pygame.mixer.music.load('versao_final/styles/assets/musica/jeremy_blake_powerup.mp3')
+        pygame.mixer.music.load(
+            "versao_final/styles/assets/musica/jeremy_blake_powerup.mp3"
+        )
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.3)
 
@@ -50,7 +60,7 @@ class EstadoJogando(Estado):
                 self.__home_button.update(evento)
                 self.__replay_button.update(evento)
                 self.__play_button.update(evento)
-            
+
             tela.blit(self.__popup, self.__popup_rect)
             tela.blit(self.__title, self.__title_rect)
             tela.blit(self.__texto_pontuacao, self.__texto_pontuacao_rect)
@@ -68,14 +78,14 @@ class EstadoJogando(Estado):
                 if evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_UP:
                         if self.__jogador.jump_finished:
-                            self.__jogador.jump_finished =  False
+                            self.__jogador.jump_finished = False
                             self.__jogador.pular(self.__detector_colisao)
                     if evento.key == pygame.K_DOWN:
                         self.__jogador.descer()
 
                 if evento.type == pygame.KEYUP:
                     if evento.key == pygame.K_UP:
-                        self.__jogador.jump_finished = True 
+                        self.__jogador.jump_finished = True
 
                 if evento.type == self._configuracoes.GAMEOVER:
                     self._prox_estado = "gameover"
@@ -103,6 +113,9 @@ class EstadoJogando(Estado):
         self.__pontuacao.verificar_pontuacao()
 
     def desenhar_objetos(self, tela):
+        """O método recebe a tela como parâmetro e desenha nela todos os objetos
+        que fazem parte da tela desse estado."""
+
         tela.fill("Black")
         self.__cenario.paisagem.draw(tela)
         for plataforma in self.__cenario.plataformas:
@@ -121,31 +134,52 @@ class EstadoJogando(Estado):
         tela.blit(self.__cenario.lava.superficie, self.__cenario.lava.rect)
         pygame.display.flip()
 
-    def configura_popup_pausa(self):
+    def configura_popup_pausa(self) -> None:
         font_path = "versao_final/styles/assets/fonte-textos.ttf"
         self.__font = pygame.font.Font(font_path, 50)
 
-        self.__popup = pygame.image.load('versao_final/styles/assets/telas/backgrounds/bg-menu-pause.png').convert_alpha()
+        self.__popup = pygame.image.load(
+            "versao_final/styles/assets/telas/backgrounds/bg-menu-pause.png"
+        ).convert_alpha()
         self.__popup_rect = self.__popup.get_rect()
         self.__popup_rect.x = 25
         self.__popup_rect.y = 90
 
-        self.__title = pygame.image.load(f'versao_final/styles/assets/telas/title/pausado-title.png').convert_alpha()
+        self.__title = pygame.image.load(
+            f"versao_final/styles/assets/telas/title/pausado-title.png"
+        ).convert_alpha()
         self.__title = pygame.transform.scale_by(self.__title, 0.8)
         self.__title_rect = self.__title.get_rect()
         self.__title_rect.x = 60
         self.__title_rect.y = 30
 
-        self.__texto_pontuacao = self.__font.render(f"Pontuação: {int(self._configuracoes.pontuacao.pontuacao_atual)}", True, (32, 28, 28))
+        self.__texto_pontuacao = self.__font.render(
+            f"Pontuação: {int(self._configuracoes.pontuacao.pontuacao_atual)}",
+            True,
+            (32, 28, 28),
+        )
         self.__texto_pontuacao_rect = self.__texto_pontuacao.get_rect()
         self.__texto_pontuacao_rect.x = 80
         self.__texto_pontuacao_rect.y = 200
 
-        self.__replay_button = Button((120, 375), self.replay, img_hover="button-restart-hover.png", img_static="button-restart-static.png")
-        self.__home_button = Button((201, 375), self.home, img_hover="button-home-hover.png", img_static="button-home-static.png")
-        self.__play_button = Button((281, 375), self.play, img_hover="button-play-hover.png", img_static="button-play-static.png")
-
-
+        self.__replay_button = Button(
+            (120, 375),
+            self.replay,
+            img_hover="button-restart-hover.png",
+            img_static="button-restart-static.png",
+        )
+        self.__home_button = Button(
+            (201, 375),
+            self.home,
+            img_hover="button-home-hover.png",
+            img_static="button-home-static.png",
+        )
+        self.__play_button = Button(
+            (281, 375),
+            self.play,
+            img_hover="button-play-hover.png",
+            img_static="button-play-static.png",
+        )
 
     def pausa(self):
         self.configura_popup_pausa()
@@ -159,7 +193,6 @@ class EstadoJogando(Estado):
         # Instancia detector de colisão
         self.__detector_colisao = DetectorColisao()
         self.__detector_colisao.adicionar_objeto(self.__jogador)
-    
 
         # Inicia cenário
         self.__cenario = Cenario(self._configuracoes, self.__detector_colisao)
@@ -169,12 +202,17 @@ class EstadoJogando(Estado):
         self.__pontuacao.zerar_pontuacao()
 
         self.__pausado = False
-        self.__pause_button = Button((400, 5), self.pausa, img_hover="button-pause-hover.png", img_static="button-pause-static.png")
+        self.__pause_button = Button(
+            (400, 5),
+            self.pausa,
+            img_hover="button-pause-hover.png",
+            img_static="button-pause-static.png",
+        )
 
         self.__detector_colisao.adicionar_objeto(self.__cenario.lava)
         for plataforma in self.__cenario.plataformas:
             self.__detector_colisao.adicionar_objeto(plataforma)
-        
+
         pygame.mixer.music.play(-1)
 
     def home(self):
@@ -183,5 +221,3 @@ class EstadoJogando(Estado):
     def play(self):
         self.__pausado = False
         pygame.mixer.music.play(-1)
-
-
