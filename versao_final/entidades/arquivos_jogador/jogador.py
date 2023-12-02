@@ -70,7 +70,6 @@ class Jogador:
             if "Imortal" in self.__powerups:
                 self.__powerups.remove("Imortal")
 
-        print(f"{self.__powerups}, {self.__ctrl_tick_DP}, {self.__ctrl_tick_I}")
 
         if "DuploPulo" not in self.__powerups and "Imortal" not in self.__powerups:
             self.__cor_sprite = "vermelho"
