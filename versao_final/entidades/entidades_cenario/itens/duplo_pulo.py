@@ -1,5 +1,6 @@
 import pygame
 from entidades.entidades_cenario.itens.powerup import PowerUp
+from configuracoes.configuracoes import Configuracoes
 
 class DuploPulo(PowerUp):
     def __init__(self, x, y):
@@ -15,12 +16,14 @@ class DuploPulo(PowerUp):
 
         self.__rect.x = x
         self.__rect.y = y
+        self.__configuracoes = Configuracoes()
 
         self.__id_tile = 0
         self.__ctrl_tick = 0
 
     def efeito(self):
         self.__sound.play()
+        self.__configuracoes.pontuacao.pontuacao_bonus(7)
 
     def update(self):
         self.__ctrl_tick += 1
