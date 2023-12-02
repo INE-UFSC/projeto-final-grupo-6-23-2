@@ -72,8 +72,8 @@ class EstadoJogador(ABC):
             tipo=Lava,
         )
         if colidiu_lava:
-            pygame.quit()
-            exit()
+            pygame.event.post(pygame.event.Event(self._configuracoes.GAMEOVER))
+
 
         self._jogador.veloc_queda_min = veloc_cenario
         self._jogador.veloc_queda += self._configuracoes.gravidade_jogo

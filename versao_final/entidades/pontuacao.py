@@ -28,6 +28,9 @@ class Pontuacao:
                 return json.load(file)
         except FileNotFoundError:
             return 0
+        
+    def zerar_pontuacao(self):
+        self.__pontuacao_atual = 0
 
     def mostrar_pontuacao(self, tela):
         font_path = "versao_final/styles/assets/fonte.ttf"
