@@ -10,7 +10,7 @@ class EstadoAndando(EstadoJogador):
         super().__init__(jogador, configuracoes)
 
         imagem = pygame.image.load(
-            "versao_final/styles/assets/sprites_jogador/andando1.png"
+            f"versao_final/styles/assets/sprites_jogador/{self._jogador.cor_sprite}/andando1.png"
         ).convert_alpha()
         self._imagem = pygame.transform.scale_by(imagem, factor=3)
         self._mascara = pygame.mask.from_surface(self._imagem)

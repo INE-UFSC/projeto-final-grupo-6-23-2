@@ -15,10 +15,10 @@ class EstadoPulo(EstadoJogador):
         super().__init__(jogador, configuracoes)
 
         imagem_parado = pygame.image.load(
-            "versao_final/styles/assets/sprites_jogador/parado0.png"
+            f"versao_final/styles/assets/sprites_jogador/{self._jogador.cor_sprite}/parado0.png"
         ).convert_alpha()
         self._imagem = pygame.image.load(
-            "versao_final/styles/assets/sprites_jogador/pulo0.png"
+            f"versao_final/styles/assets/sprites_jogador/{self._jogador.cor_sprite}/pulo0.png"
         ).convert_alpha()
 
         self._imagem = pygame.transform.scale_by(self._imagem, factor=3)

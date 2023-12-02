@@ -21,6 +21,8 @@ class Jogador:
         superficie_rect = pygame.Surface(configuracoes.tamanho_jogador)
         self.__rect = superficie_rect.get_rect(
             center=configuracoes.jogador_pos_inicial)
+        
+        self.__cor_sprite = "vermelho"
 
         self.__estados = {
             "parado": EstadoParado(self, configuracoes),
@@ -60,6 +62,18 @@ class Jogador:
             self.__ctrl_tick = 0
             if len(self.__powerups) > 0:
                 self.__powerups.pop(0)
+
+        if "DuploPulo" not in self.__powerups and "Imortal" not in self.__powerups:
+            self.__cor_sprite = "vermelho"
+        elif "DuploPulo" in self.__powerups and "Imortal" not in self.__powerups:
+            self.__cor_sprite = "verde"
+            print(self.__cor_sprite)
+        elif "Imortal" in self.__powerups and "DuploPulo" not in self.__powerups:
+            self.__cor_sprite = "amarelo"
+            print(self.__cor_sprite)
+        elif "Imortal" in self.__powerups and "DuploPulo" in self.__powerups:
+            self.__cor_sprite = "azul"
+
 
     def andar_jogador(self, keys):
         self.__estado_atual.andar_jogador(keys)
@@ -131,6 +145,10 @@ class Jogador:
     @property
     def powerups(self) -> list:
         return self.__powerups
+    
+    @property
+    def cor_sprite(self) -> str:
+        return self.__cor_sprite
 
     @posicao_centro.setter
     def posicao_centro(self, nova_posicao: tuple) -> None:

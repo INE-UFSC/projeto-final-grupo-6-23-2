@@ -29,11 +29,10 @@ class EstadoJogador(ABC):
         """Esse método acessa a próxima imagem da sequência de imagens
         correspondentes à animação do estado, levando em conta, é claro, se
         o jogador está virado para a direita ou para a esquerda."""
-
         self._indice_imagem = (self._indice_imagem +
                                0.1) % (self._total_imagens)
         imagem = pygame.image.load(
-            f"versao_final/styles/assets/sprites_jogador/{self._nome_estado}{int(self._indice_imagem)}.png"
+            f"versao_final/styles/assets/sprites_jogador/{self._jogador.cor_sprite}/{self._nome_estado}{int(self._indice_imagem)}.png"
         ).convert_alpha()
         self._imagem = pygame.transform.scale_by(imagem, factor=3)
         if not self._jogador.virado_direita:
