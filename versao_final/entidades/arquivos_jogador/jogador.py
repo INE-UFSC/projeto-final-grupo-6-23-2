@@ -40,7 +40,8 @@ class Jogador:
         self.__veloc_queda_min = configuracoes.cenario_veloc_base
 
         self.__powerups = []
-        self.__ctrl_tick = 0
+        self.__ctrl_tick_DP = 0
+        self.__ctrl_tick_I = 0
         self.__jump_finished = True
 
     def atualizar_jogador(
@@ -57,12 +58,25 @@ class Jogador:
         self.__estado_atual.colide_item(detector_colisao=detector_colisao)
         self.__estado_atual.animar()
 
-        self.__ctrl_tick += 1
-        if self.__ctrl_tick == 750:
-            self.__ctrl_tick = 0
-            if len(self.__powerups) > 0:
-                self.__powerups.pop(0)
-        print(f"{self.__powerups}, {self.__ctrl_tick}")
+        # self.__ctrl_tick += 1
+        # if self.__ctrl_tick == 750:
+        #     self.__ctrl_tick = 0
+        #     if len(self.__powerups) > 0:
+        #         self.__powerups.pop(0)
+
+        self.__ctrl_tick_DP += 1
+        if self.__ctrl_tick_DP == 750:
+            self.__ctrl_tick_DP = 0
+            if "DuploPulo" in self.__powerups:
+                self.__powerups.remove("DuploPulo")
+    
+        self.__ctrl_tick_I += 1
+        if self.__ctrl_tick_I == 750:
+            self.__ctrl_tick_I = 0
+            if "Imortal" in self.__powerups:
+                self.__powerups.remove("Imortal")
+
+        print(f"{self.__powerups}, {self.__ctrl_tick_DP}, {self.__ctrl_tick_I}")
 
         if "DuploPulo" not in self.__powerups and "Imortal" not in self.__powerups:
             self.__cor_sprite = "vermelho"
@@ -92,11 +106,10 @@ class Jogador:
         if str in self.__powerups:
             index = self.__powerups.index(str)
             self.__powerups.pop(index)
-            self.__ctrl_tick = 0
-        elif len(self.__powerups) != 0:
-            pass
-        else:
-            self.__ctrl_tick = 0 
+        if str == "DuploPulo":
+                self.__ctrl_tick_DP = 0
+        if str == "Imortal":
+                self.__ctrl_tick_I = 0
         self.__powerups.append(str)
 
     def descer(self):
