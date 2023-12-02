@@ -49,12 +49,12 @@
         "sprite": "versao_final/styles/assets/inimigos/Pygmy/",
         "velocidade": 2,
         "posicaoInicial":{
-            "x": 0,
+            "x": -400,
             "y": 0
         },
         "movimento": {
             "A": 500,
-            "B": 0.005,
+            "B": -0.005,
             "C": 1
         },
         "gravidade": false

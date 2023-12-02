@@ -68,7 +68,7 @@ class Inimigo(pygame.surface.Surface):
             self.__velocidade_base_y += self.__constantes.aceleracao_cenario
         else:
             self.rect.x += 0.5
-             # A*sen(B*x) + C
+            # A*sen(B*x) + C
             A = self.__style['movimento']['A']
             B = self.__style['movimento']['B']
             C = self.__style['movimento']['C']
