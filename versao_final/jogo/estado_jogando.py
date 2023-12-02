@@ -3,7 +3,6 @@ from jogo.estado import Estado
 from entidades.entidades_cenario.cenario import Cenario
 from entidades.arquivos_jogador.jogador import Jogador
 from entidades.detector_colisao import DetectorColisao
-from entidades.entidades_cenario.itens.moeda import Moeda
 
 
 class EstadoJogando(Estado):
