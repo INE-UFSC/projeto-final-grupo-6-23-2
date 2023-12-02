@@ -26,8 +26,7 @@ class Cenario:
         self.__inimigos = []
         self.__itens = []
 
-        self.__plataforma_refenc = Plataforma(
-            (self.__configuracoes.largura_tela / 2, 500))
+        self.__plataforma_refenc = Plataforma(((self.__configuracoes.largura_tela / 2), 100), True)
         self.__plataformas = [self.__plataforma_refenc]
         for _ in range(20):
             self.gerar_plataforma()
@@ -143,7 +142,7 @@ class Cenario:
         random.seed()
         if random.randint(1,1000) == 1:
             x = random.randint(0,402)
-            y = random.randint(0, 200)
+            y = random.randint(0, 100)
             duplopulo = DuploPulo(x, y)
             self.__itens.append(duplopulo)
             self.__detector_colisao.adicionar_objeto(duplopulo)
