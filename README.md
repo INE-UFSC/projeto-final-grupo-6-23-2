@@ -5,7 +5,7 @@
 - PyGame: ``` pip install pygame ```
 
 ### Como executar
-- ```python3 ./main.py```
+- ```python3 ./versao_final/main.py```
    
 
 Evoluções do jogo:
@@ -13,4 +13,8 @@ Evoluções do jogo:
 - [X] Diagramas UML
 - [X] Interface Gráfica
 - [X] Protótipo do jogo
-- [ ] Versão final com relatório e vídeo
+- [X] Versão final com relatório e vídeo
+
+Demonstração do jogo:
+https://youtu.be/4zNeoUOkvmE
+
