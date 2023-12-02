@@ -70,6 +70,8 @@ class EstadoJogando(Estado):
                         if self.__jogador.jump_finished:
                             self.__jogador.jump_finished =  False
                             self.__jogador.pular(self.__detector_colisao)
+                    if evento.key == pygame.K_DOWN:
+                        self.__jogador.descer()
 
                 if evento.type == pygame.KEYUP:
                     if evento.key == pygame.K_UP:
