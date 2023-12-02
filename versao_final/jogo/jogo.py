@@ -2,6 +2,7 @@ import pygame
 from configuracoes.configuracoes import Configuracoes
 from jogo.estado_jogando import EstadoJogando
 from jogo.estado_menu import EstadoMenu
+from jogo.estado_tutorial import EstadoTutorial
 
 
 class Jogo:
@@ -27,6 +28,7 @@ class Jogo:
         self.__estados = {
             "jogando": EstadoJogando,
             "menu": EstadoMenu,
+            "tutorial": EstadoTutorial,
             "game over": ...,
         }
         self.__estado_atual = self.__estados["menu"](

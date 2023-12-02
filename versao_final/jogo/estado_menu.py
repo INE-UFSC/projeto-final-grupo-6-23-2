@@ -5,15 +5,12 @@ from entidades.entidades_tela.button import Button
 
 
 class EstadoMenu(Estado):
-    """O estado gerencia os componentes e a lógica da tela do jogo
-    atual (são três: a do menu, a do jogo em si e a de game over)."""
 
     def __init__(self, refer_jogo, configuracoes):
         super().__init__(
             jogo=refer_jogo, configuracoes=configuracoes, estado_atual="menu"
         )
         self._configuracoes = configuracoes
-        # self._prox_estado = "menu"
 
         self.__play_button = Button((75, 450), self.play, text="Jogar")
         self.__tutorial_button = Button((75, 550), self.tutorial, text="Tutorial")
@@ -32,7 +29,10 @@ class EstadoMenu(Estado):
         self.__anima_title_counter = 0
 
     def entrar_estado(self):
-        pass
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load('versao_final/styles/assets/musica/musica-inicial.wav')
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.3)
 
     def atualizar_estado(self, eventos, tela):
         tela.blit(self.__background, self.__background_rect)
